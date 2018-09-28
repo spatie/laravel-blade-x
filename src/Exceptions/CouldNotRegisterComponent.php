@@ -6,7 +6,7 @@ use Exception;
 
 class CouldNotRegisterComponent extends Exception
 {
-    public static function viewNotFound(string $componentName, string $viewName)
+    public static function viewNotFound( string $viewName, string $componentName)
     {
         return new static("Could not register component `{$componentName}` because view `{$viewName}` was not found.");
     }

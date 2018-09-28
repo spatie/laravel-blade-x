@@ -3,6 +3,7 @@
 namespace Spatie\BladeX\Tests;
 
 
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Spatie\BladeX\Facades\BladeX;
 
 class BladeXTest extends TestCase
@@ -30,6 +31,14 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_will_throw_an_excepting_for_a_non_existing_view()
+    {
+        $this->expectException(CouldNotRegisterComponent::class);
+
+        BladeX::component('non-existing-component');
+    }
+
+    /** @test */
     public function it_can_register_a_directory_containing_view_components()
     {
         BladeX::components($this->getStub('views/registerDirectoryTest'));
@@ -39,6 +48,14 @@ class BladeXTest extends TestCase
             'my-view2' => 'registerDirectoryTest/myView2',
             'my-view3' => 'registerDirectoryTest/myView3',
         ], BladeX::getRegisteredComponents());
+    }
+
+    /** @test */
+    public function it_will_throw_an_error_when_registering_a_directory_that_does_not_exist()
+    {
+        $this->expectException(CouldNotRegisterComponent::class);
+
+        BladeX::components('non-existing-directory');
     }
 
     /** @test */

@@ -17,14 +17,14 @@ class BladeX
     {
         $viewName = str_replace('.', '/', $viewName);
 
-        if (! view()->exists($viewName)) {
-            throw CouldNotRegisterComponent::viewNotFound($componentName, $viewName);
-        }
-
         if (is_null($componentName)) {
             $baseComponentName = explode('/', $viewName);
 
             $componentName = kebab_case(end($baseComponentName));
+        }
+
+        if (! view()->exists($viewName)) {
+            throw CouldNotRegisterComponent::viewNotFound($viewName, $componentName);
         }
 
         $this->registeredComponents[$componentName] = $viewName;
@@ -37,6 +37,10 @@ class BladeX
 
     public function components(string $directory)
     {
+        if (! File::isDirectory($directory)) {
+            throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
+        }
+
         collect(File::allFiles($directory))
             ->filter(function (SplFileInfo $file) {
                 return ends_with($file->getFilename(), '.blade.php');
