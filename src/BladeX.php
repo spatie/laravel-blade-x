@@ -15,7 +15,7 @@ class BladeX
 
     public function component(string $componentName, string $viewName)
     {
-        if (! view()->exists($viewName)) {
+        if (!view()->exists($viewName)) {
             throw CouldNotRegisterComponent::viewNotFound($componentName, $viewName);
         }
 
@@ -33,35 +33,31 @@ class BladeX
             ->filter(function (SplFileInfo $file) {
                 return ends_with($file->getFilename(), '.blade.php');
             })
-
-            ->each(function(SplFileInfo $fileInfo) {
-                $componentName = rtrim($fileInfo->getFilename(), '.blade.php');
+            ->each(function (SplFileInfo $fileInfo) {
+                $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
 
                 $viewName = $this->getViewName($fileInfo->getPathname());
 
-                dd($componentName, $viewName);
+                $this->component($componentName, $viewName);
             });
     }
 
     private function getViewName(string $pathName): string
     {
-
-        View::addLocation(__DIR__.'/stubs/views');
-        dd(app('view.finder')->getPaths());
-        foreach (app('view.finder')->getPaths() as $registeredViewPath) {
-            //dd(realpath($registeredViewPath));
-            dump('foreach', $pathName, realpath($registeredViewPath), '---');
-            $pathName = str_replace(realpath($registeredViewPath), '', $pathName);
+        foreach (View::getFinder()->getPaths() as $registeredViewPath) {
+            $pathName = str_replace(realpath($registeredViewPath) . '/', '', $pathName);
         }
 
-        return $pathName;
+        $viewName = str_replace_last('.blade.php','', $pathName);
+
+        return $viewName;
     }
 
     public function compile(string $view): string
     {
         $crawler = new Crawler($view);
 
-        foreach($this->registeredComponents as $componentName => $classOrView) {
+        foreach ($this->registeredComponents as $componentName => $classOrView) {
             $crawler
                 ->filter($componentName)
                 ->each(function (Crawler $subCrawler) use ($classOrView) {

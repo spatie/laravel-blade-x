@@ -13,7 +13,6 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        dump('location added');
         View::addLocation(__DIR__.'/stubs/views');
     }
 
