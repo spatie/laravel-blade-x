@@ -36,6 +36,23 @@ The package will automatically register itself.
 
 ## Usage
 
+Before using a component you must first register it. Typically you would do this in the `AppServiceProvider` or a service provider of your own
+
+```php
+BladeX::component('my-alert', 'components.myAlert')
+```
+
+You can also register an entire directory like this.
+
+```php
+BladeX::components('components')
+```
+
+### Using components
+A component is an HTML node which can have multiple attributes, these attributes will be passed to your component's blade view as variables:
+```html
+BladeX::component('money-field', 'components.money-field')
+```
 
 
 ### Testing
