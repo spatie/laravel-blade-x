@@ -2,9 +2,8 @@
 
 namespace Spatie\BladeX\Tests;
 
-
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Spatie\BladeX\Facades\BladeX;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class BladeXTest extends TestCase
 {
