@@ -66,12 +66,22 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it_compiles_a_component()
+    public function it_compiles_a_regular_component()
     {
         BladeX::component('components.card');
 
         $this->assertMatchesXmlSnapshot(
             view('templates.profile')->render()
+        );
+    }
+
+    /** @test */
+    public function it_compiles_a_self_closing_component()
+    {
+        BladeX::component('components.alert');
+
+        $this->assertMatchesXmlSnapshot(
+            view('templates.alert')->render()
         );
     }
 
