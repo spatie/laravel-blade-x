@@ -29,7 +29,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type}}>
+<div class="{{ $type }}>
    {{ $message }}
 </div>
 ```
