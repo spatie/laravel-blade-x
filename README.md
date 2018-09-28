@@ -24,12 +24,14 @@ you can write this
 <my-alert type="error" message="{{ $message }}" />
 ```
 
-You can place the content of that alert in a simple blade view that needs to be registered.
+You can place the content of that alert in a simple blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
 
 ```blade
-<div class="{{ $type}}>
-   {{ }
+{{-- in app/resources/views/components/myAlert.blade.php --}}
 
+<div class="{{ $type}}>
+   {{ $message }}
+</div>
 ```
 
 ## Installation
