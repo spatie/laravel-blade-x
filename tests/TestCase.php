@@ -31,9 +31,9 @@ abstract class TestCase extends Orchestra
         ];
     }
 
-    protected function assertBladeCompilesTo(string $expected, string $template)
+    protected function assertBladeCompilesTo(string $expected, string $template, array $parameters = [])
     {
-        $this->assertEquals($expected, view($template)->render());
+        $this->assertEquals($expected, view($template, $parameters)->render());
     }
 
     protected function getStub(string $fileName): string

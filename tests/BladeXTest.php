@@ -14,11 +14,14 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it()
+    public function it_can_transpile_a_view_include()
     {
-        $this->assertBladeCompilesTo(<<<HTML
-This is a test
-HTML
-            , 'test');
+        $this->assertBladeCompilesTo(
+            $this->getStub('/views/data-table-include-transpiled.blade.php'),
+            'data-table-include',
+            [
+                'users' => [],
+            ]
+        );
     }
 }
