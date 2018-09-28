@@ -11,44 +11,38 @@ class BladeX
     /** @var array */
     public $registeredComponents = [];
 
-    public function component(string $componentName, string $classOrView)
+    public function component(string $componentName, string $viewName)
     {
-        $component = $this->getComponent($classOrView);
-
-        if (!$component) {
-            throw CouldNotRegisterComponent::componentNotFound($componentName, $classOrView);
+        if (! view()->exists($viewName)) {
+            throw CouldNotRegisterComponent::viewNotFound($componentName, $viewName);
         }
 
-        $this->registeredComponents[$componentName] = $component;
+        $this->registeredComponents[$componentName] = $viewName;
     }
 
     public function components(string $directory)
     {
-        if (!File::isDirectory($directory)) {
-            throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
-        }
-
         collect(File::allFiles($directory))
             ->filter(function (SplFileInfo $file) {
                 return ends_with($file->getFilename(), '.blade.php');
             })
+
             ->each(function(SplFileInfo $fileInfo) {
                 $componentName = rtrim($fileInfo->getFilename(), '.blade.php');
 
-                dd($componentName, $fileInfo->getPathname());
+                $viewName = $this->getViewName($fileInfo->getPathname());
+
+                dd($componentName, $viewName);
             });
     }
 
-    protected function getComponent(string $classOrView): ?object
+    private function getViewName(string $pathName): string
     {
-        if (class_exists($classOrView)) {
-            return app($classOrView);
+        foreach (app('view.finder')->getPaths() as $registeredViewPath) {
+            dump('foreach', $pathName, realpath($registeredViewPath), '---');
+            $pathName = str_replace(realpath($registeredViewPath), '', $pathName);
         }
 
-        if (view()->exists($classOrView)) {
-            return new BladeViewComponent($classOrView);
-        }
-
-        return null;
+        return $pathName;
     }
 }

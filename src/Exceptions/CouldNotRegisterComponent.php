@@ -6,9 +6,9 @@ use Exception;
 
 class CouldNotRegisterComponent extends Exception
 {
-    public static function componentNotFound(string $componentName, string $classOrView)
+    public static function viewNotFound(string $componentName, string $viewName)
     {
-        return new static("Could not register component `{$componentName}` because `{$classOrView}` was neither an existing class or and existing Blade view.");
+        return new static("Could not register component `{$componentName}` because view `{$viewName}` was not found.");
     }
 
     public static function componentDirectoryNotFound(string $directory)

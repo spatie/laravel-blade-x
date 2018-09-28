@@ -2,7 +2,6 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\BladeXServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
