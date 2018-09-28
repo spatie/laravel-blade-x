@@ -24,6 +24,14 @@ you can write this
 <my-alert type="error" />
 ```
 
+You can place the content of that alert in a simple blade view that needs to be registered.
+
+```blade
+<div class="{{ $type}}>
+   {{ }
+
+```
+
 ## Installation
 
 You can install the package via composer:
