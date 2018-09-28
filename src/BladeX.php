@@ -3,6 +3,7 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\DomCrawler\Crawler;
@@ -44,7 +45,11 @@ class BladeX
 
     private function getViewName(string $pathName): string
     {
+
+        View::addLocation(__DIR__.'/stubs/views');
+        dd(app('view.finder')->getPaths());
         foreach (app('view.finder')->getPaths() as $registeredViewPath) {
+            //dd(realpath($registeredViewPath));
             dump('foreach', $pathName, realpath($registeredViewPath), '---');
             $pathName = str_replace(realpath($registeredViewPath), '', $pathName);
         }
