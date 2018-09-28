@@ -6,6 +6,7 @@
 [![StyleCI](https://github.styleci.io/repos/150733020/shield?branch=master)](https://github.styleci.io/repos/150733020)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
 
+<<<<<<< HEAD
 
 
 This package provides an easy way to render custom html components in your Blade view.
@@ -24,6 +25,29 @@ you can write this
 <h1>My view</h1>
 
 <my-alert type="error" />
+=======
+This package provides an easy way to render custom html components in your blade view.
+
+It will let you write the following component in your blade file:
+```html
+<money-field currency="euro">25</money-field>
+```
+
+This will compile to:
+```html
+<p>€25</p>
+```
+
+Under the hood the component is defined by following blade view
+```blade
+@if($curreny === 'euro')
+    <p>€ {{ $slot }}</p>
+@elseif($currency === 'dollar')
+    <p>$ {{ $slot }}</p>
+@else
+    <p>{{ $slot }}</p>
+@endif
+>>>>>>> Wip Readme
 ```
 
 ## Installation
@@ -37,7 +61,25 @@ composer require spatie/laravel-blade-x
 The package will automatically register itself.
 
 ## Usage
+### Registering Components
+Components can be registered anywhere in Laravel as follows:
+```php
+BladeX::component('money-field', 'components.money-field')
+```
 
+The first parameter is the name of the component you want to use. The second parameter is the view which houses your component.
+
+#### Registering a directory of components
+You can also register an directory housing multiple components:
+```php
+BladeX::components('money-field')
+```
+INFO OVER DIRECTORIES HIER
+### Using components
+A component is an HTML node which can have multiple attributes, these attributes will be passed to your component's blade view as variables:
+```html
+BladeX::component('money-field', 'components.money-field')
+```
 
 
 ### Testing
