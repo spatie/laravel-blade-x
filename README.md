@@ -18,8 +18,8 @@ composer require spatie/laravel-blade-x
 ## Usage
 
 ``` php
-$skeleton = new Spatie\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+$BladeX = new Spatie\BladeX();
+echo $BladeX->echoPhrase('Hello, Spatie!');
 ```
 
 ### Testing

@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Spatie\BladeX;
 
 use Illuminate\Support\ServiceProvider;
 
-class SkeletonServiceProvider extends ServiceProvider
+class BladeXServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -13,14 +13,14 @@ class SkeletonServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/skeleton.php' => config_path('skeleton.php'),
+                __DIR__.'/../config/BladeX.php' => config_path('BladeX.php'),
             ], 'config');
 
             /*
-            $this->loadViewsFrom(__DIR__.'/../resources/views', 'skeleton');
+            $this->loadViewsFrom(__DIR__.'/../resources/views', 'BladeX');
 
             $this->publishes([
-                __DIR__.'/../resources/views' => base_path('resources/views/vendor/skeleton'),
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/BladeX'),
             ], 'views');
             */
         }
@@ -31,6 +31,6 @@ class SkeletonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'skeleton');
+        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'BladeX');
     }
 }

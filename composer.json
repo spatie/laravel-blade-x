@@ -34,7 +34,7 @@
         }
     ],
     "require": {
-        "php": "^7.1"
+        "php": "^7.2"
     },
     "require-dev": {
         "larapack/dd": "^1.0",
@@ -42,12 +42,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Spatie\\BladeX\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Spatie\\BladeX\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Skeleton\\SkeletonServiceProvider"
+                "Spatie\\BladeX\\BladeXServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Spatie\\Skeleton\\SkeletonFacade"
+                "BladeX": "Spatie\\BladeX\\BladeXFacade"
             }
         }
     }
