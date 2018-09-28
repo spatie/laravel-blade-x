@@ -19,6 +19,6 @@ class BladeXServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'BladeX');
+        $this->mergeConfigFrom(__DIR__.'/../config/blade-x.php', 'BladeX');
     }
 }
