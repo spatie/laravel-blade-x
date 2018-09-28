@@ -18,10 +18,7 @@ composer require spatie/laravel-blade-x
 
 ## Usage
 
-``` php
-$BladeX = new Spatie\BladeX();
-echo $BladeX->echoPhrase('Hello, Spatie!');
-```
+Coming soon
 
 ### Testing
 
