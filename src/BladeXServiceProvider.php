@@ -17,7 +17,7 @@ class BladeXServiceProvider extends ServiceProvider
         $this->app->singleton(BladeX::class);
 
         $this->app['blade.compiler']->extend(function ($view, $compiler) {
-            return (new BladeXCompiler())->compile($view);
+            return BladeX::compile($view);
         });
     }
 
