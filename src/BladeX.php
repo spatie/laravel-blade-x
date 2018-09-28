@@ -21,6 +21,11 @@ class BladeX
         $this->registeredComponents[$componentName] = $viewName;
     }
 
+    public function getRegisteredComponents(): array
+    {
+        return $this->registeredComponents;
+    }
+
     public function components(string $directory)
     {
         collect(File::allFiles($directory))

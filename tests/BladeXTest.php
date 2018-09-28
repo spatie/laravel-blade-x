@@ -11,6 +11,10 @@ class BladeXTest extends TestCase
     public function it_can_register_a_single_component()
     {
         BladeX::component('data-table', 'data-table');
+
+
+        $registeredComponents = BladeX::getRegisteredComponents();
+        $this->assertCount(1, $registeredComponents);
     }
 
     /** @test */
