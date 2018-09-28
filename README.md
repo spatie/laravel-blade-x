@@ -6,7 +6,47 @@
 [![StyleCI](https://github.styleci.io/repos/150733020/shield?branch=master)](https://github.styleci.io/repos/150733020)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
 
-This is where your description should go. Try and limit it to a paragraph or two.
+This package provides an easy way to render custom html components in your blade view.
+
+```php
+namespace App\Http\ViewComponents;
+
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Support\Htmlable;
+
+class MoneyFieldComponent implements Htmlable
+{
+    /** @var string */
+    private $currency;
+
+    public function __construct(string $currency)
+    {
+        $this->currency = $currency;
+    }
+
+    public function toHtml(): string
+    {
+        if($curreny === 'euro'){
+             return '€' . $this->slot;
+        }
+        
+        if($currency === 'dollar'){
+            return '$' . $this->slot;
+        }
+        
+        return $this->slot
+    }
+}
+```
+
+It will let you write the following component in your blade file:
+```html
+<money-field currency="euro">25</money-field>
+```
+Which will transpile to:
+```html
+€25
+```
 
 ## Installation
 
@@ -16,9 +56,11 @@ You can install the package via composer:
 composer require spatie/laravel-blade-x
 ```
 
+The package will automatically register itself.
+
 ## Usage
 
-Coming soon
+
 
 ### Testing
 
