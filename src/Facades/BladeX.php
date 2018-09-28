@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Facades\BladeX;
+namespace Spatie\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
