@@ -15,7 +15,7 @@ class BladeX
 
     public function component(string $componentName, string $viewName)
     {
-        if (!view()->exists($viewName)) {
+        if (! view()->exists($viewName)) {
             throw CouldNotRegisterComponent::viewNotFound($componentName, $viewName);
         }
 
