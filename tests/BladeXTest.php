@@ -12,9 +12,9 @@ class BladeXTest extends TestCase
     {
         BladeX::component('data-table', 'data-table');
 
-
         $registeredComponents = BladeX::getRegisteredComponents();
         $this->assertCount(1, $registeredComponents);
+        $this->assertEquals('data-table', $registeredComponents['data-table']);
     }
 
     /** @test */
