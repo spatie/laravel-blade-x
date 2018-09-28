@@ -51,8 +51,8 @@ class BladeXCompiler
     {
         $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
 
-        return preg_replace_callback($pattern, function ($result) {
-            [$slot, $name, $contents] = $result;
+        return preg_replace_callback($pattern, function ($regexResult) {
+            [$slot, $name, $contents] = $regexResult;
 
             return "@slot('{$name}'){$contents}@endslot";
         }, $componentInnerHtml);
