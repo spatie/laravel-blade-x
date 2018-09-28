@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\BladeXServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -14,6 +15,8 @@ abstract class TestCase extends Orchestra
         parent::setUp();
 
         View::addLocation(__DIR__.'/stubs/views');
+
+        Artisan::call('view:clear');
     }
 
     protected function getPackageProviders($app)

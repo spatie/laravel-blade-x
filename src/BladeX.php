@@ -64,7 +64,7 @@ class BladeX
                     $node = $subCrawler->getNode(0);
 
                     $node->parentNode->replaceChild(
-                        $node->ownerDocument->createTextNode("@include({$classOrView})"), // TEMP: @include everything
+                        $node->ownerDocument->createTextNode("@include('{$classOrView}')"), // TEMP: @include everything
                         $node
                     );
                 });
