@@ -6,8 +6,6 @@
 [![StyleCI](https://github.styleci.io/repos/150733020/shield?branch=master)](https://github.styleci.io/repos/150733020)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
 
-
-
 This package provides an easy way to render custom html components in your Blade view.
 
 Here's an example. Instead of this:

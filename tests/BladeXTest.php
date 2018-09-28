@@ -39,9 +39,9 @@ class BladeXTest extends TestCase
         BladeX::components($this->getStub('views/registerDirectoryTest'));
 
         $this->assertEquals([
-            'view1' => 'registerDirectoryTest/view1',
-            'view2' => 'registerDirectoryTest/view2',
-            'view3' => 'registerDirectoryTest/view3',
+            'my-view1' => 'registerDirectoryTest/myView1',
+            'my-view2' => 'registerDirectoryTest/myView2',
+            'my-view3' => 'registerDirectoryTest/myView3',
         ],BladeX::getRegisteredComponents());
     }
 

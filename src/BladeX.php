@@ -36,6 +36,8 @@ class BladeX
             ->each(function (SplFileInfo $fileInfo) {
                 $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
 
+                $componentName = kebab_case($componentName);
+
                 $viewName = $this->getViewName($fileInfo->getPathname());
 
                 $this->component($componentName, $viewName);
