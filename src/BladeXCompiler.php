@@ -18,16 +18,8 @@ class BladeXCompiler
     {
         return array_reduce(
             $this->bladeX->getRegisteredComponents(),
-            [$this, 'replaceBladeXComponentWithRegularBladeComponent']
-            , $viewContents);
-
-        /*
-        foreach ($this->bladeX->getRegisteredComponents() as $componentName => $viewPath) {
-            $viewContents = $this->replaceBladeXComponentWithRegularBladeComponent($viewContents, $componentName, $viewPath);
-        }
-
-        return $viewContents;
-        */
+            [$this, 'replaceBladeXComponentWithRegularBladeComponent'],
+            $viewContents);
     }
 
     protected function replaceBladeXComponentWithRegularBladeComponent(string $viewContents, BladeXComponent $bladeXComponent)
