@@ -18,11 +18,11 @@ class BladeXCompiler
     {
         return array_reduce(
             $this->bladeX->getRegisteredComponents(),
-            [$this, 'replaceBladeXComponentWithRegularBladeComponent'],
+            [$this, 'parseComponentHtml'],
             $viewContents);
     }
 
-    protected function replaceBladeXComponentWithRegularBladeComponent(string $viewContents, BladeXComponent $bladeXComponent)
+    protected function parseComponentHtml(string $viewContents, BladeXComponent $bladeXComponent)
     {
         $pattern = "/<\s*{$bladeXComponent->name}[^>]*>((.|\n)*?)<\s*\/\s*{$bladeXComponent->name}>/m";
 
