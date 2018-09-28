@@ -30,7 +30,7 @@ class BladeXCompiler
             [$componentHtml, $componentInnerHtml] = $regexResult;
 
             return "@component('{$bladeXComponent->bladeViewName}', [{$this->getComponentAttributes($componentHtml)}])"
-                .$this->parseComponentInnerHtml($componentInnerHtml)
+                . $this->parseComponentInnerHtml($componentInnerHtml)
                 .'@endcomponent';
         }, $viewContents);
     }
