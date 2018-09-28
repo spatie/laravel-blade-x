@@ -95,13 +95,13 @@ with this html
 </div>
 ```
 
-and use it in your html like this,
+and use it in your Blade view like this,
 
 ```blade
 <my-alert type="error" message="{{ $message }}" />
 ```
 
-our package will replace that html in your view to this:
+our package will replace that html in your view with this:
 
 ```blade
 @component('components/myAlert', ['type' => 'error','message' => '{{ $message }}',])@endcomponent
