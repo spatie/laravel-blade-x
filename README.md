@@ -81,12 +81,11 @@ In your Blade view you can now use the component like this:
 
 ## Under the hood
 
-When register a component 
+When you register a component 
 
 ```php
 BladeX::component('my-alert', 'components.myAlert')
 ```
-
 with this html
 
 ```blade
