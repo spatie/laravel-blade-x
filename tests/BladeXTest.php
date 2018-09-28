@@ -11,4 +11,13 @@ class BladeXTest extends TestCase
     {
         BladeX::components($this->getStub('views'));
     }
+
+    /** @test */
+    public function it()
+    {
+        $this->assertBladeCompilesTo(<<<HTML
+This is a test
+HTML
+            , 'test');
+    }
 }
