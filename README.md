@@ -29,7 +29,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}>
+<div class="{{ $type }}">
    {{ $message }}
 </div>
 ```
@@ -79,13 +79,47 @@ In your Blade view you can now use the component like this:
 <my-alert type="error" message="{{ $message }}" />
 ```
 
-### Testing
+## Under the hood
+
+When register a component 
+
+```php
+BladeX::component('my-alert', 'components.myAlert')
+```
+
+with this html
+
+```blade
+{{-- resources/views/components/myAlert.blade.php --}}
+<div class="{{ $type }}">
+   {{ $message }}
+</div>
+```
+
+and use it in your html like this,
+
+```blade
+<my-alert type="error" message="{{ $message }}" />
+```
+
+our package will replace that html in your view to this:
+
+```blade
+@component('components/myAlert', ['type' => 'error','message' => '{{ $message }}',])@endcomponent
+```
+
+After that conversion Blade will compile (and possible cache) that view.
+
+Because all this happens before any html is sent to the browser, client side frameworks like Vue.js will never see the original html you wrote (with the custom tags).
+
+
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
@@ -93,7 +127,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
