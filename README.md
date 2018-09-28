@@ -27,7 +27,7 @@ you can write this
 You can place the content of that alert in a simple blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
 
 ```blade
-{{-- in app/resources/views/components/myAlert.blade.php --}}
+{{-- resources/views/components/myAlert.blade.php --}}
 
 <div class="{{ $type}}>
    {{ $message }}
@@ -46,7 +46,17 @@ The package will automatically register itself.
 
 ## Usage
 
-Before using a component you must first register it. Typically you would do this in the `AppServiceProvider` or a service provider of your own
+A the contents of a component can be stored in a simple Blade view.
+
+```blade
+{{-- resources/views/components/myAlert.blade.php --}}
+
+<div class="{{ $type}}>
+   {{ $message }}
+</div>
+```
+
+Before using that component you must first register it. Typically you would do this in the `AppServiceProvider` or a service provider of your own
 
 ```php
 BladeX::component('my-alert', 'components.myAlert')
@@ -55,15 +65,19 @@ BladeX::component('my-alert', 'components.myAlert')
 You can also register an entire directory like this.
 
 ```php
+// This will register all Blade views that are stored in `resources/views/components`
+
 BladeX::components('components')
 ```
 
-### Using components
-A component is an HTML node which can have multiple attributes, these attributes will be passed to your component's blade view as variables:
-```html
-BladeX::component('money-field', 'components.money-field')
-```
+In your Blade view you can now use the component like this:
 
+```php
+```blade
+<h1>My view</h1>
+
+<my-alert type="error" message="{{ $message }}" />
+```
 
 ### Testing
 
