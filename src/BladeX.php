@@ -4,7 +4,11 @@ namespace Spatie\BladeX;
 
 use Illuminate\Support\Facades\File;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+<<<<<<< HEAD
 use Symfony\Component\Finder\SplFileInfo;
+=======
+use Symfony\Component\DomCrawler\Crawler;
+>>>>>>> f490f238acb8e8fa9295d33f2f52f91948a5df34
 
 class BladeX
 {
@@ -44,5 +48,25 @@ class BladeX
         }
 
         return $pathName;
+    }
+
+    public function compile(string $view): string
+    {
+        $crawler = new Crawler($view);
+
+        foreach($this->registeredComponents as $componentName => $classOrView) {
+            $crawler
+                ->filter($componentName)
+                ->each(function (Crawler $subCrawler) use ($classOrView) {
+                    $node = $subCrawler->getNode(0);
+
+                    $node->parentNode->replaceChild(
+                        $node->ownerDocument->createTextNode("@include({$classOrView})"), // TEMP: @include everything
+                        $node
+                    );
+                });
+        }
+
+        return $crawler->html();
     }
 }
