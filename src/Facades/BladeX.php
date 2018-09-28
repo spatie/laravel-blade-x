@@ -11,6 +11,6 @@ class BladeX extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'BladeX';
+        return 'blade-x';
     }
 }

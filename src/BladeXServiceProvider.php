@@ -15,6 +15,8 @@ class BladeXServiceProvider extends ServiceProvider
         }
 
         $this->app->singleton(BladeX::class);
+
+        $this->app->alias(BladeX::class, 'blade-x');
     }
 
     public function register()
