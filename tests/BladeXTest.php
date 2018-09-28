@@ -8,14 +8,25 @@ use Spatie\BladeX\Facades\BladeX;
 class BladeXTest extends TestCase
 {
     /** @test */
-    public function it_can_register_a_single_component()
+    public function it_can_register_a_single_component_with_providing_a_view_and_component_name()
     {
-        BladeX::component('myView1', 'registerDirectoryTest.myView1');
+        BladeX::component('registerDirectoryTest.myView1', 'myView1');
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
         $this->assertCount(1, $registeredComponents);
-        $this->assertEquals('registerDirectoryTest.myView1', $registeredComponents['myView1']);
+        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents['myView1']);
+    }
+
+    /** @test */
+    public function it_can_register_a_single_component_by_only_providing_a_view()
+    {
+        BladeX::component('registerDirectoryTest.myView1');
+
+        $registeredComponents = BladeX::getRegisteredComponents();
+
+        $this->assertCount(1, $registeredComponents);
+        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents['my-view1']);
     }
 
     /** @test */

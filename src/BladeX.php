@@ -13,10 +13,18 @@ class BladeX
     /** @var array */
     public $registeredComponents = [];
 
-    public function component(string $componentName, string $viewName)
+    public function component(string $viewName, string $componentName = null)
     {
+        $viewName = str_replace('.', '/', $viewName);
+
         if (! view()->exists($viewName)) {
             throw CouldNotRegisterComponent::viewNotFound($componentName, $viewName);
+        }
+
+        if (is_null($componentName)) {
+            $baseComponentName = explode('/', $viewName);
+
+            $componentName = kebab_case(end($baseComponentName));
         }
 
         $this->registeredComponents[$componentName] = $viewName;
@@ -34,13 +42,13 @@ class BladeX
                 return ends_with($file->getFilename(), '.blade.php');
             })
             ->each(function (SplFileInfo $fileInfo) {
+                $viewName = $this->getViewName($fileInfo->getPathname());
+
                 $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
 
                 $componentName = kebab_case($componentName);
 
-                $viewName = $this->getViewName($fileInfo->getPathname());
-
-                $this->component($componentName, $viewName);
+                $this->component($viewName, $componentName);
             });
     }
 
