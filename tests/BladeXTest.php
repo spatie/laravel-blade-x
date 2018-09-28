@@ -58,9 +58,12 @@ class BladeXTest extends TestCase
         BladeX::components('non-existing-directory');
     }
 
-    /** @test */
-    // public function it_compiles_a_component()
-    // {
+    public function it_compiles_a_component()
+    {
+        BladeX::component('components.textField');
 
-    // }
+        $this->assertMatchesXmlSnapshot(
+            view('templates.profile')->render()
+        );
+    }
 }

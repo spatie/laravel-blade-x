@@ -2,11 +2,11 @@
 
 namespace Spatie\BladeX;
 
+use SimpleXMLElement;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
-use Symfony\Component\DomCrawler\Crawler;
 
 class BladeX
 {
@@ -69,21 +69,26 @@ class BladeX
 
     public function compile(string $view): string
     {
-        $crawler = new Crawler($view);
-
         foreach ($this->registeredComponents as $componentName => $classOrView) {
-            $crawler
-                ->filter($componentName)
-                ->each(function (Crawler $subCrawler) use ($classOrView) {
-                    $node = $subCrawler->getNode(0);
+            $pattern = '/<\s*text-field[^>]*>(.*?)<\/\s*text-field>/';
 
-                    $node->parentNode->replaceChild(
-                        $node->ownerDocument->createTextNode("@include('{$classOrView}')"), // TEMP: @include everything
-                        $node
-                    );
-                });
+            $view = preg_replace_callback($pattern, function ($result) use ($classOrView) {
+                [$component, $contents] = $result;
+
+                $xml = new SimpleXMLElement($component);
+
+                $data = '[';
+
+                foreach ($xml->attributes() as $attribute => $value) {
+                    $data .= "'{$attribute}' => '{$value}',";
+                }
+
+                $data .= ']';
+
+                return "@component('{$classOrView}', {$data})@endcomponent";
+            }, $view);
         }
 
-        return $crawler->html();
+        return $view;
     }
 }

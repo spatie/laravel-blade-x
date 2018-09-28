@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\View;
 use Spatie\BladeX\BladeXServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\BladeX\Facades\BladeX;
+use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends Orchestra
 {
+    use MatchesSnapshots;
+
     protected function setUp()
     {
         parent::setUp();
@@ -31,11 +34,6 @@ abstract class TestCase extends Orchestra
         return [
             'BladeX' => BladeX::class,
         ];
-    }
-
-    protected function assertBladeCompilesTo(string $expected, string $template, array $parameters = [])
-    {
-        $this->assertEquals($expected, view($template, $parameters)->render());
     }
 
     protected function getStub(string $fileName): string
