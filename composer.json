@@ -1,6 +1,6 @@
 {
     "name": "spatie/laravel-blade-x",
-    "description": "Supercharging Blade",
+    "description": "Use custom html components in your Blade views",
     "keywords": [
         "spatie",
         "laravel-blade-x"
