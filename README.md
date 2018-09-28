@@ -72,7 +72,6 @@ BladeX::components('components')
 
 In your Blade view you can now use the component like this:
 
-```php
 ```blade
 <h1>My view</h1>
 
