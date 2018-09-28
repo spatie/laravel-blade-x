@@ -14,7 +14,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        View::addLocation(__DIR__.'/stubs/views');
+        View::addLocation(__DIR__.'/views');
     }
 
     protected function getPackageProviders($app)
@@ -38,6 +38,6 @@ abstract class TestCase extends Orchestra
 
     protected function getStub(string $fileName): string
     {
-        return __DIR__ . "/stubs{$fileName}";
+        return __DIR__ . "/stubs/{$fileName}";
     }
 }
