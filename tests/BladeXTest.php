@@ -17,10 +17,12 @@ class BladeXTest extends TestCase
     public function it_can_transpile_a_view_include()
     {
         $this->assertBladeCompilesTo(
-            $this->getStub('/views/data-table-include-transpiled.blade.php'),
+            $this->getStub('/views/data-table-include-compiled.blade.php'),
             'data-table-include',
             [
-                'users' => [],
+                'users' => [
+                    ['Brent', 'brent@spatie.be']
+                ],
             ]
         );
     }

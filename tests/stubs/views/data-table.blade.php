@@ -4,7 +4,11 @@
             {{ $thead }}
         </tr>
     </thead>
-    @foreach($items as $item)
-        {{ $tbody(['item' => $item]) }}
-    @endforeach
+    <tbody>
+        @foreach($items as $item)
+            <tr>
+                {{ $tbody(['item' => $item]) }}
+            </tr>
+        @endforeach
+    </tbody>
 </table>

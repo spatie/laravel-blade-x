@@ -1,0 +1,14 @@
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>E-mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Brent</td>
+            <td>brent@spatie.be</td>
+        </tr>
+    </tbody>
+</table>
