@@ -29,7 +29,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageAliases($app)
     {
         return [
-            'BlaxeX' => BladeX::class,
+            'BladeX' => BladeX::class,
         ];
     }
 
