@@ -13,7 +13,7 @@ Here's an example. Instead of this:
 ```blade
 <h1>My view</h1>
 
-@include('myAlert', ['type' => 'error'])
+@include('myAlert', ['type' => 'error', 'message' => $message])
 ```
 
 you can write this
@@ -21,7 +21,7 @@ you can write this
 ```blade
 <h1>My view</h1>
 
-<my-alert type="error" />
+<my-alert type="error" message="{{ $message }}" />
 ```
 
 ## Installation
