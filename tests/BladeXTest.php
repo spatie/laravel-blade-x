@@ -36,9 +36,13 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_can_register_a_directory_containing_view_components()
     {
-        BladeX::components($this->getStub('views'));
+        BladeX::components($this->getStub('views/registerDirectoryTest'));
 
-        dd(BladeX::getRegisteredComponents());
+        $this->assertEquals([
+            'view1' => 'registerDirectoryTest/view1',
+            'view2' => 'registerDirectoryTest/view2',
+            'view3' => 'registerDirectoryTest/view3',
+        ],BladeX::getRegisteredComponents());
     }
 
     /** @test */
