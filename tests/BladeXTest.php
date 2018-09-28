@@ -2,7 +2,8 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Spatie\Facades\BladeX\BladeX;
+
+use Spatie\BladeX\Facades\BladeX;
 
 class BladeXTest extends TestCase
 {
