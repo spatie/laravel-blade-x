@@ -27,7 +27,7 @@ class BladeX
             throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
         }
 
-
+        dd(File::allFiles($directory));
     }
 
     protected function getComponent(string $classOrView): ?object
@@ -37,7 +37,7 @@ class BladeX
         }
 
         if (view()->exists($classOrView)) {
-            return new BladeViewComponent(view($classOrView));
+            return new BladeViewComponent($classOrView);
         }
 
         return null;

@@ -5,18 +5,21 @@ namespace Spatie\BladeX;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\View\View;
 
-class BladeViewComponent implements Htmlable
+class BladeViewComponent
 {
-    /** @var \Illuminate\View\View */
+    /** @var string */
     protected $view;
 
-    public function __construct(View $view)
+    public function __construct(string $view)
     {
         $this->view = $view;
     }
 
-    public function toHtml()
+    public function __toString()
     {
-        return $this->view->render();
+        // <test-component>
+        //</test-component>
+
+        return "@include({$this->view})";
     }
 }

@@ -27,4 +27,9 @@ abstract class TestCase extends Orchestra
     {
         $this->assertEquals($expected, Blade::compileString($template));
     }
+
+    protected function getStub(string $fileName): string
+    {
+        return __DIR__ . "/stubs{$fileName}";
+    }
 }
