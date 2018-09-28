@@ -33,7 +33,7 @@ abstract class TestCase extends Orchestra
 
     protected function assertBladeCompilesTo(string $expected, string $template)
     {
-        $this->assertEquals($expected, Blade::compileString($template));
+        $this->assertEquals($expected, view($template)->render());
     }
 
     protected function getStub(string $fileName): string
