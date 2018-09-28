@@ -22,15 +22,9 @@ class BladeXCompiler
             $viewContents = preg_replace_callback($pattern, function (array $regexResult) use ($viewPath) {
                 [$componentHtml, $componentInnerHtml] = $regexResult;
 
-                $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
-
-                $componentInnerHtml = preg_replace_callback($pattern, function ($result) {
-                    [$slot, $name, $contents] = $result;
-
-                    return "@slot('{$name}'){$contents}@endslot";
-                }, $componentInnerHtml);
-
-                return "@component('{$viewPath}', [{$this->getComponentAttributes($componentHtml)}])" . $componentInnerHtml . '@endcomponent';
+                return "@component('{$viewPath}', [{$this->getComponentAttributes($componentHtml)}])"
+                    . $this->parseComponentInnerHtml($componentInnerHtml)
+                    . '@endcomponent';
             }, $viewContents);
         }
 
@@ -47,5 +41,16 @@ class BladeXCompiler
 
                 return "'{$attribute}' => '{$value}',";
             })->implode('');
+    }
+
+    protected function parseComponentInnerHtml(string $componentInnerHtml): string
+    {
+        $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
+
+        return preg_replace_callback($pattern, function ($result) {
+            [$slot, $name, $contents] = $result;
+
+            return "@slot('{$name}'){$contents}@endslot";
+        }, $componentInnerHtml);
     }
 }
