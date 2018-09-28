@@ -14,37 +14,38 @@ class BladeXCompiler
         return $this->bladeX = $bladeX;
     }
 
-    public function compile(string $view): string
+    public function compile(string $viewContents): string
     {
-        foreach ($this->bladeX->getRegisteredComponents() as $componentName => $classOrView) {
-            $pattern = '/<\s*'.$componentName.'[^>]*>((.|\n)*?)<\s*\/\s*'.$componentName.'>/m';
+        foreach ($this->bladeX->getRegisteredComponents() as $componentName => $viewPath) {
+            $pattern = '/<\s*' . $componentName . '[^>]*>((.|\n)*?)<\s*\/\s*' . $componentName . '>/m';
 
-            $view = preg_replace_callback($pattern, function ($result) use ($classOrView) {
-                [$component, $contents] = $result;
-
-                $xml = new SimpleXMLElement($component);
-
-                $data = '[';
-
-                foreach ($xml->attributes() as $attribute => $value) {
-                    $value = str_replace("'", "\\'", $value);
-                    $data .= "'{$attribute}' => '{$value}',";
-                }
-
-                $data .= ']';
+            $viewContents = preg_replace_callback($pattern, function (array $regexResult) use ($viewPath) {
+                [$componentHtml, $componentInnerHtml] = $regexResult;
 
                 $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
 
-                $contents = preg_replace_callback($pattern, function ($result) {
+                $componentInnerHtml = preg_replace_callback($pattern, function ($result) {
                     [$slot, $name, $contents] = $result;
 
                     return "@slot('{$name}'){$contents}@endslot";
-                }, $contents);
+                }, $componentInnerHtml);
 
-                return "@component('{$classOrView}', {$data})".$contents.'@endcomponent';
-            }, $view);
+                return "@component('{$viewPath}', [{$this->getComponentAttributes($componentHtml)}])" . $componentInnerHtml . '@endcomponent';
+            }, $viewContents);
         }
 
-        return $view;
+        return $viewContents;
+    }
+
+    protected function getComponentAttributes(string $componentHtml): string
+    {
+        $componentXml = new SimpleXMLElement($componentHtml);
+
+        return collect($componentXml->attributes())
+            ->map(function ($value, $attribute) {
+                $value = str_replace("'", "\\'", $value);
+
+                return "'{$attribute}' => '{$value}',";
+            })->implode('');
     }
 }
