@@ -34,7 +34,9 @@
         }
     ],
     "require": {
-        "php": "^7.2"
+        "php": "^7.2",
+        "illuminate/view": "^5.7",
+        "symfony/dom-crawler": "^4.1"
     },
     "require-dev": {
         "larapack/dd": "^1.0",
