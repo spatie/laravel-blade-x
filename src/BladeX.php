@@ -2,7 +2,8 @@
 
 namespace Spatie\BladeX;
 
-use Spatie\BladeX\Exceptions\InvalidComponent;
+use Illuminate\Support\Facades\File;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class BladeX
 {
@@ -14,14 +15,18 @@ class BladeX
         $component = $this->getComponent($classOrView);
 
         if (! $component) {
-            throw InvalidComponent::notFound($componentName, $classOrView);
+            throw CouldNotRegisterComponent::componentNotFound($componentName, $classOrView);
         }
 
         $this->registeredComponents[$componentName] = $component;
     }
 
-    public function components()
+    public function components(string $directory)
     {
+        if (! File::isDirectory($directory)) {
+            throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
+        }
+
 
     }
 
