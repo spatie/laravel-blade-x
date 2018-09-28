@@ -13,7 +13,7 @@ class BladeXServiceProvider extends ServiceProvider
         $this->app->alias(BladeX::class, 'blade-x');
 
         $this->app['blade.compiler']->extend(function ($view) {
-            return $this->app[BladeX::class]->compile($view);
+            return $this->app[BladeXCompiler::class]->compile($view);
         });
     }
 }
