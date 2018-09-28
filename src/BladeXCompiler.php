@@ -26,15 +26,13 @@ class BladeXCompiler
     {
         $pattern = "/<\s*{$bladeXComponent->name}[^>]*>((.|\n)*?)<\s*\/\s*{$bladeXComponent->name}>/m";
 
-        $viewContents = preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
+        return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $componentInnerHtml] = $regexResult;
 
             return "@component('{$bladeXComponent->bladeViewName}', [{$this->getComponentAttributes($componentHtml)}])"
                 . $this->parseComponentInnerHtml($componentInnerHtml)
                 . '@endcomponent';
         }, $viewContents);
-
-        return $viewContents;
     }
 
     protected function getComponentAttributes(string $componentHtml): string
