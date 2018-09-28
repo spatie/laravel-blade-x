@@ -80,10 +80,19 @@ class BladeX
                 $data = '[';
 
                 foreach ($xml->attributes() as $attribute => $value) {
+                    $value = str_replace("'","\\'", $value);
                     $data .= "'{$attribute}' => '{$value}',";
                 }
 
                 $data .= ']';
+
+                $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
+
+                $contents = preg_replace_callback($pattern, function ($result) {
+                    [$slot, $name, $contents] = $result;
+
+                    return "@slot('{$name}'){$contents}@endslot";
+                }, $contents);
 
                 return "@component('{$classOrView}', {$data})".$contents."@endcomponent";
             }, $view);

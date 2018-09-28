@@ -68,4 +68,25 @@ class BladeXTest extends TestCase
             view('templates.profile')->render()
         );
     }
+
+    /** @test */
+    public function it_compiles_a_view_with_two_components()
+    {
+        BladeX::component('components.card');
+        BladeX::component('components.textField');
+
+        $this->assertMatchesXmlSnapshot(
+            view('templates.profileList')->render()
+        );
+    }
+
+    /** @test */
+    public function it_compiles_a_component_with_scoped_slots()
+    {
+        BladeX::component('components.layout');
+
+        $this->assertMatchesXmlSnapshot(
+            view('templates.layout')->render()
+        );
+    }
 }
