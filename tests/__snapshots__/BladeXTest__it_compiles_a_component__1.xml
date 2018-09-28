@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
-<form>
-  <div>
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" value=""/>
-  </div>
-</form>
+<div>
+    <h1>Profile</h1>
+    <div>
+        <form>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" value=""/>
+            </div>
+        </form>
+    </div>
+</div>
