@@ -5,6 +5,7 @@ namespace Spatie\BladeX\Tests;
 use Illuminate\Support\Facades\Blade;
 use Spatie\BladeX\BladeXServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Facades\BladeX\BladeX;
 
 abstract class TestCase extends Orchestra
 {
@@ -12,6 +13,13 @@ abstract class TestCase extends Orchestra
     {
         return [
             BladeXServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'ResponseCache' => BladeX::class,
         ];
     }
 
