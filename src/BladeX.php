@@ -70,7 +70,7 @@ class BladeX
     public function compile(string $view): string
     {
         foreach ($this->registeredComponents as $componentName => $classOrView) {
-            $pattern = '/<\s*text-field[^>]*>(.*?)<\/\s*text-field>/';
+            $pattern = '/<\s*'.$componentName.'[^>]*>(.*?)<\/\s*'.$componentName.'>/';
 
             $view = preg_replace_callback($pattern, function ($result) use ($classOrView) {
                 [$component, $contents] = $result;
