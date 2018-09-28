@@ -69,7 +69,6 @@ class BladeXTest extends TestCase
     public function it_compiles_a_component()
     {
         BladeX::component('components.card');
-        BladeX::component('components.textField');
 
         $this->assertMatchesXmlSnapshot(
             view('templates.profile')->render()
