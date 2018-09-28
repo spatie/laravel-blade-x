@@ -27,7 +27,7 @@ class BladeXCompiler
                 $data = '[';
 
                 foreach ($xml->attributes() as $attribute => $value) {
-                    $value = str_replace("'","\\'", $value);
+                    $value = str_replace("'", "\\'", $value);
                     $data .= "'{$attribute}' => '{$value}',";
                 }
 
@@ -41,7 +41,7 @@ class BladeXCompiler
                     return "@slot('{$name}'){$contents}@endslot";
                 }, $contents);
 
-                return "@component('{$classOrView}', {$data})".$contents."@endcomponent";
+                return "@component('{$classOrView}', {$data})".$contents.'@endcomponent';
             }, $view);
         }
 

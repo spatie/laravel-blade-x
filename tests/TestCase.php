@@ -2,12 +2,12 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Illuminate\Support\Facades\Artisan;
+use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
+use Spatie\Snapshots\MatchesSnapshots;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\BladeX\BladeXServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\BladeX\Facades\BladeX;
-use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends Orchestra
 {
@@ -38,6 +38,6 @@ abstract class TestCase extends Orchestra
 
     protected function getStub(string $fileName): string
     {
-        return __DIR__ . "/stubs/{$fileName}";
+        return __DIR__."/stubs/{$fileName}";
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Spatie\BladeX;
 
-use SimpleXMLElement;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class BladeX
 {
@@ -59,13 +58,11 @@ class BladeX
     private function getViewName(string $pathName): string
     {
         foreach (View::getFinder()->getPaths() as $registeredViewPath) {
-            $pathName = str_replace(realpath($registeredViewPath) . '/', '', $pathName);
+            $pathName = str_replace(realpath($registeredViewPath).'/', '', $pathName);
         }
 
-        $viewName = str_replace_last('.blade.php','', $pathName);
+        $viewName = str_replace_last('.blade.php', '', $pathName);
 
         return $viewName;
     }
-
-
 }
