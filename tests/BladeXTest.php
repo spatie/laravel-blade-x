@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Spatie\BladeX\BladeXComponent;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
@@ -15,7 +16,8 @@ class BladeXTest extends TestCase
         $registeredComponents = BladeX::getRegisteredComponents();
 
         $this->assertCount(1, $registeredComponents);
-        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents['myView1']);
+        $this->assertEquals('myView1', $registeredComponents[0]->name);
+        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents[0]->bladeViewName);
     }
 
     /** @test */
@@ -25,8 +27,8 @@ class BladeXTest extends TestCase
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
-        $this->assertCount(1, $registeredComponents);
-        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents['my-view1']);
+        $this->assertEquals('my-view1', $registeredComponents[0]->name);
+        $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents[0]->bladeViewName);
     }
 
     /** @test */
@@ -42,11 +44,17 @@ class BladeXTest extends TestCase
     {
         BladeX::components($this->getStub('views/registerDirectoryTest'));
 
+        $registeredComponents = collect(BladeX::getRegisteredComponents())
+            ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
+                return [$bladeXComponent->name => $bladeXComponent->bladeViewName];
+            })
+            ->toArray();
+
         $this->assertEquals([
             'my-view1' => 'registerDirectoryTest/myView1',
             'my-view2' => 'registerDirectoryTest/myView2',
             'my-view3' => 'registerDirectoryTest/myView3',
-        ], BladeX::getRegisteredComponents());
+        ], $registeredComponents);
     }
 
     /** @test */

@@ -16,24 +16,32 @@ class BladeXCompiler
 
     public function compile(string $viewContents): string
     {
+        return array_reduce(
+            $this->bladeX->getRegisteredComponents(),
+            [$this, 'replaceBladeXComponentWithRegularBladeComponent']
+            , $viewContents);
+
+        /*
         foreach ($this->bladeX->getRegisteredComponents() as $componentName => $viewPath) {
             $viewContents = $this->replaceBladeXComponentWithRegularBladeComponent($viewContents, $componentName, $viewPath);
         }
 
         return $viewContents;
+        */
     }
 
-    protected function replaceBladeXComponentWithRegularBladeComponent(string $viewContents, $bladeXComponentName, string $bladeViewPath)
+    protected function replaceBladeXComponentWithRegularBladeComponent(string $viewContents, BladeXComponent $bladeXComponent)
     {
-        $pattern = '/<\s*' . $bladeXComponentName . '[^>]*>((.|\n)*?)<\s*\/\s*' . $bladeXComponentName . '>/m';
+        $pattern = "/<\s*{$bladeXComponent->name}[^>]*>((.|\n)*?)<\s*\/\s*{$bladeXComponent->name}>/m";
 
-        $viewContents = preg_replace_callback($pattern, function (array $regexResult) use ($bladeViewPath) {
+        $viewContents = preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $componentInnerHtml] = $regexResult;
 
-            return "@component('{$bladeViewPath}', [{$this->getComponentAttributes($componentHtml)}])"
+            return "@component('{$bladeXComponent->bladeViewName}', [{$this->getComponentAttributes($componentHtml)}])"
                 . $this->parseComponentInnerHtml($componentInnerHtml)
                 . '@endcomponent';
         }, $viewContents);
+
         return $viewContents;
     }
 

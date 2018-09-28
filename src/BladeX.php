@@ -12,21 +12,21 @@ class BladeX
     /** @var array */
     public $registeredComponents = [];
 
-    public function component(string $viewName, string $componentName = null)
+    public function component(string $bladeViewName, string $bladeXComponentName = null)
     {
-        $viewName = str_replace('.', '/', $viewName);
+        $bladeViewName = str_replace('.', '/', $bladeViewName);
 
-        if (is_null($componentName)) {
-            $baseComponentName = explode('/', $viewName);
+        if (is_null($bladeXComponentName)) {
+            $baseComponentName = explode('/', $bladeViewName);
 
-            $componentName = kebab_case(end($baseComponentName));
+            $bladeXComponentName = kebab_case(end($baseComponentName));
         }
 
-        if (! view()->exists($viewName)) {
-            throw CouldNotRegisterComponent::viewNotFound($viewName, $componentName);
+        if (! view()->exists($bladeViewName)) {
+            throw CouldNotRegisterComponent::viewNotFound($bladeViewName, $bladeXComponentName);
         }
 
-        $this->registeredComponents[$componentName] = $viewName;
+        $this->registeredComponents[] = new BladeXComponent($bladeXComponentName, $bladeViewName);
     }
 
     public function getRegisteredComponents(): array
