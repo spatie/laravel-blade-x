@@ -3,9 +3,8 @@
 namespace Spatie\BladeX\Tests;
 
 use Illuminate\Support\Facades\Blade;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\BladeX\BladeXServiceProvider;
-use Spatie\ViewComponents\ViewComponentsServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
