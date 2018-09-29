@@ -80,6 +80,24 @@ In your Blade view you can now use the component like this:
 <my-alert type="error" message="{{ $message }}" />
 ```
 
+### Prefixing components
+
+If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
+ 
+Setting a global prefix can easily be done before- or after registering components:
+
+```php
+BladeX::component('my-alert', 'components.myAlert');
+
+BladeX::prefix('x');
+```
+
+All your registered components can now be used like this:
+
+```blade
+<x-my-alert message="Notice the prefix!" />
+``` 
+
 ## Under the hood
 
 When you register a component 
