@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <div class="error">
-    &lt;?php echo e($message); ?&gt;
+    my message
 </div>

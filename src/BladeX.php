@@ -12,6 +12,9 @@ class BladeX
     /** @var array */
     public $registeredComponents = [];
 
+    /** @var string */
+    protected $prefix = '';
+
     public function component(string $bladeViewName, string $bladeXComponentName = null)
     {
         $bladeViewName = str_replace('.', '/', $bladeViewName);
@@ -55,7 +58,19 @@ class BladeX
             });
     }
 
-    private function getViewName(string $pathName): string
+    public function prefix(string $prefix = ''): self
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function getPrefix(): string
+    {
+        return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
+    }
+
+    protected function getViewName(string $pathName): string
     {
         foreach (View::getFinder()->getPaths() as $registeredViewPath) {
             $pathName = str_replace(realpath($registeredViewPath).'/', '', $pathName);

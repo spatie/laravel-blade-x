@@ -115,4 +115,16 @@ class BladeXTest extends TestCase
             view('templates.dynamicProfile')->render()
         );
     }
+
+    /** @test */
+    public function it_works_with_a_global_prefix()
+    {
+        BladeX::component('components.card');
+
+        BladeX::prefix('x');
+
+        $this->assertMatchesXmlSnapshot(
+            view('templates.prefixedCard')->render()
+        );
+    }
 }

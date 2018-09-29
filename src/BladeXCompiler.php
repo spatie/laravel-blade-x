@@ -25,7 +25,9 @@ class BladeXCompiler
 
     protected function parseComponentHtml(string $viewContents, BladeXComponent $bladeXComponent)
     {
-        $pattern = "/<\s*{$bladeXComponent->name}[^>]*(?:\/>|>((?:.|\n)*?)<\s*\/\s*{$bladeXComponent->name}>)/m";
+        $prefix = $this->bladeX->getPrefix();
+
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*(?:\/>|>((?:.|\n)*?)<\s*\/\s*{$prefix}{$bladeXComponent->name}>)/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $componentInnerHtml] = $regexResult + ['', ''];
