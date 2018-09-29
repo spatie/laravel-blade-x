@@ -105,7 +105,7 @@ and use it in your Blade view like this,
 our package will replace that html in your view with this:
 
 ```blade
-@component('components/myAlert', ['type' => 'error','message' => '{{ $message }}',])@endcomponent
+@component('components/myAlert', ['type' => 'error','message' => $message,])@endcomponent
 ```
 
 After that conversion Blade will compile (and possibly cache) that view.
