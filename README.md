@@ -116,7 +116,7 @@ can be used in your views like this:
 
     <main class="content">Whose motorcycle is this?</main>
 
-    <slot name='footer'>It's not a motorcycle honey, it's a chopper.</slot>
+    <slot name="footer">It's not a motorcycle honey, it's a chopper.</slot>
 </layout>
 ```
 
