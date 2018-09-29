@@ -80,6 +80,46 @@ In your Blade view you can now use the component like this:
 <my-alert type="error" message="{{ $message }}" />
 ```
 
+### Using slots
+
+BladeX support slots too. This layout component
+
+```blade
+{{-- resources/views/components/layout.blade.php --}}
+
+<div>
+    <h1>{{ $title }}</h1>
+    <div class="flex">
+        <navigation class="w-1/3">
+            {{ $sidebar }}
+        </navigation>
+        <div class="w-2/3">
+            {{ $slot }}
+        </div>
+    </div>
+    <footer>
+        {{ $footer }}
+    </footer>
+</div>
+```
+
+can be used in your views like this:
+
+```php
+<layout title="Zed's Chopper">
+    <slot name="sidebar">
+        <ul>
+            <li>Home</li>
+            <li>Contact</li>
+        </ul>
+    </slot>
+
+    <main class="content">Whose chopper is this?</main>
+
+    <slot name='footer'>It's Zed's.</slot>
+</layout>
+```
+
 ### Prefixing components
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
