@@ -105,4 +105,14 @@ class BladeXTest extends TestCase
             view('templates.layout')->render()
         );
     }
+
+    /** @test */
+    public function it_compiles_a_component_with_variables()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesXmlSnapshot(
+            view('templates.dynamicProfile')->render()
+        );
+    }
 }
