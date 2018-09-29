@@ -106,7 +106,7 @@ BladeX support slots too. This layout component
 can be used in your views like this:
 
 ```php
-<layout title="Zed's Chopper">
+<layout title="Zed's chopper">
     <slot name="sidebar">
         <ul>
             <li>Home</li>
@@ -114,9 +114,9 @@ can be used in your views like this:
         </ul>
     </slot>
 
-    <main class="content">Whose chopper is this?</main>
+    <main class="content">Whose motorcycle is this?</main>
 
-    <slot name='footer'>It's Zed's.</slot>
+    <slot name='footer'>It's not a motorcycle honey, it's a chopper.</slot>
 </layout>
 ```
 
