@@ -84,7 +84,7 @@ In your Blade view you can now use the component like this:
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
  
-Setting a global prefix can easily be done before- or after registering components:
+Setting a global prefix can easily be done before or after registering components:
 
 ```php
 BladeX::component('my-alert', 'components.myAlert');
