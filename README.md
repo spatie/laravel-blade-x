@@ -1,3 +1,5 @@
+**THIS PACKAGE IS IN DEVELOPMENT, DO NOT USE IN PRODUCTION YET**
+
 # Use custom html components in your Blade views
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
