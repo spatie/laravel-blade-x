@@ -105,7 +105,7 @@ BladeX support slots too. This layout component
 
 can be used in your views like this:
 
-```php
+```html
 <layout title="Zed's chopper">
     <slot name="sidebar">
         <ul>
