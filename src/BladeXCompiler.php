@@ -19,7 +19,8 @@ class BladeXCompiler
         return array_reduce(
             $this->bladeX->getRegisteredComponents(),
             [$this, 'parseComponentHtml'],
-            $viewContents);
+            $viewContents
+        );
     }
 
     protected function parseComponentHtml(string $viewContents, BladeXComponent $bladeXComponent)
