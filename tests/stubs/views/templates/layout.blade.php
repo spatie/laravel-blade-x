@@ -8,5 +8,5 @@
 
     <main class="content">Whose chopper is this?</main>
 
-    <slot name='footer'>It's Zed's.</slot>
+    <slot name="footer">It's Zed's.</slot>
 </layout>
