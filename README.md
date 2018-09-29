@@ -46,7 +46,7 @@ The package will automatically register itself.
 
 ## Usage
 
-A the contents of a component can be stored in a simple Blade view.
+The contents of a component can be stored in a simple Blade view.
 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
