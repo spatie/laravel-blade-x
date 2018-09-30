@@ -69,7 +69,7 @@
                 "Spatie\\BladeX\\BladeXServiceProvider"
             ],
             "aliases": {
-                "BladeX": "Spatie\\BladeX\\Facedes\\BladeX"
+                "BladeX": "Spatie\\BladeX\\Facades\\BladeX"
             }
         }
     }
