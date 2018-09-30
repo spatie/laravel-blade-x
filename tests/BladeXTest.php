@@ -70,9 +70,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.card');
 
-        $this->assertMatchesXmlSnapshot(
-            view('views.regularComponent')->render()
-        );
+        $this->assertMatchesViewSnapshot('regularComponent');
     }
 
     /** @test */
@@ -80,9 +78,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.alert');
 
-        $this->assertMatchesXmlSnapshot(
-            view('views.selfClosingComponent')->render()
-        );
+        $this->assertMatchesViewSnapshot('selfClosingComponent');
     }
 
     /** @test */
@@ -91,9 +87,15 @@ class BladeXTest extends TestCase
         BladeX::component('components.card');
         BladeX::component('components.textField');
 
-        $this->assertMatchesXmlSnapshot(
-            view('views.twoComponents')->render()
-        );
+        $this->assertMatchesViewSnapshot('twoComponents');
+    }
+
+    /** @test */
+    public function it_compiles_a_component_that_contains_nested_components()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('nestedComponents');
     }
 
     /** @test */
@@ -101,9 +103,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.layout');
 
-        $this->assertMatchesXmlSnapshot(
-            view('views.componentWithScopedSlots')->render()
-        );
+        $this->assertMatchesViewSnapshot('componentWithScopedSlots');
     }
 
     /** @test */
@@ -111,9 +111,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.card');
 
-        $this->assertMatchesXmlSnapshot(
-            view('views.componentWithVariables')->render()
-        );
+        $this->assertMatchesViewSnapshot('componentWithVariables');
     }
 
     /** @test */
@@ -123,8 +121,13 @@ class BladeXTest extends TestCase
 
         BladeX::prefix('x');
 
+        $this->assertMatchesViewSnapshot('globalPrefix');
+    }
+
+    protected function assertMatchesViewSnapshot(string $viewName)
+    {
         $this->assertMatchesXmlSnapshot(
-            view('views.globalPrefix')->render()
+            view("views.{$viewName}")->render()
         );
     }
 }
