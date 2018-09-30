@@ -44,7 +44,7 @@ class BladeXCompiler
 
         return collect($componentXml->attributes())
             ->map(function ($value, $attribute) {
-                if(preg_match('/{{(.*)}}/', $value, $matches)) {
+                if (preg_match('/{{(.*)}}/', $value, $matches)) {
                     $value = trim($matches[1]);
 
                     return "'{$attribute}' => {$value},";
