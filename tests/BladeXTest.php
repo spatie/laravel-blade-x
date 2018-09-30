@@ -115,6 +115,15 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_a_component_with_an_unescaped_variable()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithUnescapedVariables');
+    }
+
+
+    /** @test */
     public function it_works_with_a_global_prefix()
     {
         BladeX::component('components.card');
