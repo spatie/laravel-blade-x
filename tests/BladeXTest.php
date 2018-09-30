@@ -71,7 +71,7 @@ class BladeXTest extends TestCase
         BladeX::component('components.card');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.profile')->render()
+            view('views.regularComponent')->render()
         );
     }
 
@@ -81,7 +81,7 @@ class BladeXTest extends TestCase
         BladeX::component('components.alert');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.alert')->render()
+            view('views.selfClosingComponent')->render()
         );
     }
 
@@ -92,7 +92,7 @@ class BladeXTest extends TestCase
         BladeX::component('components.textField');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.profileList')->render()
+            view('views.twoComponents')->render()
         );
     }
 
@@ -102,7 +102,7 @@ class BladeXTest extends TestCase
         BladeX::component('components.layout');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.layout')->render()
+            view('views.componentWithScopedSlots')->render()
         );
     }
 
@@ -112,7 +112,7 @@ class BladeXTest extends TestCase
         BladeX::component('components.card');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.dynamicProfile')->render()
+            view('views.componentWithVariables')->render()
         );
     }
 
@@ -124,7 +124,7 @@ class BladeXTest extends TestCase
         BladeX::prefix('x');
 
         $this->assertMatchesXmlSnapshot(
-            view('templates.prefixedCard')->render()
+            view('views.globalPrefix')->render()
         );
     }
 }
