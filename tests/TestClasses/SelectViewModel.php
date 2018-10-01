@@ -13,7 +13,7 @@ class SelectViewModel extends ViewModel
     public $options;
 
     /** @var string */
-    public $selected;
+    private $selected;
 
     public function __construct(string $name, array $options, string $selected = null)
     {
