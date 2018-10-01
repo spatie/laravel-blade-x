@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use ErrorException;
 use SimpleXMLElement;
 
 class BladeXCompiler
@@ -105,7 +106,12 @@ class BladeXCompiler
 
     protected function getHtmlElementAttributes(string $componentHtml): string
     {
-        $componentXml = new SimpleXMLElement($componentHtml);
+        try {
+            $componentXml = new SimpleXMLElement($componentHtml);
+        } catch (ErrorException $errorException)
+        {
+
+        }
 
         return collect($componentXml->attributes())
             ->map(function ($value, $attribute) {
