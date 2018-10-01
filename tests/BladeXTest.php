@@ -135,7 +135,7 @@ class BladeXTest extends TestCase
     protected function assertMatchesViewSnapshot(string $viewName)
     {
         $this->assertMatchesXmlSnapshot(
-            view("views.{$viewName}")->render()
+            '<div>'.view("views.{$viewName}")->render().'</div>'
         );
     }
 }
