@@ -7,7 +7,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 use Illuminate\Support\Str;
-use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
 abstract class ViewModel implements Arrayable
