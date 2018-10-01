@@ -2,5 +2,5 @@
 $title = 'my title'
 @endphp
 
-<card title="{{ ucfirst($title) }}" />
+<card title="{{ str_after(ucfirst($title), 'My ') }}" />
 
