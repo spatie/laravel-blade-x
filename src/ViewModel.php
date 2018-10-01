@@ -10,16 +10,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
-abstract class BladeXViewModel implements Arrayable
+abstract class ViewModel implements Arrayable
 {
     protected $ignore = [];
 
     public function toArray(): array
-    {
-        return $this->items()->all();
-    }
-
-    protected function items(): Collection
     {
         $class = new ReflectionClass($this);
 
@@ -39,7 +34,7 @@ abstract class BladeXViewModel implements Arrayable
                 return [$method->getName() => $this->createVariableFromMethod($method)];
             });
 
-        return $publicProperties->merge($publicMethods);
+        return $publicProperties->merge($publicMethods)->all();
     }
 
     protected function shouldIgnore(string $methodName): bool

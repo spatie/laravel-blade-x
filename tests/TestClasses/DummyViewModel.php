@@ -3,9 +3,9 @@
 namespace Spatie\BladeX\Tests\TestClasses;
 
 use stdClass;
-use Spatie\BladeX\BladeXViewModel;
+use Spatie\BladeX\ViewModel;
 
-class DummyViewModel extends BladeXViewModel
+class DummyViewModel extends ViewModel
 {
     public $property = 'abc';
 
