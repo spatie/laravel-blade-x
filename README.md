@@ -80,6 +80,9 @@ In your Blade view you can now use the component like this:
 <my-alert type="error" message="{{ $message }}" />
 ```
 
+Notice how we slugify the camel case name of the component name. For example, component `fooBar` will be <foor-bar type="..." message="..." />
+
+
 ### Using slots
 
 BladeX support slots too. This layout component
