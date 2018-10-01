@@ -150,11 +150,4 @@ class BladeXTest extends TestCase
 
         $this->assertMatchesViewSnapshot('invalidComponent');
     }
-
-    protected function assertMatchesViewSnapshot(string $viewName)
-    {
-        $this->assertMatchesXmlSnapshot(
-            '<div>'.view("views.{$viewName}")->render().'</div>'
-        );
-    }
 }
