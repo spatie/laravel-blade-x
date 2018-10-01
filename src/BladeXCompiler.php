@@ -25,20 +25,85 @@ class BladeXCompiler
 
     protected function parseComponentHtml(string $viewContents, BladeXComponent $bladeXComponent)
     {
+        $viewContents = $this->parseSlots($viewContents);
+
+        $viewContents = $this->parseSelfClosingTags($viewContents, $bladeXComponent);
+
+        $viewContents = $this->parseOpeningTags($viewContents, $bladeXComponent);
+
+        $viewContents = $this->parseClosingTags($viewContents, $bladeXComponent);
+
+        return $viewContents;
+    }
+
+    protected function parseSelfClosingTags(string $viewContents, BladeXComponent $bladeXComponent): string
+    {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*(?:\/>|>((?:.|\n)*?)<\s*\/\s*{$prefix}{$bladeXComponent->name}>)/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*\/>/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
-            [$componentHtml, $componentInnerHtml] = $regexResult + ['', ''];
+            $componentHtml = $regexResult[0];
 
-            return "@component('{$bladeXComponent->bladeViewName}', [{$this->getComponentAttributes($componentHtml)}])"
-                .$this->parseComponentInnerHtml($componentInnerHtml)
-                .'@endcomponent';
+            return $this->componentString($bladeXComponent, $componentHtml);
         }, $viewContents);
     }
 
-    protected function getComponentAttributes(string $componentHtml): string
+    protected function parseOpeningTags(string $viewContents, BladeXComponent $bladeXComponent): string
+    {
+        $prefix = $this->bladeX->getPrefix();
+
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*(?<!\/)>/m";
+
+        return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
+            $componentHtml = $regexResult[0];
+
+            $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
+
+            return $this->componentStartString($bladeXComponent, $attributes);
+        }, $viewContents);
+    }
+
+    protected function parseClosingTags(string $viewContents, BladeXComponent $bladeXComponent): string
+    {
+        $prefix = $this->bladeX->getPrefix();
+
+        $pattern = "/<\/\s*{$prefix}{$bladeXComponent->name}[^>]*>/m";
+
+        return preg_replace($pattern, $this->componentEndString(), $viewContents);
+    }
+
+    protected function componentString(BladeXComponent $bladeXComponent, string $componentHtml): string
+    {
+        $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
+
+        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString();
+    }
+
+    protected function componentStartString(BladeXComponent $bladeXComponent, string $attributes = ''): string
+    {
+        return  "@component('{$bladeXComponent->bladeViewName}', [{$attributes}])";
+    }
+
+    protected function componentEndString(): string
+    {
+        return '@endcomponent';
+    }
+
+    protected function getComponentAttributes(BladeXComponent $bladeXComponent, string $componentHtml): string
+    {
+        $prefix = $this->bladeX->getPrefix();
+
+        $elementName = $prefix.$bladeXComponent->name;
+
+        if ($this->isOpeningHtmlTag($elementName, $componentHtml)) {
+            $componentHtml .= "</{$elementName}>";
+        }
+
+        return $this->getHtmlElementAttributes($componentHtml);
+    }
+
+    protected function getHtmlElementAttributes(string $componentHtml): string
     {
         $componentXml = new SimpleXMLElement($componentHtml);
 
@@ -56,7 +121,7 @@ class BladeXCompiler
             })->implode('');
     }
 
-    protected function parseComponentInnerHtml(string $componentInnerHtml): string
+    protected function parseSlots(string $viewContents): string
     {
         $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
 
@@ -64,6 +129,11 @@ class BladeXCompiler
             [$slot, $name, $contents] = $regexResult;
 
             return "@slot('{$name}'){$contents}@endslot";
-        }, $componentInnerHtml);
+        }, $viewContents);
+    }
+
+    protected function isOpeningHtmlTag(string $tagName, string $html): bool
+    {
+        return ! ends_with($html, ["</{$tagName}>", '/>']);
     }
 }
