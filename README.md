@@ -148,7 +148,7 @@ To make a BladeX component use a view model you need to tack on a call to `viewM
 BladeX::component('select-field')->viewModel(SelectViewModel::class);
 ```
 
-Before reviewing the contents of the component and the view model itslef, let's take a look first on how we are going to use component. 
+Before reviewing the contents of the component and the view model itself, let's take a look first on how we are going to use component. 
 
 ```html
 @php
