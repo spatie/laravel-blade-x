@@ -132,6 +132,15 @@ class BladeXTest extends TestCase
         $this->assertMatchesViewSnapshot('globalPrefix');
     }
 
+    public function it_compiles_components_that_use_a_global_function()
+    {
+        BladeX::component('components.card');
+
+        BladeX::prefix('x');
+
+        $this->assertMatchesViewSnapshot('globalFunction');
+    }
+
     protected function assertMatchesViewSnapshot(string $viewName)
     {
         $this->assertMatchesXmlSnapshot(
