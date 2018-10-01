@@ -2,7 +2,5 @@
 $title = 'my title'
 @endphp
 
-<x-card title="{{ ucfirst($title) }}">
-    {{ ucfirst($title) }}
-</x-card>
+<card title="{{ ucfirst($title) }}" />
 
