@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <div>
-  <div>
+  <div class="card">
     <h1>Profile 1</h1>
     <div>
       <form>
@@ -11,7 +11,7 @@
       </form>
     </div>
   </div>
-  <div>
+  <div class="card">
     <h1>Profile 2</h1>
     <div>
       <form>
