@@ -23,7 +23,7 @@ you can write this
 ```blade
 <h1>My view</h1>
 
-<my-alert type="error" message="{{ $message }}" />
+<my-alert type="error" :message="$message" />
 ```
 
 You can place the content of that alert in a simple blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
@@ -31,7 +31,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}">
+<div :class="$type">
    {{ $message }}
 </div>
 ```
@@ -53,7 +53,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}>
+<div :class="$type>
    {{ $message }}
 </div>
 ```
@@ -77,7 +77,27 @@ In your Blade view you can now use the component using the kebab-cased name:
 ```blade
 <h1>My view</h1>
 
-<my-alert type="error" message="{{ $message }}" />
+<my-alert type="error" :message="$message" />
+```
+
+### Using variables
+
+When using a BladeX component all attributes will be passed as variables to the underlying Blade view.
+
+```html
+{{-- the `myAlert` view will receive a variable named `type` with a value of `error` --}}
+ 
+<my-alert type="error">
+```
+
+If you want to pass on a php variable or something that needs to be evaluated you must prefix the attribute name with `:`.
+
+```html
+{{-- the `myAlert` view will receive the contents of `$message` --}}
+<my-alert type="error" :message="$message">
+
+{{-- the `myAlert` view will receive the uppercased contents of `$message` --}}
+<my-alert type="error" :message="strtoupper($message)">
 ```
 
 ### Using slots
