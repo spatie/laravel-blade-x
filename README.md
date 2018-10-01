@@ -166,7 +166,7 @@ $countries = [
 Next, let's take a look at what the `SelectViewModel::class` looks like:
 
 ```php
-class SelectViewModel extends BladeXViewModel
+class SelectViewModel extends ViewModel
 {
     /** @var string */
     public $name;
@@ -193,7 +193,7 @@ class SelectViewModel extends BladeXViewModel
 }
 ```
 
-Notice that this class extends `\Spatie\BladeXBladeXViewModel`. Every attribute on `select-field` is being passed to the constructor. This passing is being done name based, the `name` attribute will be passed to a constructor argument named `$name`, the `options` attribute will be passed to `$options` and so on. Any other argument will be resolved out of the ioc container. This can be handy for dependency injection.
+Notice that this class extends `\Spatie\BladeXViewModel`. Every attribute on `select-field` is being passed to the constructor. This passing is being done name based, the `name` attribute will be passed to a constructor argument named `$name`, the `options` attribute will be passed to `$options` and so on. Any other argument will be resolved out of the ioc container. This can be handy for dependency injection.
 
 All public properties and methods of the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
 
