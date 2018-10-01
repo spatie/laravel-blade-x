@@ -113,8 +113,7 @@ class BladeXCompiler
     {
         try {
             $componentXml = new SimpleXMLElement($componentHtml);
-        } catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             throw CouldNotParseBladeXComponent::invalidHtml($componentHtml, $bladeXComponent, $exception);
         }
 
@@ -151,7 +150,7 @@ class BladeXCompiler
 
     protected function parseBindAttributes(string $html): string
     {
-        return preg_replace("/\s+:([\w-]+)=/m", " bind:$1=", $html);
+        return preg_replace("/\s+:([\w-]+)=/m", ' bind:$1=', $html);
     }
 
     protected function setXmlNamespace(string $namespace, string $html): string
