@@ -2,7 +2,7 @@
     $user = 'John';
 @endphp
 
-<card title="{{ $user }}">
+<card :title="$user">
     My content
 </card>
 
@@ -11,6 +11,6 @@
     $user = 'Jane';
 @endphp
 
-<card title="{{ $user }}">
+<card :title="$user">
     My content
 </card>

@@ -102,6 +102,10 @@ class BladeXCompiler
             $componentHtml .= "</{$elementName}>";
         }
 
+        $componentHtml = $this->parseBindAttributes($componentHtml);
+
+        $componentHtml = $this->setXmlNamespace('bind', $componentHtml);
+
         return $this->getHtmlElementAttributes($componentHtml, $bladeXComponent);
     }
 
@@ -114,18 +118,19 @@ class BladeXCompiler
             throw CouldNotParseBladeXComponent::invalidHtml($componentHtml, $bladeXComponent, $exception);
         }
 
-        return collect($componentXml->attributes())
+        $stringAttributes = collect($componentXml->attributes())
             ->map(function ($value, $attribute) {
-                if (preg_match('/{{(.*)}}/', $value, $matches)) {
-                    $value = trim($matches[1]);
-
-                    return "'{$attribute}' => {$value},";
-                }
-
                 $value = str_replace("'", "\\'", $value);
 
                 return "'{$attribute}' => '{$value}',";
             })->implode('');
+
+        $bindAttributes = collect($componentXml->attributes('bind'))
+            ->map(function ($value, $attribute) {
+                return "'{$attribute}' => {$value},";
+            })->implode('');
+
+        return $stringAttributes.$bindAttributes;
     }
 
     protected function parseSlots(string $viewContents): string
@@ -142,5 +147,15 @@ class BladeXCompiler
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
         return ! ends_with($html, ["</{$tagName}>", '/>']);
+    }
+
+    protected function parseBindAttributes(string $html): string
+    {
+        return preg_replace("/\s+:([\w-]+)=/m", " bind:$1=", $html);
+    }
+
+    protected function setXmlNamespace(string $namespace, string $html): string
+    {
+        return preg_replace("/^<\s*([\w-]*)\s/m", "<$1 xmlns:bind='{$namespace}' ", $html);
     }
 }
