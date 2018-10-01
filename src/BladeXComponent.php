@@ -2,6 +2,8 @@
 
 namespace Spatie\BladeX;
 
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+
 class BladeXComponent
 {
     /** @var string */
@@ -10,10 +12,24 @@ class BladeXComponent
     /** @var string */
     public $bladeViewName;
 
+    /** @var string */
+    public $viewModelClass;
+
     public function __construct(string $name, string $bladeViewName)
     {
         $this->name = $name;
 
         $this->bladeViewName = $bladeViewName;
+    }
+
+    public function viewModel(string $viewModelClass)
+    {
+        if (! class_exists($viewModelClass)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModelClass);
+        }
+
+        $this->viewModelClass = $viewModelClass;
+
+        return $this;
     }
 }

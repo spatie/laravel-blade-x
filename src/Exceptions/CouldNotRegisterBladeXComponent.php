@@ -15,4 +15,9 @@ class CouldNotRegisterBladeXComponent extends Exception
     {
         return new static("Could not register the components in directory `{$directory}`, because the directory does not exist.");
     }
+
+    public static function viewModelNotFound(string $componentName, string $viewModelClass)
+    {
+        return new static("Could not register component `{$componentName}` because the view model class `{$viewModelClass}` was not found.");
+    }
 }

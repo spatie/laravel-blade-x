@@ -84,7 +84,13 @@ class BladeXCompiler
 
     protected function componentStartString(BladeXComponent $bladeXComponent, string $attributes = ''): string
     {
-        return  "@component('{$bladeXComponent->bladeViewName}', [{$attributes}])";
+        $componentAttributeString = "[{$attributes}]";
+
+        if ($bladeXComponent->viewModelClass) {
+            $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}, {$componentAttributeString})->toArray())";
+        }
+
+        return  "@component('{$bladeXComponent->bladeViewName}', {$componentAttributeString})";
     }
 
     protected function componentEndString(): string
