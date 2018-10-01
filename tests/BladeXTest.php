@@ -91,11 +91,11 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it_compiles_a_component_that_contains_nested_components()
+    public function it_compiles_a_component_that_is_used_recursively()
     {
         BladeX::component('components.card');
 
-        $this->assertMatchesViewSnapshot('nestedComponents');
+        $this->assertMatchesViewSnapshot('recursiveComponents');
     }
 
     /** @test */
