@@ -152,8 +152,8 @@ Before reviewing the contents of the component and the view model itself, let's 
 
 ```html
 @php
-// Without BladeX, this data would probably come from a controller or a view
-// composer.
+// In a real app this data would probably come from a controller 
+// or a view composer.
 $countries = [
     'be' => 'Belgium',
     'fr' => 'France',
