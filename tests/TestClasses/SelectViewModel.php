@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX\Tests\TestClasses;
 
-use Spatie\BladeX\BladeXViewModel;
+use Spatie\BladeX\ViewModel;
 
-class SelectViewModel extends BladeXViewModel
+class SelectViewModel extends ViewModel
 {
     /** @var string */
     public $name;

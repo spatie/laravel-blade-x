@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\Support\Arrayable;
 
-abstract class BladeXViewModel implements Arrayable
+abstract class ViewModel implements Arrayable
 {
     protected $ignore = [];
 
