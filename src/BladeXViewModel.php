@@ -2,14 +2,18 @@
 
 namespace Spatie\BladeX;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
 
 abstract class BladeXViewModel implements Arrayable
 {
+    protected $ignore = [];
+
     abstract public function __construct();
 
     public function toArray(): array
@@ -38,6 +42,25 @@ abstract class BladeXViewModel implements Arrayable
             });
 
         return $publicProperties->merge($publicMethods);
+    }
+
+    protected function shouldIgnore(string $methodName): bool
+    {
+        if (Str::startsWith($methodName, '__')) {
+            return true;
+        }
+dump($methodName);
+        return in_array($methodName, $this->ignoredMethods());
+;
+    }
+
+    protected function ignoredMethods(): array
+    {
+        return array_merge([
+            'toArray',
+            'toResponse',
+            'view',
+        ], $this->ignore);
     }
 
     protected function createVariableFromMethod(ReflectionMethod $method)
