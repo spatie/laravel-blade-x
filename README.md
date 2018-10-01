@@ -142,7 +142,7 @@ can be used in your views like this:
 
 Before rendering a BladeX component you might want to transform the passed data. You can do this using a view model. Let's take a look at an example where we are going to render a `select` element to render some countries.
 
-To make a BladeX component use view model you need to tack on a call to `viewModel` when you register the component. The class name of the view model is pass to that method.
+To make a BladeX component use a view model you need to tack on a call to `viewModel` when you register the component. The class name of the view model is pass to that method.
 
 ```php
 BladeX::component('select-field')->viewModel(SelectViewModel::class);
