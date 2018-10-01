@@ -84,7 +84,7 @@ When using a BladeX component all attributes will be passed as variables to the 
 
 ```html
 {{-- the `myAlert` view will receive a variable named `type` with a value of `error` --}}
- 
+
 <my-alert type="error">
 ```
 
@@ -140,19 +140,20 @@ can be used in your views like this:
 
 ### Using view models
 
-Before rendering a BladeX component you might want to transform the passed data. You can do this using a view model. Let's take a look at an example where we are going to render a `select` element to render some countries.
+Before rendering a BladeX component you might want to transform the passed data, or add inject view data. You can do this using a view model. Let's take a look at an example where we render a `select` element with a list countries.
 
-To make a BladeX component use a view model you need to tack on a call to `viewModel` when you register the component. The class name of the view model is pass to that method.
+To make a BladeX component use a view model, pass a class name to the `viewModel` method.
 
 ```php
 BladeX::component('select-field')->viewModel(SelectViewModel::class);
 ```
 
-Before reviewing the contents of the component and the view model itslef, let's take a look first on how we are going to use component. 
+Before reviewing the contents of the component and the view model itself, let's take a look at the `select-field` component in use.
 
 ```html
 @php
-// in a real app this data would most likely come from a controller
+// Without BladeX, this data would probably come from a controller or a view
+// composer.
 $countries = [
     'be' => 'Belgium',
     'fr' => 'France',
@@ -163,10 +164,10 @@ $countries = [
 <select-field name="countries" :options="$countries" selected="fr" />
 ```
 
-Next, let's take a look at what the `SelectViewModel::class` looks like:
+Next, let's take a look at the `SelectViewModel::class`:
 
 ```php
-class SelectViewModel extends BladeXViewModel
+class SelectViewModel extends ViewModel
 {
     /** @var string */
     public $name;
@@ -175,7 +176,7 @@ class SelectViewModel extends BladeXViewModel
     public $options;
 
     /** @var string */
-    public $selected;
+    private $selected;
 
     public function __construct(string $name, array $options, string $selected = null)
     {
@@ -183,7 +184,7 @@ class SelectViewModel extends BladeXViewModel
 
         $this->options = $options;
 
-        $this->selected = $selected;
+        $this->selected = old($name, $selected);
     }
 
     public function isSelected(string $optionName): bool
@@ -193,9 +194,9 @@ class SelectViewModel extends BladeXViewModel
 }
 ```
 
-Notice that this class extends `\Spatie\BladeXBladeXViewModel`. Every attribute on `select-field` is being passed to the constructor. This passing is being done name based, the `name` attribute will be passed to a constructor argument named `$name`, the `options` attribute will be passed to `$options` and so on. Any other argument will be resolved out of the ioc container. This can be handy for dependency injection.
+Notice that this class extends `\Spatie\BladeX\BladeXViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names,, the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
 
-All public properties and methods of the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
+All public properties and methods on the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
 
 ```html
 <select name="{{ $name }}">
@@ -209,18 +210,18 @@ When rendering the BladeX component, this is the output:
 
 ```html
 <div>
-  <select name="countries">
-    <option name="be">Belgium</option>
-    <option selected="selected" name="fr">France</option>
-    <option name="nl">The Netherlands</option>
-  </select>
+    <select name="countries">
+        <option name="be">Belgium</option>
+        <option selected="selected" name="fr">France</option>
+        <option name="nl">The Netherlands</option>
+    </select>
 </div>
 ```
 
 ### Prefixing components
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
- 
+
 Setting a global prefix can easily be done before or after registering components:
 
 ```php
@@ -233,11 +234,11 @@ All your registered components can now be used like this:
 
 ```blade
 <x-my-alert message="Notice the prefix!" />
-``` 
+```
 
 ## Under the hood
 
-When you register a component 
+When you register a component
 
 ```php
 BladeX::component('my-alert', 'components.myAlert')
@@ -307,7 +308,7 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie).
 All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
