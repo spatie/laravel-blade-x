@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXTest extends TestCase
@@ -149,7 +149,6 @@ class BladeXTest extends TestCase
         $this->expectException(CouldNotParseBladeXComponent::class);
 
         $this->assertMatchesViewSnapshot('invalidComponent');
-
     }
 
     protected function assertMatchesViewSnapshot(string $viewName)
