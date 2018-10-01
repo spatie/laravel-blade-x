@@ -24,6 +24,6 @@ class CouldNotRegisterBladeXComponent extends Exception
 
     public static function viewModelNotArrayable(string $componentName, string $viewModelClass)
     {
-        return new static("Could not register component `{$componentName}` because the view model class `{$viewModelClass}` does not implement `" . Arrayable::class . "`.");
+        return new static("Could not register component `{$componentName}` because the view model class `{$viewModelClass}` does not implement `".Arrayable::class.'`.');
     }
 }

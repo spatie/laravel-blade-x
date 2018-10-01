@@ -2,9 +2,8 @@
 
 namespace Spatie\BladeX\Tests\TestClasses;
 
-use Spatie\BladeX\BladeXViewModel;
 use stdClass;
-use Spatie\ViewModels\ViewModel;
+use Spatie\BladeX\BladeXViewModel;
 
 class DummyViewModel extends BladeXViewModel
 {

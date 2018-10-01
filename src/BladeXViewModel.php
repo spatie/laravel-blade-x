@@ -3,12 +3,12 @@
 namespace Spatie\BladeX;
 
 use Closure;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
+use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Arrayable;
 
 abstract class BladeXViewModel implements Arrayable
 {
@@ -65,6 +65,7 @@ abstract class BladeXViewModel implements Arrayable
         if ($method->getNumberOfParameters() === 0) {
             return $this->{$method->getName()}();
         }
+
         return Closure::fromCallable([$this, $method->getName()]);
     }
 }

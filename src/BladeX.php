@@ -85,5 +85,3 @@ class BladeX
         return $viewName;
     }
 }
-
-
