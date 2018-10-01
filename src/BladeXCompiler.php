@@ -87,7 +87,7 @@ class BladeXCompiler
         $componentAttributeString = "[{$attributes}]";
 
         if ($bladeXComponent->viewModelClass) {
-            $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}, {$componentAttributeString})->toArray())";
+            $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, {$componentAttributeString})->toArray())";
         }
 
         return  "@component('{$bladeXComponent->bladeViewName}', {$componentAttributeString})";

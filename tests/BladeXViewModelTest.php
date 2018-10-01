@@ -3,15 +3,16 @@
 namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
-use Spatie\BladeX\BladeXComponent;
-use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use Spatie\BladeX\Tests\TestClasses\DummyViewModel;
 use Spatie\BladeX\Tests\TestClasses\InvalidViewModel;
 use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class BladeXViewModelTest extends TestCase
 {
+    use MatchesSnapshots;
+
     /** @var \Spatie\BladeX\Tests\TestClasses\DummyViewModel  */
     protected $viewModel;
 
@@ -88,6 +89,14 @@ class BladeXViewModelTest extends TestCase
 
         $this->assertCount(1, $registeredComponents);
         $this->assertEquals(SelectViewModel::class, $registeredComponents[0]->viewModelClass);
+    }
+
+    /** @test */
+    public function it_can_render_a_component_using_a_view_model()
+    {
+        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+
+        $this->assertMatchesViewSnapshot('viewModel');
     }
 
     /** @test */

@@ -14,8 +14,6 @@ abstract class BladeXViewModel implements Arrayable
 {
     protected $ignore = [];
 
-    abstract public function __construct();
-
     public function toArray(): array
     {
         return $this->items()->all();
@@ -49,9 +47,8 @@ abstract class BladeXViewModel implements Arrayable
         if (Str::startsWith($methodName, '__')) {
             return true;
         }
-dump($methodName);
+
         return in_array($methodName, $this->ignoredMethods());
-;
     }
 
     protected function ignoredMethods(): array
