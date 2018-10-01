@@ -9,7 +9,7 @@ use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
 use Spatie\BladeX\Tests\TestClasses\InvalidViewModel;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
-class BladeXViewModelTest extends TestCase
+class ViewModelTest extends TestCase
 {
     use MatchesSnapshots;
 
