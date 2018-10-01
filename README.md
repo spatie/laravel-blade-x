@@ -72,16 +72,13 @@ You can also register an entire directory like this.
 BladeX::components('components')
 ```
 
-In your Blade view you can now use the component like this:
+In your Blade view you can now use the component using the kebab-cased name:
 
 ```blade
 <h1>My view</h1>
 
 <my-alert type="error" message="{{ $message }}" />
 ```
-
-Notice how we slugify the camel case name of the component name. For example, component `fooBar` will be <foor-bar type="..." message="..." />
-
 
 ### Using slots
 
