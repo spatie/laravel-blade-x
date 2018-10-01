@@ -5,7 +5,7 @@ namespace Spatie\BladeX;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeX
 {
@@ -26,7 +26,7 @@ class BladeX
         }
 
         if (! view()->exists($bladeViewName)) {
-            throw CouldNotRegisterComponent::viewNotFound($bladeViewName, $bladeXComponentName);
+            throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $bladeXComponentName);
         }
 
         $this->registeredComponents[] = new BladeXComponent($bladeXComponentName, $bladeViewName);
@@ -40,7 +40,7 @@ class BladeX
     public function components(string $directory)
     {
         if (! File::isDirectory($directory)) {
-            throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
+            throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
         }
 
         collect(File::allFiles($directory))

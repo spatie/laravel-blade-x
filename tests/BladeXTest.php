@@ -2,9 +2,10 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXTest extends TestCase
 {
@@ -34,7 +35,7 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_will_throw_an_excepting_for_a_non_existing_view()
     {
-        $this->expectException(CouldNotRegisterComponent::class);
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
 
         BladeX::component('non-existing-component');
     }
@@ -60,7 +61,7 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_will_throw_an_error_when_registering_a_directory_that_does_not_exist()
     {
-        $this->expectException(CouldNotRegisterComponent::class);
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
 
         BladeX::components('non-existing-directory');
     }
@@ -138,6 +139,17 @@ class BladeXTest extends TestCase
         BladeX::component('components.card');
 
         $this->assertMatchesViewSnapshot('globalFunction');
+    }
+
+    /** @test */
+    public function it_throws_a_dedicated_exception_for_invalid_components()
+    {
+        BladeX::component('components.card');
+
+        $this->expectException(CouldNotParseBladeXComponent::class);
+
+        $this->assertMatchesViewSnapshot('invalidComponent');
+
     }
 
     protected function assertMatchesViewSnapshot(string $viewName)

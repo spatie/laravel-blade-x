@@ -4,7 +4,7 @@ namespace Spatie\BladeX\Exceptions;
 
 use Exception;
 
-class CouldNotRegisterComponent extends Exception
+class CouldNotRegisterBladeXComponent extends Exception
 {
     public static function viewNotFound(string $viewName, string $componentName)
     {

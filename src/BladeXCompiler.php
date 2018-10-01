@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX;
 
-use ErrorException;
+use Exception;
 use SimpleXMLElement;
-use Spatie\BladeX\Exceptions\CouldNotParseComponent;
+use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 
 class BladeXCompiler
 {
@@ -109,9 +109,9 @@ class BladeXCompiler
     {
         try {
             $componentXml = new SimpleXMLElement($componentHtml);
-        } catch (ErrorException $errorException)
+        } catch (Exception $exception)
         {
-            throw CouldNotParseComponent::invalidHtml($componentHtml, $bladeXComponent);
+            throw CouldNotParseBladeXComponent::invalidHtml($componentHtml, $bladeXComponent, $exception);
         }
 
         return collect($componentXml->attributes())
