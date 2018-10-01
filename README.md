@@ -51,7 +51,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div :class="$type>
+<div :class="$type">
    {{ $message }}
 </div>
 ```
