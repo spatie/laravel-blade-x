@@ -15,7 +15,7 @@ class BladeX
     /** @var string */
     protected $prefix = '';
 
-    public function component(string $bladeViewName, string $bladeXComponentName = null)
+    public function component(string $bladeViewName, string $bladeXComponentName = null): BladeXComponent
     {
         $bladeViewName = str_replace('.', '/', $bladeViewName);
 
@@ -29,7 +29,11 @@ class BladeX
             throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $bladeXComponentName);
         }
 
-        $this->registeredComponents[] = new BladeXComponent($bladeXComponentName, $bladeViewName);
+        $newBladeXComponent = new BladeXComponent($bladeXComponentName, $bladeViewName);
+
+        $this->registeredComponents[] = $newBladeXComponent;
+
+        return $newBladeXComponent;
     }
 
     public function getRegisteredComponents(): array
@@ -81,3 +85,5 @@ class BladeX
         return $viewName;
     }
 }
+
+

@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -26,6 +27,10 @@ class BladeXComponent
     {
         if (! class_exists($viewModelClass)) {
             throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModelClass);
+        }
+
+        if (! is_a($viewModelClass, Arrayable::class, true)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModelClass);
         }
 
         $this->viewModelClass = $viewModelClass;
