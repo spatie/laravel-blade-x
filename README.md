@@ -138,6 +138,85 @@ can be used in your views like this:
 </layout>
 ```
 
+### Using view models
+
+Before rendering a BladeX component you might want to transform the passed data. You can do this using a view model. Let's take a look at an example where we are going to render a `select` element to render some countries.
+
+To make a BladeX component use view model you need to tack on a call to `viewModel` when you register the component. The class name of the view model is pass to that method.
+
+```php
+BladeX::component('select-field')->viewModel(SelectViewModel::class);
+```
+
+Before reviewing the contents of the component and the view model, let's take a look first on how we are going to use component. 
+
+```html
+@php
+// in a real app this data would most likely come from a controller
+$countries = [
+    'be' => 'Belgium',
+    'fr' => 'France',
+    'nl' => 'The Netherlands',
+];
+@endphp
+
+<select-field name="countries" :options="$countries" selected="fr" />
+```
+
+Next, let's take a look at what the `SelectViewModel::class` looks like:
+
+```php
+class SelectViewModel extends BladeXViewModel
+{
+    /** @var string */
+    public $name;
+
+    /** @var array */
+    public $options;
+
+    /** @var string */
+    public $selected;
+
+    public function __construct(string $name, array $options, string $selected = null)
+    {
+        $this->name = $name;
+
+        $this->options = $options;
+
+        $this->selected = $selected;
+    }
+
+    public function isSelected(string $optionName): bool
+    {
+        return $optionName === $this->selected;
+    }
+}
+```
+
+Notice that this class extends `\Spatie\BladeXBladeXViewModel`. Every attribute on `select-field` is being passed to the constructor. This passing is being done name based, the `name` attribute will be passed to a constructor argument named `$name`, the `options` attribute will be passed to `$options` and so on. Any other argument will be resolved out of the ioc container. This can be handy for dependency injection.
+
+All public properties and methods of the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
+
+```html
+<select name="{{ $name }}">
+    @foreach($options as $value => $label)
+        <option {!! $isSelected($value) ? 'selected="selected"' : '' !!} name="{{ $value }}">{{ $label }}</option>
+    @endforeach
+</select>
+```
+
+When rendering the BladeX component, this is the output:
+
+```html
+<div>
+  <select name="countries">
+    <option name="be">Belgium</option>
+    <option selected="selected" name="fr">France</option>
+    <option name="nl">The Netherlands</option>
+  </select>
+</div>
+```
+
 ### Prefixing components
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
