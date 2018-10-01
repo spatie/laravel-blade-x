@@ -16,11 +16,6 @@ abstract class ViewModel implements Arrayable
 
     public function toArray(): array
     {
-        return $this->items()->all();
-    }
-
-    protected function items(): Collection
-    {
         $class = new ReflectionClass($this);
 
         $publicProperties = collect($class->getProperties(ReflectionProperty::IS_PUBLIC))
@@ -39,7 +34,7 @@ abstract class ViewModel implements Arrayable
                 return [$method->getName() => $this->createVariableFromMethod($method)];
             });
 
-        return $publicProperties->merge($publicMethods);
+        return $publicProperties->merge($publicMethods)->all();
     }
 
     protected function shouldIgnore(string $methodName): bool
