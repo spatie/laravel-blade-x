@@ -57,7 +57,7 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_can_register_a_directory_containing_view_components()
     {
-        BladeX::components($this->getStub('views/registerDirectoryTest'));
+        BladeX::components($this->getStub('registerDirectoryTest'));
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
             ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
