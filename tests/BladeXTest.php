@@ -4,9 +4,9 @@ namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
+use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
 use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
-use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
 
 class BladeXTest extends TestCase
 {
