@@ -57,7 +57,7 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*([^>]*)(?<!\/)>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}((?:\s+[\w\-:]*=(?:\\\"(?:.*?)\\\"|\'(?:.*)\'|[^\'\\\"=<>]*))*\s*)(?<![\/=\-])>/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $attributesString] = $regexResult;
@@ -135,8 +135,6 @@ class BladeXCompiler
         return $stringAttributes
             ->merge($bindAttributes)
             ->mapWithKeys(function ($value, $attribute) {
-                $value = str_replace(['<', '>'], ['&lt;', '&gt;'], $value);
-
                 return [camel_case($attribute) => $value];
             })
             ->toArray();
