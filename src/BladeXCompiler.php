@@ -42,12 +42,14 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*\/>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*([^>]*)\/>/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
-            $componentHtml = $regexResult[0];
+            [$componentHtml, $attributesString] = $regexResult;
 
-            return $this->componentString($bladeXComponent, $componentHtml);
+            $attributes = $this->getComponentAttributes($bladeXComponent, $attributesString);
+
+            return $this->componentString($bladeXComponent, $attributes);
         }, $viewContents);
     }
 
@@ -55,12 +57,12 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}[^>]*(?<!\/)>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*([^>]*)(?<!\/)>/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
-            $componentHtml = $regexResult[0];
+            [$componentHtml, $attributesString] = $regexResult;
 
-            $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
+            $attributes = $this->getComponentAttributes($bladeXComponent, $attributesString);
 
             return $this->componentStartString($bladeXComponent, $attributes);
         }, $viewContents);
@@ -75,16 +77,16 @@ class BladeXCompiler
         return preg_replace($pattern, $this->componentEndString(), $viewContents);
     }
 
-    protected function componentString(BladeXComponent $bladeXComponent, string $componentHtml): string
+    protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
-
         return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString();
     }
 
-    protected function componentStartString(BladeXComponent $bladeXComponent, string $attributes = ''): string
+    protected function componentStartString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        $componentAttributeString = "[{$attributes}]";
+        $attributesString = $this->attributesToString($attributes);
+
+        $componentAttributeString = "[{$attributesString}]";
 
         if ($bladeXComponent->viewModelClass) {
             $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, {$componentAttributeString})->toArray())";
@@ -98,15 +100,13 @@ class BladeXCompiler
         return '@endcomponent';
     }
 
-    protected function getComponentAttributes(BladeXComponent $bladeXComponent, string $componentHtml): string
+    protected function getComponentAttributes(BladeXComponent $bladeXComponent, string $attributesString): array
     {
         $prefix = $this->bladeX->getPrefix();
 
         $elementName = $prefix.$bladeXComponent->name;
 
-        if ($this->isOpeningHtmlTag($elementName, $componentHtml)) {
-            $componentHtml .= "</{$elementName}>";
-        }
+        $componentHtml = "<{$elementName} {$attributesString} />";
 
         $componentHtml = $this->parseBindAttributes($componentHtml);
 
@@ -115,30 +115,31 @@ class BladeXCompiler
         return $this->getHtmlElementAttributes($componentHtml, $bladeXComponent);
     }
 
-    protected function getHtmlElementAttributes(string $componentHtml, BladeXComponent $bladeXComponent): string
+    protected function getHtmlElementAttributes(string $htmlElement, BladeXComponent $bladeXComponent): array
     {
         try {
-            $componentXml = new SimpleXMLElement($componentHtml);
+            $componentXml = new SimpleXMLElement($htmlElement);
         } catch (Exception $exception) {
-            throw CouldNotParseBladeXComponent::invalidHtml($componentHtml, $bladeXComponent, $exception);
+            throw CouldNotParseBladeXComponent::invalidHtml($htmlElement, $bladeXComponent, $exception);
         }
 
         $stringAttributes = collect($componentXml->attributes())
-            ->map(function ($value, $attribute) {
+            ->mapWithKeys(function ($value, $attribute) {
                 $value = str_replace("'", "\\'", $value);
-                $attribute = camel_case($attribute);
 
-                return "'{$attribute}' => '{$value}',";
-            })->implode('');
+                return [$attribute => "'{$value}'"];
+            });
 
-        $bindAttributes = collect($componentXml->attributes('bind'))
-            ->map(function ($value, $attribute) {
-                $attribute = camel_case($attribute);
+        $bindAttributes = collect($componentXml->attributes('bind'));
 
-                return "'{$attribute}' => {$value},";
-            })->implode('');
+        return $stringAttributes
+            ->merge($bindAttributes)
+            ->mapWithKeys(function ($value, $attribute) {
+                $value = str_replace(['<', '>'], ['&lt;', '&gt;'], $value);
 
-        return $stringAttributes.$bindAttributes;
+                return [camel_case($attribute) => $value];
+            })
+            ->toArray();
     }
 
     protected function parseSlots(string $viewContents): string
@@ -165,5 +166,14 @@ class BladeXCompiler
     protected function setXmlNamespace(string $namespace, string $html): string
     {
         return preg_replace("/^<\s*([\w-]*)\s/m", "<$1 xmlns:bind='{$namespace}' ", $html);
+    }
+
+    protected function attributesToString(array $attributes): string
+    {
+        return collect($attributes)
+            ->map(function (string $value, string $attribute) {
+                return "'{$attribute}' => {$value}";
+            })
+            ->implode(',');
     }
 }
