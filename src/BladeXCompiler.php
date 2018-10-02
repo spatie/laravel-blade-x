@@ -98,9 +98,11 @@ class BladeXCompiler
                   app(Spatie\BladeX\ContextStack::class)->read(), 
                   {$componentAttributeString}, 
                   app({$bladeXComponent->viewModelClass}::class, 
-                  array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
-                  {$componentAttributeString}))->toArray()
-              )";
+                  array_merge(
+                     app(Spatie\BladeX\ContextStack::class)->read(), 
+                     {$componentAttributeString})
+                  )->toArray()
+               )";
         }
 
         return "@component(

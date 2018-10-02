@@ -12,13 +12,14 @@ class ContextStack
         $this->stack[] = array_merge($this->read(), $data);
     }
 
+    public function read(): array
+    {
+        return array_last($this->stack) ?? [];
+    }
+
     public function pop()
     {
         array_pop($this->stack);
     }
 
-    public function read()
-    {
-        return array_last($this->stack) ?? [];
-    }
 }
