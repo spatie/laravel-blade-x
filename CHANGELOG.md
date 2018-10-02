@@ -4,6 +4,7 @@ All notable changes to `laravel-blade-x` will be documented in this file
 
 ## 1.2.0 - 2018-10-0X
 
+**UNRELEASED**
 - add support for context
 - bugfixes for component attributes with weird characters
 
