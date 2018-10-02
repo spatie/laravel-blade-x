@@ -5,6 +5,7 @@ All notable changes to `laravel-blade-x` will be documented in this file
 ## 1.1.2 - 2018-10-02
 
 - make sure a components only is registered once
+- make sure kebab-cased props get passed to components camelCased
 
 ## 1.1.1 - 2018-10-01
 
