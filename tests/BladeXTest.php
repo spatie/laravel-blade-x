@@ -176,6 +176,23 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_a_component_with_a_quoteless_attribute()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithQuotelessAttribute');
+    }
+
+    /** @test */
+    public function it_compiles_a_component_with_a_spaceship_operator()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithSpaceshipOperatorInAttribute');
+    }
+
+
+    /** @test */
     public function it_works_with_a_global_prefix()
     {
         BladeX::component('components.card');

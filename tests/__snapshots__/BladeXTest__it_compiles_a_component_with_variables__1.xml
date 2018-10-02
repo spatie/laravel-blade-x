@@ -8,4 +8,24 @@
     <h1>Jane</h1>
     <div>My content</div>
   </div>
+  <div class="card">
+    <h1>&gt;</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>&gt;suffix</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>&gt;suffix</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>prefix&gt;suffix</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>prefix &gt; suffix</h1>
+    <div>My content</div>
+  </div>
 </div>
