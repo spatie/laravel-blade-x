@@ -42,6 +42,10 @@ class BladeX
         return array_values($this->registeredComponents);
     }
 
+    /**
+     * @param string|array $directory
+     */
+
     public function components($directory)
     {
         if (is_string($directory)) {
@@ -49,7 +53,8 @@ class BladeX
         }
 
         if (! is_array($directory)) {
-            throw new InvalidArgumentException();
+            throw CouldNotRegisterBladeXComponent::invalidArgument();
+
         }
 
         collect($directory)->each(function ($directory) {
