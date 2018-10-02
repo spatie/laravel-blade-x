@@ -74,12 +74,12 @@ class BladeXCompiler
 
         $pattern = "/<\/\s*{$prefix}{$bladeXComponent->name}[^>]*>/m";
 
-        return preg_replace($pattern, $this->componentEndString(), $viewContents);
+        return preg_replace($pattern, $this->componentEndString($bladeXComponent), $viewContents);
     }
 
     protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString();
+        return $this->componentStartString($bladeXComponent, $attributes) . $this->componentEndString($bladeXComponent);
     }
 
     protected function componentStartString(BladeXComponent $bladeXComponent, array $attributes = []): string
@@ -88,15 +88,34 @@ class BladeXCompiler
 
         $componentAttributeString = "[{$attributesString}]";
 
-        if ($bladeXComponent->viewModelClass) {
-            $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, {$componentAttributeString})->toArray())";
+        if ($bladeXComponent->bladeViewName === 'bladex::context') {
+            return "@php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString}))";
         }
 
-        return  "@component('{$bladeXComponent->bladeViewName}', {$componentAttributeString})";
+        if ($bladeXComponent->viewModelClass) {
+            $componentAttributeString = "
+               array_merge(
+                  app(Spatie\BladeX\ContextStack::class)->read(), 
+                  {$componentAttributeString}, 
+                  app({$bladeXComponent->viewModelClass}::class, 
+                  array_merge(
+                     app(Spatie\BladeX\ContextStack::class)->read(), 
+                     {$componentAttributeString})
+                  )->toArray()
+               )";
+        }
+
+        return "@component(
+           '{$bladeXComponent->bladeViewName}', 
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
     }
 
-    protected function componentEndString(): string
+    protected function componentEndString(BladeXComponent $bladeXComponent): string
     {
+        if ($bladeXComponent->bladeViewName === 'bladex::context') {
+            return "@php(app(Spatie\BladeX\ContextStack::class)->pop())";
+        }
+
         return '@endcomponent';
     }
 
@@ -104,7 +123,7 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $elementName = $prefix.$bladeXComponent->name;
+        $elementName = $prefix . $bladeXComponent->name;
 
         $componentHtml = "<{$elementName} {$attributesString} />";
 
@@ -153,7 +172,7 @@ class BladeXCompiler
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
-        return ! ends_with($html, ["</{$tagName}>", '/>']);
+        return !ends_with($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $html): string
