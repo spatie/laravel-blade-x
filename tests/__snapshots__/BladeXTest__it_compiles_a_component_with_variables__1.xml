@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <div>
-  <h1>John</h1>
-  <div>My content</div>
+  <div class="card">
+    <h1>John</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>Jane</h1>
+    <div>My content</div>
+  </div>
 </div>

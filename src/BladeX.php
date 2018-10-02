@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeX
 {
@@ -16,7 +16,7 @@ class BladeX
     /** @var string */
     protected $prefix = '';
 
-    public function component(string $bladeViewName, string $bladeXComponentName = null)
+    public function component(string $bladeViewName, string $bladeXComponentName = null): BladeXComponent
     {
         $bladeViewName = str_replace('.', '/', $bladeViewName);
 
@@ -27,15 +27,19 @@ class BladeX
         }
 
         if (! view()->exists($bladeViewName)) {
-            throw CouldNotRegisterComponent::viewNotFound($bladeViewName, $bladeXComponentName);
+            throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $bladeXComponentName);
         }
 
-        $this->registeredComponents[] = new BladeXComponent($bladeXComponentName, $bladeViewName);
+        $newBladeXComponent = new BladeXComponent($bladeXComponentName, $bladeViewName);
+
+        $this->registeredComponents[$newBladeXComponent->name] = $newBladeXComponent;
+
+        return $newBladeXComponent;
     }
 
     public function getRegisteredComponents(): array
     {
-        return $this->registeredComponents;
+        return array_values($this->registeredComponents);
     }
 
     public function components($directory)
@@ -56,7 +60,7 @@ class BladeX
     protected function registerComponents(string $directory)
     {
         if (! File::isDirectory($directory)) {
-            throw CouldNotRegisterComponent::componentDirectoryNotFound($directory);
+            throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
         }
 
         collect(File::allFiles($directory))

@@ -4,7 +4,9 @@ namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
+use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXTest extends TestCase
 {
@@ -32,9 +34,22 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_excepting_for_a_non_existing_view()
+    public function it_will_register_a_component_only_once()
     {
-        $this->expectException(CouldNotRegisterComponent::class);
+        BladeX::component('components.select-field');
+
+        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+
+        $registeredComponents = BladeX::getRegisteredComponents();
+
+        $this->assertCount(1, $registeredComponents);
+        $this->assertEquals(SelectViewModel::class, $registeredComponents[0]->viewModelClass);
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_for_a_non_existing_view()
+    {
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
 
         BladeX::component('non-existing-component');
     }
@@ -42,7 +57,7 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_can_register_a_directory_containing_view_components()
     {
-        BladeX::components($this->getStub('views/registerDirectoryTest'));
+        BladeX::components($this->getStub('registerDirectoryTest'));
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
             ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
@@ -97,7 +112,7 @@ class BladeXTest extends TestCase
     /** @test */
     public function it_will_throw_an_error_when_registering_a_directory_that_does_not_exist()
     {
-        $this->expectException(CouldNotRegisterComponent::class);
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
 
         BladeX::components('non-existing-directory');
     }
@@ -107,9 +122,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.card');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.profile')->render()
-        );
+        $this->assertMatchesViewSnapshot('regularComponent');
     }
 
     /** @test */
@@ -117,9 +130,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.alert');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.alert')->render()
-        );
+        $this->assertMatchesViewSnapshot('selfClosingComponent');
     }
 
     /** @test */
@@ -128,9 +139,15 @@ class BladeXTest extends TestCase
         BladeX::component('components.card');
         BladeX::component('components.textField');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.profileList')->render()
-        );
+        $this->assertMatchesViewSnapshot('twoComponents');
+    }
+
+    /** @test */
+    public function it_compiles_a_component_that_is_used_recursively()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('recursiveComponents');
     }
 
     /** @test */
@@ -138,9 +155,7 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.layout');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.layout')->render()
-        );
+        $this->assertMatchesViewSnapshot('componentWithScopedSlots');
     }
 
     /** @test */
@@ -148,9 +163,23 @@ class BladeXTest extends TestCase
     {
         BladeX::component('components.card');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.dynamicProfile')->render()
-        );
+        $this->assertMatchesViewSnapshot('componentWithVariables');
+    }
+
+    /** @test */
+    public function it_compiles_a_component_that_uses_an_object_property_as_value()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentUsingObjectProperty');
+    }
+
+    /** @test */
+    public function it_compiles_a_component_with_an_unescaped_variable()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithUnescapedVariables');
     }
 
     /** @test */
@@ -160,8 +189,32 @@ class BladeXTest extends TestCase
 
         BladeX::prefix('x');
 
-        $this->assertMatchesXmlSnapshot(
-            view('templates.prefixedCard')->render()
-        );
+        $this->assertMatchesViewSnapshot('globalPrefix');
+    }
+
+    /** @test */
+    public function it_compiles_components_that_use_a_global_function()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('globalFunction');
+    }
+
+    /** @test */
+    public function it_compiles_kebas_case_attributes_as_camelcase_variables()
+    {
+        BladeX::component('components.header');
+
+        $this->assertMatchesViewSnapshot('kebabCaseAttributes');
+    }
+
+    /** @test */
+    public function it_throws_a_dedicated_exception_for_invalid_components()
+    {
+        BladeX::component('components.card');
+
+        $this->expectException(CouldNotParseBladeXComponent::class);
+
+        $this->assertMatchesViewSnapshot('invalidComponent');
     }
 }

@@ -17,7 +17,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        View::addLocation(__DIR__.'/stubs/views');
+        View::addLocation(__DIR__ . '/stubs');
 
         Artisan::call('view:clear');
     }
@@ -39,5 +39,12 @@ abstract class TestCase extends Orchestra
     protected function getStub(string $fileName): string
     {
         return __DIR__."/stubs/{$fileName}";
+    }
+
+    protected function assertMatchesViewSnapshot(string $viewName)
+    {
+        $this->assertMatchesXmlSnapshot(
+            '<div>'.view("views.{$viewName}")->render().'</div>'
+        );
     }
 }

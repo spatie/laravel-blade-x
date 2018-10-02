@@ -1,5 +1,3 @@
-**THIS PACKAGE IS IN DEVELOPMENT, DO NOT USE IN PRODUCTION YET**
-
 # Use custom html components in your Blade views
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
@@ -23,7 +21,7 @@ you can write this
 ```blade
 <h1>My view</h1>
 
-<my-alert type="error" message="{{ $message }}" />
+<my-alert type="error" :message="$message" />
 ```
 
 You can place the content of that alert in a simple blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
@@ -31,7 +29,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}">
+<div :class="$type">
    {{ $message }}
 </div>
 ```
@@ -53,7 +51,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}>
+<div :class="$type">
    {{ $message }}
 </div>
 ```
@@ -72,12 +70,32 @@ You can also register an entire directory like this.
 BladeX::components('components')
 ```
 
-In your Blade view you can now use the component like this:
+In your Blade view you can now use the component using the kebab-cased name:
 
 ```blade
 <h1>My view</h1>
 
-<my-alert type="error" message="{{ $message }}" />
+<my-alert type="error" :message="$message" />
+```
+
+### Using variables
+
+When using a BladeX component all attributes will be passed as variables to the underlying Blade view.
+
+```html
+{{-- the `myAlert` view will receive a variable named `type` with a value of `error` --}}
+
+<my-alert type="error">
+```
+
+If you want to pass on a php variable or something that needs to be evaluated you must prefix the attribute name with `:`.
+
+```html
+{{-- the `myAlert` view will receive the contents of `$message` --}}
+<my-alert type="error" :message="$message">
+
+{{-- the `myAlert` view will receive the uppercased contents of `$message` --}}
+<my-alert type="error" :message="strtoupper($message)">
 ```
 
 ### Using slots
@@ -120,14 +138,94 @@ can be used in your views like this:
 </layout>
 ```
 
+### Using view models
+
+Before rendering a BladeX component you might want to transform the passed data, or add inject view data. You can do this using a view model. Let's take a look at an example where we render a `select` element with a list countries.
+
+To make a BladeX component use a view model, pass a class name to the `viewModel` method.
+
+```php
+BladeX::component('select-field')->viewModel(SelectViewModel::class);
+```
+
+Before reviewing the contents of the component and the view model itself, let's take a look at the `select-field` component in use.
+
+```html
+@php
+// In a real app this data would probably come from a controller 
+// or a view composer.
+$countries = [
+    'be' => 'Belgium',
+    'fr' => 'France',
+    'nl' => 'The Netherlands',
+];
+@endphp
+
+<select-field name="countries" :options="$countries" selected="fr" />
+```
+
+Next, let's take a look at the `SelectViewModel::class`:
+
+```php
+class SelectViewModel extends ViewModel
+{
+    /** @var string */
+    public $name;
+
+    /** @var array */
+    public $options;
+
+    /** @var string */
+    private $selected;
+
+    public function __construct(string $name, array $options, string $selected = null)
+    {
+        $this->name = $name;
+
+        $this->options = $options;
+
+        $this->selected = old($name, $selected);
+    }
+
+    public function isSelected(string $optionName): bool
+    {
+        return $optionName === $this->selected;
+    }
+}
+```
+
+Notice that this class extends `\Spatie\BladeX\ViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names,, the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
+
+All public properties and methods on the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
+
+```html
+<select name="{{ $name }}">
+    @foreach($options as $value => $label)
+        <option {!! $isSelected($value) ? 'selected="selected"' : '' !!} name="{{ $value }}">{{ $label }}</option>
+    @endforeach
+</select>
+```
+
+When rendering the BladeX component, this is the output:
+
+```html
+<div>
+    <select name="countries">
+        <option name="be">Belgium</option>
+        <option selected="selected" name="fr">France</option>
+        <option name="nl">The Netherlands</option>
+    </select>
+</div>
+```
+
 ### Prefixing components
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
- 
+
 Setting a global prefix can easily be done before or after registering components:
 
 ```php
-BladeX::component('my-alert', 'components.myAlert');
+BladeX::component('components.myAlert', 'my-alert')
 
 BladeX::prefix('x');
 ```
@@ -136,14 +234,14 @@ All your registered components can now be used like this:
 
 ```blade
 <x-my-alert message="Notice the prefix!" />
-``` 
+```
 
 ## Under the hood
 
-When you register a component 
+When you register a component
 
 ```php
-BladeX::component('my-alert', 'components.myAlert')
+BladeX::component('components.myAlert', 'my-alert')
 ```
 with this html
 
@@ -210,7 +308,7 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
+Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie).
 All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
 
 ## License
