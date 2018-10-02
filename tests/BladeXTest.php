@@ -33,7 +33,7 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_excepting_for_a_non_existing_view()
+    public function it_will_throw_an_exception_for_a_non_existing_view()
     {
         $this->expectException(CouldNotRegisterBladeXComponent::class);
 
