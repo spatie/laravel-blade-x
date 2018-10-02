@@ -217,4 +217,12 @@ class BladeXTest extends TestCase
 
         $this->assertMatchesViewSnapshot('kebabCaseAttributes');
     }
+
+    /** @test */
+    public function it_compiles_boolean_attributes_as_true_values()
+    {
+        BladeX::component('components.checkbox');
+
+        $this->assertMatchesViewSnapshot('componentWithBooleanAttribute');
+    }
 }

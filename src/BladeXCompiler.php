@@ -127,7 +127,12 @@ class BladeXCompiler
 
         return collect($matches)->mapWithKeys(function ($match) {
             $attribute = camel_case($match['attribute']);
-            $value = $match['value'];
+            $value = $match['value'] ?? null;
+
+            if (is_null($value)) {
+                $value = 'true';
+                $attribute = str_start($attribute, 'bind:');
+            }
 
             if (starts_with($value, ['"', '\''])) {
                 $value = substr($value, 1, -1);
