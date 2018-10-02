@@ -17,7 +17,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        View::addLocation(__DIR__ . '/stubs');
+        View::addLocation(__DIR__.'/stubs');
 
         Artisan::call('view:clear');
     }
