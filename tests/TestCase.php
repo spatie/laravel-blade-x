@@ -41,10 +41,10 @@ abstract class TestCase extends Orchestra
         return __DIR__."/stubs/{$fileName}";
     }
 
-    protected function assertMatchesViewSnapshot(string $viewName)
+    protected function assertMatchesViewSnapshot(string $viewName, array $data = [])
     {
         $this->assertMatchesXmlSnapshot(
-            '<div>'.view("views.{$viewName}")->render().'</div>'
+            '<div>'.view("views.{$viewName}", $data)->render().'</div>'
         );
     }
 }

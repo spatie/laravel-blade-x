@@ -74,12 +74,14 @@ class BladeXCompiler
 
         $pattern = "/<\/\s*{$prefix}{$bladeXComponent->name}[^>]*>/m";
 
-        return preg_replace($pattern, $this->componentEndString(), $viewContents);
+        return preg_replace($pattern, $this->componentEndString($bladeXComponent), $viewContents);
     }
 
     protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString();
+        $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
+
+        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString($bladeXComponent);
     }
 
     protected function componentStartString(BladeXComponent $bladeXComponent, array $attributes = []): string
@@ -88,15 +90,23 @@ class BladeXCompiler
 
         $componentAttributeString = "[{$attributesString}]";
 
-        if ($bladeXComponent->viewModelClass) {
-            $componentAttributeString = "array_merge({$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, {$componentAttributeString})->toArray())";
+        if ($bladeXComponent->bladeViewName === 'bladex::context') {
+            return "@php(app(Spatie\BladeX\Context::class)->start(get_defined_vars()))";
         }
 
-        return  "@component('{$bladeXComponent->bladeViewName}', {$componentAttributeString})";
+        if ($bladeXComponent->viewModelClass) {
+            $componentAttributeString = "array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}))->toArray())";
+        }
+
+        return  "@component('{$bladeXComponent->bladeViewName}', array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}))";
     }
 
-    protected function componentEndString(): string
+    protected function componentEndString(BladeXComponent $bladeXComponent): string
     {
+        if ($bladeXComponent->bladeViewName === 'bladex::context') {
+            return "@php(app(Spatie\BladeX\Context::class)->end())";
+        }
+
         return '@endcomponent';
     }
 
