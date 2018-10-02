@@ -79,7 +79,7 @@ class BladeXCompiler
 
     protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString($bladeXComponent);
+        return $this->componentStartString($bladeXComponent, $attributes) . $this->componentEndString($bladeXComponent);
     }
 
     protected function componentStartString(BladeXComponent $bladeXComponent, array $attributes = []): string
@@ -93,10 +93,19 @@ class BladeXCompiler
         }
 
         if ($bladeXComponent->viewModelClass) {
-            $componentAttributeString = "array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))->toArray())";
+            $componentAttributeString = "
+               array_merge(
+                  app(Spatie\BladeX\ContextStack::class)->read(), 
+                  {$componentAttributeString}, 
+                  app({$bladeXComponent->viewModelClass}::class, 
+                  array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
+                  {$componentAttributeString}))->toArray()
+              )";
         }
 
-        return  "@component('{$bladeXComponent->bladeViewName}', array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
+        return "@component(
+           '{$bladeXComponent->bladeViewName}', 
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
     }
 
     protected function componentEndString(BladeXComponent $bladeXComponent): string
@@ -112,7 +121,7 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $elementName = $prefix.$bladeXComponent->name;
+        $elementName = $prefix . $bladeXComponent->name;
 
         $componentHtml = "<{$elementName} {$attributesString} />";
 
@@ -161,7 +170,7 @@ class BladeXCompiler
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
-        return ! ends_with($html, ["</{$tagName}>", '/>']);
+        return !ends_with($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $html): string
