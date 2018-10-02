@@ -31,14 +31,14 @@ class BladeX
 
         $newBladeXComponent = new BladeXComponent($bladeXComponentName, $bladeViewName);
 
-        $this->registeredComponents[] = $newBladeXComponent;
+        $this->registeredComponents[$newBladeXComponent->name] = $newBladeXComponent;
 
         return $newBladeXComponent;
     }
 
     public function getRegisteredComponents(): array
     {
-        return $this->registeredComponents;
+        return array_values($this->registeredComponents);
     }
 
     public function components(string $directory)
