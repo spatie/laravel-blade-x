@@ -73,6 +73,42 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_multiple_directories_containing_view_components()
+    {
+        BladeX::components([
+            $this->getStub('multi1'),
+            $this->getStub('multi2'),
+        ]);
+
+        $registeredComponents = collect(BladeX::getRegisteredComponents())
+            ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
+                return [$bladeXComponent->name => $bladeXComponent->bladeViewName];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'alert' => 'multi1/alert',
+            'card' => 'multi1/card',
+            'header' => 'multi1/header',
+            'layout' => 'multi2/layout',
+            'select-field' => 'multi2/select-field',
+            'text-field' => 'multi2/textField',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_will_throw_an_error_when_registering_multiple_directories_where_one_or_more_does_not_exist()
+    {
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
+
+        BladeX::components([
+            $this->getStub('multi1'),
+            'non-existing-directory',
+            $this->getStub('multi2'),
+        ]);
+    }
+
+    /** @test */
     public function it_will_throw_an_error_when_registering_a_directory_that_does_not_exist()
     {
         $this->expectException(CouldNotRegisterBladeXComponent::class);

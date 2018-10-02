@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use InvalidArgumentException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
@@ -41,7 +42,22 @@ class BladeX
         return array_values($this->registeredComponents);
     }
 
-    public function components(string $directory)
+    public function components($directory)
+    {
+        if (is_string($directory)) {
+            $directory = [$directory];
+        }
+
+        if (! is_array($directory)) {
+            throw new InvalidArgumentException();
+        }
+
+        collect($directory)->each(function ($directory) {
+            $this->registerComponents($directory);
+        });
+    }
+
+    protected function registerComponents(string $directory)
     {
         if (! File::isDirectory($directory)) {
             throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
