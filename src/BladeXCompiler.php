@@ -128,7 +128,6 @@ class BladeXCompiler
         try {
             $componentXml = new SimpleXMLElement($htmlElement);
         } catch (Exception $exception) {
-            dd($exception);
             throw CouldNotParseBladeXComponent::invalidHtml($htmlElement, $bladeXComponent, $exception);
         }
 
