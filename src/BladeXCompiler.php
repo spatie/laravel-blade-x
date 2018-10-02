@@ -42,7 +42,7 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*([^>]*)\/>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*(.*)\s*\/>/m";
 
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $attributesString] = $regexResult;
