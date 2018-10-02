@@ -126,12 +126,15 @@ class BladeXCompiler
         $stringAttributes = collect($componentXml->attributes())
             ->map(function ($value, $attribute) {
                 $value = str_replace("'", "\\'", $value);
+                $attribute = camel_case($attribute);
 
                 return "'{$attribute}' => '{$value}',";
             })->implode('');
 
         $bindAttributes = collect($componentXml->attributes('bind'))
             ->map(function ($value, $attribute) {
+                $attribute = camel_case($attribute);
+
                 return "'{$attribute}' => {$value},";
             })->implode('');
 

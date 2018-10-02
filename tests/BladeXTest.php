@@ -142,6 +142,14 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_kebas_case_attributes_as_camelcase_variables()
+    {
+        BladeX::component('components.header');
+
+        $this->assertMatchesViewSnapshot('kebabCaseAttributes');
+    }
+
+    /** @test */
     public function it_throws_a_dedicated_exception_for_invalid_components()
     {
         BladeX::component('components.card');
