@@ -18,9 +18,9 @@ class BladeXTest extends TestCase
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
-        $this->assertCount(1, $registeredComponents);
-        $this->assertEquals('myView1', $registeredComponents[0]->name);
-        $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[0]->bladeViewName);
+        $this->assertCount(2, $registeredComponents);
+        $this->assertEquals('myView1', $registeredComponents[1]->name);
+        $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[1]->bladeViewName);
     }
 
     /** @test */
@@ -30,8 +30,8 @@ class BladeXTest extends TestCase
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
-        $this->assertEquals('my-view1', $registeredComponents[0]->name);
-        $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[0]->bladeViewName);
+        $this->assertEquals('my-view1', $registeredComponents[1]->name);
+        $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[1]->bladeViewName);
     }
 
     /** @test */
@@ -43,8 +43,8 @@ class BladeXTest extends TestCase
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
-        $this->assertCount(1, $registeredComponents);
-        $this->assertEquals(SelectViewModel::class, $registeredComponents[0]->viewModelClass);
+        $this->assertCount(2, $registeredComponents);
+        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModelClass);
     }
 
     /** @test */
@@ -70,6 +70,7 @@ class BladeXTest extends TestCase
             'my-view1' => 'directoryWithComponents/myView1',
             'my-view2' => 'directoryWithComponents/myView2',
             'my-view3' => 'directoryWithComponents/myView3',
+            'context' => 'bladex::context',
         ], $registeredComponents);
     }
 

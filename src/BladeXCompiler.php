@@ -91,20 +91,20 @@ class BladeXCompiler
         $componentAttributeString = "[{$attributesString}]";
 
         if ($bladeXComponent->bladeViewName === 'bladex::context') {
-            return "@php(app(Spatie\BladeX\Context::class)->start(get_defined_vars()))";
+            return "@php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString}))";
         }
 
         if ($bladeXComponent->viewModelClass) {
-            $componentAttributeString = "array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}))->toArray())";
+            $componentAttributeString = "array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}, app({$bladeXComponent->viewModelClass}::class, array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))->toArray())";
         }
 
-        return  "@component('{$bladeXComponent->bladeViewName}', array_merge(app(Spatie\BladeX\Context::class)->read(), {$componentAttributeString}))";
+        return  "@component('{$bladeXComponent->bladeViewName}', array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
     }
 
     protected function componentEndString(BladeXComponent $bladeXComponent): string
     {
         if ($bladeXComponent->bladeViewName === 'bladex::context') {
-            return "@php(app(Spatie\BladeX\Context::class)->end())";
+            return "@php(app(Spatie\BladeX\ContextStack::class)->pop())";
         }
 
         return '@endcomponent';

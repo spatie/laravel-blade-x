@@ -9,7 +9,7 @@ class BladeXServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(BladeX::class);
-        $this->app->singleton(Context::class);
+        $this->app->singleton(ContextStack::class);
 
         $this->app->alias(BladeX::class, 'blade-x');
 
