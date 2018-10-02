@@ -8,19 +8,36 @@ use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 class BladeXComponent
 {
     /** @var string */
-    public $name;
+    public $bladeViewName;
 
     /** @var string */
-    public $bladeViewName;
+    public $name;
 
     /** @var string */
     public $viewModelClass;
 
-    public function __construct(string $name, string $bladeViewName)
+    public static function make(string $bladeViewName, string $name = '')
     {
-        $this->name = $name;
+        return new BladeXComponent($bladeViewName, $name = '');
+    }
+
+    public function __construct(string $bladeViewName, string $name = '')
+    {
+        $bladeViewName = str_replace('.', '/', $bladeViewName);
+
+        if ($name === '') {
+            $baseComponentName = explode('/', $bladeViewName);
+
+            $name = kebab_case(end($baseComponentName));
+        }
+
+        if (! view()->exists($bladeViewName)) {
+            throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $name);
+        }
 
         $this->bladeViewName = $bladeViewName;
+
+        $this->name = $name;
     }
 
     public function viewModel(string $viewModelClass)

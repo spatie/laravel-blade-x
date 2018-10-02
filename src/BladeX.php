@@ -16,21 +16,15 @@ class BladeX
     /** @var string */
     protected $prefix = '';
 
-    public function component(string $bladeViewName, string $bladeXComponentName = null): BladeXComponent
+    /**
+     * @param string|\Spatie\BladeX\BladeXComponent $bladeViewName
+     * @param string $bladeXComponentName
+     *
+     * @return \Spatie\BladeX\BladeXComponent
+     */
+    public function component($bladeViewName, string $bladeXComponentName = ''): BladeXComponent
     {
-        $bladeViewName = str_replace('.', '/', $bladeViewName);
-
-        if (is_null($bladeXComponentName)) {
-            $baseComponentName = explode('/', $bladeViewName);
-
-            $bladeXComponentName = kebab_case(end($baseComponentName));
-        }
-
-        if (! view()->exists($bladeViewName)) {
-            throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $bladeXComponentName);
-        }
-
-        $newBladeXComponent = new BladeXComponent($bladeXComponentName, $bladeViewName);
+        $newBladeXComponent = new BladeXComponent($bladeViewName, $bladeXComponentName);
 
         $this->registeredComponents[$newBladeXComponent->name] = $newBladeXComponent;
 
@@ -45,7 +39,6 @@ class BladeX
     /**
      * @param string|array $directory
      */
-
     public function components($directory)
     {
         if (is_string($directory)) {
@@ -54,10 +47,9 @@ class BladeX
 
         if (! is_array($directory)) {
             throw CouldNotRegisterBladeXComponent::invalidArgument();
-
         }
 
-        collect($directory)->each(function ($directory) {
+        collect($directory)->each(function (string $directory) {
             $this->registerComponents($directory);
         });
     }
