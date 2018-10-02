@@ -70,6 +70,14 @@ You can also register an entire directory like this.
 BladeX::components('components')
 ```
 
+If you would like to register your entire `views` directory, you can do so like this:
+
+```php
+// This will register all Blade views that are stored in `resources/views`
+
+BladeX::components('.')
+```
+
 In your Blade view you can now use the component using the kebab-cased name:
 
 ```blade
