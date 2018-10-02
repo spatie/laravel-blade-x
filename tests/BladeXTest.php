@@ -58,6 +58,43 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_multiple_directories_containing_view_components()
+    {
+        BladeX::components([
+            $this->getStub('views/components'),
+            $this->getStub('views/registerDirectoryTest'),
+        ]);
+
+        $registeredComponents = collect(BladeX::getRegisteredComponents())
+            ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
+                return [$bladeXComponent->name => $bladeXComponent->bladeViewName];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'my-view1' => 'registerDirectoryTest/myView1',
+            'my-view2' => 'registerDirectoryTest/myView2',
+            'my-view3' => 'registerDirectoryTest/myView3',
+            'alert' => 'components/alert',
+            'card' => 'components/card',
+            'layout' => 'components/layout',
+            'text-field' => 'components/textField',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_will_throw_an_error_when_registering_multiple_directories_where_one_or_more_does_not_exist()
+    {
+        $this->expectException(CouldNotRegisterComponent::class);
+
+        BladeX::components([
+            $this->getStub('views/components'),
+            'non-existing-directory',
+            $this->getStub('views/registerDirectoryTest'),
+        ]);
+    }
+
+    /** @test */
     public function it_will_throw_an_error_when_registering_a_directory_that_does_not_exist()
     {
         $this->expectException(CouldNotRegisterComponent::class);
