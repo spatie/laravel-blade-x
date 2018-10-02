@@ -6,6 +6,7 @@ use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
 
 class BladeXTest extends TestCase
 {
@@ -30,6 +31,19 @@ class BladeXTest extends TestCase
 
         $this->assertEquals('my-view1', $registeredComponents[0]->name);
         $this->assertEquals('registerDirectoryTest/myView1', $registeredComponents[0]->bladeViewName);
+    }
+
+    /** @test */
+    public function it_will_register_a_component_only_once()
+    {
+        BladeX::component('components.select-field');
+
+        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+
+        $registeredComponents = BladeX::getRegisteredComponents();
+
+        $this->assertCount(1, $registeredComponents);
+        $this->assertEquals(SelectViewModel::class, $registeredComponents[0]->viewModelClass);
     }
 
     /** @test */
