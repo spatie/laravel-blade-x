@@ -225,7 +225,7 @@ If you're using Vue components in combination with BladeX components, it might b
 Setting a global prefix can easily be done before or after registering components:
 
 ```php
-BladeX::component('my-alert', 'components.myAlert');
+BladeX::component('components.myAlert', 'my-alert')
 
 BladeX::prefix('x');
 ```
@@ -241,7 +241,7 @@ All your registered components can now be used like this:
 When you register a component
 
 ```php
-BladeX::component('my-alert', 'components.myAlert')
+BladeX::component('components.myAlert', 'my-alert')
 ```
 with this html
 
