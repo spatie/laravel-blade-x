@@ -98,6 +98,13 @@ If you want to pass on a php variable or something that needs to be evaluated yo
 <my-alert type="error" :message="strtoupper($message)">
 ```
 
+Boolean attributes (attributes without a value), e.g. `<checkbox checked />` will be passed to the component as variables evaluating to `true`.
+
+```html
+{{-- the `checkboxInput` view will receive a `$checked` variable that evaluates as true --}}
+<checkbox-input checked />
+```
+
 ### Using slots
 
 BladeX support slots too. This layout component
