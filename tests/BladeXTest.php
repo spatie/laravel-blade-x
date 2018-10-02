@@ -130,6 +130,14 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_a_component_that_uses_an_object_property_as_value()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentUsingObjectProperty');
+    }
+
+    /** @test */
     public function it_compiles_a_component_with_an_unescaped_variable()
     {
         BladeX::component('components.card');
