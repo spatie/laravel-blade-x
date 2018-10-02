@@ -76,8 +76,8 @@ class BladeXTest extends TestCase
     public function it_can_register_multiple_directories_containing_view_components()
     {
         BladeX::components([
-            $this->getStub('views/components'),
-            $this->getStub('views/registerDirectoryTest'),
+            $this->getStub('multi1'),
+            $this->getStub('multi2'),
         ]);
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
@@ -87,25 +87,24 @@ class BladeXTest extends TestCase
             ->toArray();
 
         $this->assertEquals([
-            'my-view1' => 'registerDirectoryTest/myView1',
-            'my-view2' => 'registerDirectoryTest/myView2',
-            'my-view3' => 'registerDirectoryTest/myView3',
-            'alert' => 'components/alert',
-            'card' => 'components/card',
-            'layout' => 'components/layout',
-            'text-field' => 'components/textField',
+            'alert' => 'multi1/alert',
+            'card' => 'multi1/card',
+            'header' => 'multi1/header',
+            'layout' => 'multi2/layout',
+            'select-field' => 'multi2/select-field',
+            'text-field' => 'multi2/textField',
         ], $registeredComponents);
     }
 
     /** @test */
     public function it_will_throw_an_error_when_registering_multiple_directories_where_one_or_more_does_not_exist()
     {
-        $this->expectException(CouldNotRegisterComponent::class);
+        $this->expectException(CouldNotRegisterBladeXComponent::class);
 
         BladeX::components([
-            $this->getStub('views/components'),
+            $this->getStub('multi1'),
             'non-existing-directory',
-            $this->getStub('views/registerDirectoryTest'),
+            $this->getStub('multi2'),
         ]);
     }
 
