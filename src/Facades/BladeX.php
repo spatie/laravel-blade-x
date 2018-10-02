@@ -5,7 +5,7 @@ namespace Spatie\BladeX\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Spatie\BladeX\BladeXClass
+ * @see \Spatie\BladeX\BladeX
  */
 class BladeX extends Facade
 {
