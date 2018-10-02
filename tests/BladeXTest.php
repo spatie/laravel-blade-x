@@ -5,7 +5,6 @@ namespace Spatie\BladeX\Tests;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
 use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
-use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use stdClass;
 
@@ -217,15 +216,5 @@ class BladeXTest extends TestCase
         BladeX::component('components.header');
 
         $this->assertMatchesViewSnapshot('kebabCaseAttributes');
-    }
-
-    /** @test */
-    public function it_throws_a_dedicated_exception_for_invalid_components()
-    {
-        BladeX::component('components.card');
-
-        $this->expectException(CouldNotParseBladeXComponent::class);
-
-        $this->assertMatchesViewSnapshot('invalidComponent');
     }
 }
