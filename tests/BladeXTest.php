@@ -191,7 +191,6 @@ class BladeXTest extends TestCase
         $this->assertMatchesViewSnapshot('componentWithSpaceshipOperatorInAttribute');
     }
 
-
     /** @test */
     public function it_works_with_a_global_prefix()
     {
