@@ -59,7 +59,7 @@ The contents of a component can be stored in a simple Blade view.
 Before using that component you must first register it. Typically you would do this in the `AppServiceProvider` or a service provider of your own
 
 ```php
-BladeX::component('my-alert', 'components.myAlert')
+BladeX::component('components.myAlert', 'my-alert')
 ```
 
 You can also register an entire directory like this.
