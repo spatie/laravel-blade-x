@@ -44,7 +44,7 @@ class BladeX
             $directory = [$directory];
         }
 
-        if (!is_array($directory)) {
+        if (! is_array($directory)) {
             throw new InvalidArgumentException();
         }
 
