@@ -95,6 +95,7 @@ class BladeXTest extends TestCase
             'my-view4' => 'directoryWithComponents2/myView4',
             'my-view5' => 'directoryWithComponents2/myView5',
             'my-view6' => 'directoryWithComponents2/myView6',
+            'context' => 'bladex::context',
         ], $registeredComponents);
     }
 

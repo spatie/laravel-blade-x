@@ -79,8 +79,6 @@ class BladeXCompiler
 
     protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        $attributes = $this->getComponentAttributes($bladeXComponent, $componentHtml);
-
         return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString($bladeXComponent);
     }
 
@@ -130,6 +128,7 @@ class BladeXCompiler
         try {
             $componentXml = new SimpleXMLElement($htmlElement);
         } catch (Exception $exception) {
+            dd($exception);
             throw CouldNotParseBladeXComponent::invalidHtml($htmlElement, $bladeXComponent, $exception);
         }
 
