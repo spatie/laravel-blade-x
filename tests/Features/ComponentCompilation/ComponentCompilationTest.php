@@ -2,12 +2,8 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
-use Spatie\BladeX\BladeXComponent;
-use Spatie\BladeX\Tests\previousTestClasses\SelectViewModel;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
-use stdClass;
+use Illuminate\Support\Facades\View;
 
 class ComponentCompilationTest extends TestCase
 {

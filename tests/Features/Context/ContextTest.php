@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX\Tests\Features\Context;
 
-use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\TestCase;
+use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Tests\Features\Context\TestClasses\UserNameViewModel;
 use Spatie\BladeX\Tests\Features\Context\TestClasses\UserProviderViewModel;
 
@@ -79,7 +79,7 @@ class ContextTest extends TestCase
         BladeX::component('components.modelForm')
             ->viewModel(UserProviderViewModel::class);
 
-        $this->expectExceptionMessage("Undefined variable: user");
+        $this->expectExceptionMessage('Undefined variable: user');
 
         view('views.componentWithDefaultSlotThatUsesContext', [
             'user' => (object) [
@@ -95,7 +95,7 @@ class ContextTest extends TestCase
         BladeX::component('components.modelForm')
             ->viewModel(UserProviderViewModel::class);
 
-        $this->expectExceptionMessage("Undefined variable: user");
+        $this->expectExceptionMessage('Undefined variable: user');
 
         view('views.componentWithNamedSlotThatUsesContext', [
             'user' => (object) [

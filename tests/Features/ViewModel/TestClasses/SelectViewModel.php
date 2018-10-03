@@ -1,6 +1,7 @@
 <?php
 
 namespace Spatie\BladeX\Tests\Features\ViewModel\TestClasses;
+
 use Spatie\BladeX\ViewModel;
 
 class SelectViewModel extends ViewModel

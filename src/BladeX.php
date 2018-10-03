@@ -2,7 +2,6 @@
 
 namespace Spatie\BladeX;
 
-use InvalidArgumentException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
@@ -90,14 +89,14 @@ class BladeX
     protected function getViewName(string $pathName): string
     {
         $viewPaths = collect(View::getFinder()->getPaths())
-            ->map(function(string $registeredViewPath) {
+            ->map(function (string $registeredViewPath) {
                 return realpath($registeredViewPath);
             })
             ->filter()
             ->toArray();
 
         foreach ($viewPaths as $viewPath) {
-            $pathName = str_replace($viewPath .'/', '', $pathName);
+            $pathName = str_replace($viewPath.'/', '', $pathName);
         }
 
         $viewName = str_replace_last('.blade.php', '', $pathName);
