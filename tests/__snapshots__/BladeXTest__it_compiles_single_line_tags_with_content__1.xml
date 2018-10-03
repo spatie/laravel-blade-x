@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <div>
     <div class="card">
-        <h1>Singe line!</h1>
+        <h1>Single line!</h1>
         <div>This is the content</div>
     </div>
 </div>
