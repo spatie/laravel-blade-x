@@ -43,8 +43,14 @@ abstract class TestCase extends Orchestra
 
     protected function assertMatchesViewSnapshot(string $viewName, array $data = [])
     {
+        $fullViewName = "views.{$viewName}";
+
         $this->assertMatchesXmlSnapshot(
-            '<div>'.view("views.{$viewName}", $data)->render().'</div>'
+            '<div>'.view($fullViewName, $data)->render().'</div>'
+        );
+
+        $this->assertMatchesXmlSnapshot(
+            '<div>'.Blade::compileString($fullViewName).'</div>'
         );
     }
 }
