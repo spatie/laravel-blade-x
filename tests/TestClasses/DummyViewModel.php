@@ -2,7 +2,6 @@
 
 namespace Spatie\BladeX\Tests\TestClasses;
 
-use stdClass;
 use Spatie\BladeX\ViewModel;
 
 class DummyViewModel extends ViewModel
@@ -14,7 +13,7 @@ class DummyViewModel extends ViewModel
         // This one is here for testing purposes
     }
 
-    public function post(): stdClass
+    public function post(): object
     {
         return (object) [
             'title' => 'title',

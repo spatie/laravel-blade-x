@@ -3,6 +3,7 @@
 namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
+use Spatie\BladeX\Tests\TestClasses\UserNameViewModel;
 
 class BladeXContextTest extends TestCase
 {
@@ -10,6 +11,19 @@ class BladeXContextTest extends TestCase
     public function components_receive_context_data()
     {
         BladeX::component('components.userName');
+
+        $this->assertMatchesViewSnapshot('componentWithContext', [
+            'user' => (object) [
+                'name' => 'Sebastian',
+            ],
+        ]);
+    }
+
+    /** @test */
+    public function components_receive_context_data_from_a_view_model()
+    {
+        BladeX::component('components.userName')
+            ->viewModel(UserNameViewModel::class);
 
         $this->assertMatchesViewSnapshot('componentWithContext', [
             'user' => (object) [
