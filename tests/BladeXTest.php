@@ -219,6 +219,14 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_single_line_tags_with_content()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('singleLineComponentWithContent');
+    }
+
+    /** @test */
     public function it_compiles_boolean_attributes_as_true_values()
     {
         BladeX::component('components.checkbox');
