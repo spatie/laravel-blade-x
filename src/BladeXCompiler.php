@@ -2,6 +2,8 @@
 
 namespace Spatie\BladeX;
 
+use phpDocumentor\Reflection\Types\Callable_;
+
 class BladeXCompiler
 {
     /** @var \Spatie\BladeX\BladeX */
@@ -89,12 +91,12 @@ class BladeXCompiler
         }
 
         if ($bladeXComponent->viewModel) {
-            $componentAttributeString = "
+                $componentAttributeString = "
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
                     {$componentAttributeString},
                     app(
-                        {$bladeXComponent->viewModel}::class,
+                        '{$bladeXComponent->viewModel}',
                         array_merge(
                             app(Spatie\BladeX\ContextStack::class)->read(),
                             {$componentAttributeString}

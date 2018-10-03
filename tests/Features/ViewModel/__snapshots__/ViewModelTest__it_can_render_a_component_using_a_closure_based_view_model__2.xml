@@ -1,20 +1,24 @@
 <?xml version="1.0"?>
 <div>
-  <?php (app(Spatie\BladeX\ContextStack::class)->push(['user' => $user])); ?>
+  <?php $countries = [
+        'be' => 'Belgium',
+        'fr' => 'France',
+        'nl' => 'The Netherlands',
+    ];
+?>
   <?php $__env->startComponent(
-           'components/userName',
+           'components/select-field',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
-                    [],
+                    ['name' => 'countries','options' => $countries,'selected' => 'fr'],
                     app(
-                        'Spatie\BladeX\Tests\Features\Context\TestClasses\UserNameViewModel',
+                        'bladex-view-model-2abbf436a2d834265a3c72139b655250',
                         array_merge(
                             app(Spatie\BladeX\ContextStack::class)->read(),
-                            []
+                            ['name' => 'countries','options' => $countries,'selected' => 'fr']
                         )
                     )->toArray()
                 ))); ?>
   <?php echo $__env->renderComponent(); ?>
-  <?php (app(Spatie\BladeX\ContextStack::class)->pop()); ?>
 </div>

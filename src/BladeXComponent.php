@@ -4,6 +4,7 @@ namespace Spatie\BladeX;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use phpDocumentor\Reflection\Types\Callable_;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -32,7 +33,7 @@ class BladeXComponent
             $name = kebab_case(end($baseComponentName));
         }
 
-        if (! view()->exists($bladeViewName)) {
+        if (!view()->exists($bladeViewName)) {
             throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $name);
         }
 
@@ -48,19 +49,54 @@ class BladeXComponent
      */
     public function viewModel($viewModel)
     {
+        if (is_callable($viewModel)) {
+            $viewModel = $this->convertCallableToViewModel($viewModel);
 
-        if (! is_callable($viewModel)) {
-            if (!class_exists($viewModel)) {
-                throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
-            }
+            $this->viewModel = $viewModel;
 
-            if (!is_a($viewModel, Arrayable::class, true)) {
-                throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
-            }
+            return $this;
+        }
+
+        if (!class_exists($viewModel)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
+        }
+
+        if (!is_a($viewModel, Arrayable::class, true)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
         }
 
         $this->viewModel = $viewModel;
 
         return $this;
+    }
+
+    protected function convertCallableToViewModel($closure): string
+    {
+        $anonymousClass = new class implements Arrayable
+        {
+            public static $closure;
+
+            public $arguments = [];
+
+            public function __construct(...$arguments)
+            {
+                $this->arguments = $arguments[0] ?? [];
+            }
+
+            public function toArray(): array
+            {
+                return app()->call(static::$closure, $this->arguments);
+            }
+        };
+
+        $anonymousClass::$closure = $closure;
+
+        $viewModelClassName = 'bladex-view-model-' . md5(get_class($anonymousClass));
+
+        app()->bind($viewModelClassName, function ($app, $arguments) use ($anonymousClass) {
+            return new $anonymousClass($arguments ?? []);
+        });
+
+        return $viewModelClassName;
     }
 }
