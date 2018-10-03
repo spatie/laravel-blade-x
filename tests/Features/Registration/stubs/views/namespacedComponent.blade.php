@@ -1,0 +1,3 @@
+<div>
+    <namespaced-input />
+</div>

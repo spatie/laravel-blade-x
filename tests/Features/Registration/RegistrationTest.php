@@ -118,4 +118,12 @@ class RegistrationTest extends TestCase
 
         BladeX::components('non-existing-directory');
     }
+
+    /** @test */
+    public function it_can_register_a_namespaced_directory()
+    {
+        BladeX::components(__DIR__.'/stubs/namespacedDirectory', 'bladex');
+
+        $this->assertMatchesViewSnapshot('namespacedComponent');
+    }
 }

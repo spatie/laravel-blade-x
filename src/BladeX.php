@@ -38,22 +38,22 @@ class BladeX
     /**
      * @param string|array $directory
      */
-    public function components($directory)
+    public function components($directory, string $namespace = '')
     {
         if (is_string($directory)) {
-            $directory = [$directory];
+            $directory = [$namespace => $directory];
         }
 
         if (! is_array($directory)) {
             throw CouldNotRegisterBladeXComponent::invalidArgument();
         }
 
-        collect($directory)->each(function (string $directory) {
-            $this->registerComponents($directory);
+        collect($directory)->each(function (string $directory, string $namespace = '') {
+            $this->registerComponents($directory, $namespace);
         });
     }
 
-    protected function registerComponents(string $directory)
+    protected function registerComponents(string $directory, string $namespace = '')
     {
         if (! File::isDirectory($directory)) {
             throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
@@ -72,6 +72,10 @@ class BladeX
 
                 $this->component($viewName, $componentName);
             });
+
+        if ($namespace !== '') {
+            View::addNamespace($namespace, $directory);
+        }
     }
 
     public function prefix(string $prefix = ''): self
