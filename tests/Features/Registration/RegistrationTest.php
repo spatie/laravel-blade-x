@@ -44,9 +44,9 @@ class RegistrationTest extends TestCase
     /** @test */
     public function it_will_register_a_component_only_once()
     {
-        BladeX::component('components.select-field');
+        BladeX::component('components.selectField');
 
-        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+        BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
