@@ -18,6 +18,8 @@ class BladeXComponent
     /** @var string|Closure */
     public $viewModel;
 
+    protected static $callableViewModelCount = 0;
+
     public static function make(string $bladeViewName, string $name = '')
     {
         return new BladeXComponent($bladeViewName, $name = '');
@@ -91,7 +93,7 @@ class BladeXComponent
 
         $anonymousClass::$closure = $closure;
 
-        $viewModelClassName = 'bladex-view-model-' . md5(get_class($anonymousClass));
+        $viewModelClassName = 'bladex-view-model-' . static::$callableViewModelCount++;
 
         app()->bind($viewModelClassName, function ($app, $arguments) use ($anonymousClass) {
             return new $anonymousClass($arguments ?? []);
