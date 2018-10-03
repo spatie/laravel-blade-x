@@ -259,7 +259,7 @@ You can rewrite the above as
 </context>
 ```
 
-The only restriction of `context` is that you should use it around a slot.
+The only restriction of `context` is that you shouldn't use it around a slot.
 
 ```html
 <model-form>
