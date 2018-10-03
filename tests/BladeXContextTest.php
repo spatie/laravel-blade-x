@@ -4,6 +4,7 @@ namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\TestClasses\UserNameViewModel;
+use Spatie\BladeX\Tests\TestClasses\UserProviderViewModel;
 
 class BladeXContextTest extends TestCase
 {
@@ -60,5 +61,15 @@ class BladeXContextTest extends TestCase
                 'name' => 'Freek',
             ],
         ]);
+    }
+
+    /** @test */
+    public function components_can_consume_context_provided_by_a_parent_component()
+    {
+        BladeX::component('components.userName');
+        BladeX::component('components.userProvider')
+            ->viewModel(UserProviderViewModel::class);
+
+        $this->assertMatchesViewSnapshot('componentWithParentContext');
     }
 }
