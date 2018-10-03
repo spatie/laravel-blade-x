@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\BladeX\Tests\TestClasses;
+namespace Spatie\BladeX\Tests\previousTestClasses;
 
 use Spatie\BladeX\ViewModel;
 

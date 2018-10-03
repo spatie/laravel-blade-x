@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<div>
+  <div class="card">
+    <h1>Profile 1</h1>
+    <div>
+      <form>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" value=""/>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card">
+    <h1>Profile 2</h1>
+    <div>
+      <form>
+        <div>
+          <label for="name">Name</label>
+          <input type="text" name="name" id="name" value=""/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -5,10 +5,10 @@ namespace Spatie\BladeX\Tests\Features\Context;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\TestCase;
-use Spatie\BladeX\Tests\TestClasses\UserNameViewModel;
-use Spatie\BladeX\Tests\TestClasses\UserProviderViewModel;
+use Spatie\BladeX\Tests\previousTestClasses\UserNameViewModel;
+use Spatie\BladeX\Tests\previousTestClasses\UserProviderViewModel;
 
-class BladeXContextTest extends TestCase
+class ContextTest extends TestCase
 {
     public function setUp()
     {

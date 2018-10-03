@@ -2,23 +2,26 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\Snapshots\MatchesSnapshots;
-use Spatie\BladeX\Tests\TestClasses\DummyViewModel;
-use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
-use Spatie\BladeX\Tests\TestClasses\InvalidViewModel;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class ViewModelTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @var \Spatie\BladeX\Tests\TestClasses\DummyViewModel */
+    /** @var \Spatie\BladeX\Tests\previousTestClasses\DummyViewModel */
     protected $viewModel;
 
     public function setUp()
     {
         parent::setUp();
+
+        View::addLocation(__DIR__.'/stubs');
 
         $this->viewModel = new DummyViewModel();
     }
