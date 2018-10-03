@@ -259,6 +259,17 @@ You can rewrite the above as
 </context>
 ```
 
+The only restriction of `context` is that you should use it around a slot.
+
+```html
+<model-form>
+    {{-- Don't do this: the variables in `context` will not be passed to `$slot`.
+    <context :model="$user">
+        {{ $slot }}
+    </context>
+</model-form>
+```
+
 ### Prefixing components
 
 If you're using Vue components in combination with BladeX components, it might be worth prefixing your BladeX components to make them easily distinguishable from the rest.
