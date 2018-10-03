@@ -70,6 +70,14 @@ You can also register an entire directory like this.
 BladeX::components('components')
 ```
 
+Or you can register multiple directories like this.
+
+```php
+// This will register all Blade views that are stored in both `resources/views/components` and `resources/views/layouts`
+
+BladeX::components(['components', 'layouts'])
+```
+
 In your Blade view you can now use the component using the kebab-cased name:
 
 ```blade
@@ -152,7 +160,7 @@ Before reviewing the contents of the component and the view model itself, let's 
 
 ```html
 @php
-// In a real app this data would probably come from a controller 
+// In a real app this data would probably come from a controller
 // or a view composer.
 $countries = [
     'be' => 'Belgium',
@@ -237,9 +245,9 @@ You can rewrite the above as
 ```html
 <context :model="$user">
     <input-field name="first_name" />
-    
+
     <input-field name="last_name" />
-    
+
     <input-field name="email" />
 </context>
 ```
