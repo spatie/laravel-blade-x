@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Illuminate\Support\Facades\Blade;
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -49,8 +50,22 @@ abstract class TestCase extends Orchestra
             '<div>'.view($fullViewName, $data)->render().'</div>'
         );
 
+
         $this->assertMatchesXmlSnapshot(
-            '<div>'.Blade::compileString($fullViewName).'</div>'
+            '<div>'.Blade::compileString($this->getViewContents($viewName)).'</div>'
         );
+    }
+
+    protected function getViewContents(string $viewName): string
+    {
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+
+        $testFile = last($backtrace)['file'];
+
+        $baseDirectory = pathinfo($testFile, PATHINFO_DIRNAME);
+
+        $viewFileName = "{$baseDirectory}/stubs/views/{$viewName}.blade.php";
+
+        return file_get_contents($viewFileName);
     }
 }

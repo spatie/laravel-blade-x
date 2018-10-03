@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\Tests;
 
+use Illuminate\Support\Facades\Blade;
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
 
