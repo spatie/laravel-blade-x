@@ -89,8 +89,15 @@ class BladeX
 
     protected function getViewName(string $pathName): string
     {
-        foreach (View::getFinder()->getPaths() as $registeredViewPath) {
-            $pathName = str_replace(realpath($registeredViewPath).'/', '', $pathName);
+        $viewPaths = collect(View::getFinder()->getPaths())
+            ->map(function(string $registeredViewPath) {
+                return realpath($registeredViewPath);
+            })
+            ->filter()
+            ->toArray();
+
+        foreach ($viewPaths as $viewPath) {
+            $pathName = str_replace($viewPath .'/', '', $pathName);
         }
 
         $viewName = str_replace_last('.blade.php', '', $pathName);
