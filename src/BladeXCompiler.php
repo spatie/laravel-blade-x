@@ -2,10 +2,6 @@
 
 namespace Spatie\BladeX;
 
-use Exception;
-use SimpleXMLElement;
-use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
-
 class BladeXCompiler
 {
     /** @var \Spatie\BladeX\BladeX */
@@ -47,7 +43,7 @@ class BladeXCompiler
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $attributesString] = $regexResult;
 
-            $attributes = $this->getComponentAttributes($bladeXComponent, $attributesString);
+            $attributes = $this->getAttributesFromAttributeString($attributesString);
 
             return $this->componentString($bladeXComponent, $attributes);
         }, $viewContents);
@@ -62,7 +58,7 @@ class BladeXCompiler
         return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
             [$componentHtml, $attributesString] = $regexResult;
 
-            $attributes = $this->getComponentAttributes($bladeXComponent, $attributesString);
+            $attributes = $this->getAttributesFromAttributeString($attributesString);
 
             return $this->componentStartString($bladeXComponent, $attributes);
         }, $viewContents);
@@ -121,44 +117,40 @@ class BladeXCompiler
         return '@endcomponent';
     }
 
-    protected function getComponentAttributes(BladeXComponent $bladeXComponent, string $attributesString): array
+    protected function getAttributesFromAttributeString(string $attributeString): array
     {
-        $prefix = $this->bladeX->getPrefix();
+        $attributeString = $this->parseBindAttributes($attributeString);
 
-        $elementName = $prefix . $bladeXComponent->name;
+        $pattern = '/(?<attribute>[\w:-]+)(=(?<value>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?/';
 
-        $componentHtml = "<{$elementName} {$attributesString} />";
-
-        $componentHtml = $this->parseBindAttributes($componentHtml);
-
-        $componentHtml = $this->setXmlNamespace('bind', $componentHtml);
-
-        return $this->getHtmlElementAttributes($componentHtml, $bladeXComponent);
-    }
-
-    protected function getHtmlElementAttributes(string $htmlElement, BladeXComponent $bladeXComponent): array
-    {
-        try {
-            $componentXml = new SimpleXMLElement($htmlElement);
-        } catch (Exception $exception) {
-            throw CouldNotParseBladeXComponent::invalidHtml($htmlElement, $bladeXComponent, $exception);
+        if (! preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
+            return [];
         }
 
-        $stringAttributes = collect($componentXml->attributes())
-            ->mapWithKeys(function ($value, $attribute) {
+        return collect($matches)->mapWithKeys(function ($match) {
+            $attribute = camel_case($match['attribute']);
+            $value = $match['value'] ?? null;
+
+            if (is_null($value)) {
+                $value = 'true';
+                $attribute = str_start($attribute, 'bind:');
+            }
+
+            if (starts_with($value, ['"', '\''])) {
+                $value = substr($value, 1, -1);
+            }
+
+            if (! starts_with($attribute, 'bind:')) {
                 $value = str_replace("'", "\\'", $value);
+                $value = "'{$value}'";
+            }
 
-                return [$attribute => "'{$value}'"];
-            });
+            if (starts_with($attribute, 'bind:')) {
+                $attribute = str_after($attribute, 'bind:');
+            }
 
-        $bindAttributes = collect($componentXml->attributes('bind'));
-
-        return $stringAttributes
-            ->merge($bindAttributes)
-            ->mapWithKeys(function ($value, $attribute) {
-                return [camel_case($attribute) => $value];
-            })
-            ->toArray();
+            return [$attribute => $value];
+        })->toArray();
     }
 
     protected function parseSlots(string $viewContents): string
@@ -180,11 +172,6 @@ class BladeXCompiler
     protected function parseBindAttributes(string $html): string
     {
         return preg_replace("/\s+:([\w-]+)=/m", ' bind:$1=', $html);
-    }
-
-    protected function setXmlNamespace(string $namespace, string $html): string
-    {
-        return preg_replace("/^<\s*([\w-]*)\s/m", "<$1 xmlns:bind='{$namespace}' ", $html);
     }
 
     protected function attributesToString(array $attributes): string

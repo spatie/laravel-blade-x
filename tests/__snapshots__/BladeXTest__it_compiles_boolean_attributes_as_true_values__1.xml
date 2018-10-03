@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<div>
+  <input type="checkbox" name="This one's checked" checked="checked"/>
+  <input type="checkbox" name="This one shouldn't be checked"/>
+</div>

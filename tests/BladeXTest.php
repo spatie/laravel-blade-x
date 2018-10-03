@@ -5,7 +5,6 @@ namespace Spatie\BladeX\Tests;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
 use Spatie\BladeX\Tests\TestClasses\SelectViewModel;
-use Spatie\BladeX\Exceptions\CouldNotParseBladeXComponent;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use stdClass;
 
@@ -220,12 +219,10 @@ class BladeXTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_a_dedicated_exception_for_invalid_components()
+    public function it_compiles_boolean_attributes_as_true_values()
     {
-        BladeX::component('components.card');
+        BladeX::component('components.checkbox');
 
-        $this->expectException(CouldNotParseBladeXComponent::class);
-
-        $this->assertMatchesViewSnapshot('invalidComponent');
+        $this->assertMatchesViewSnapshot('componentWithBooleanAttribute');
     }
 }
