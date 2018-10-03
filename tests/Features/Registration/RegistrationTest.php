@@ -5,7 +5,7 @@ namespace Spatie\BladeX\Tests;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\BladeXComponent;
-use Spatie\BladeX\Tests\previousTestClasses\SelectViewModel;
+use Spatie\BladeX\Tests\Features\Registration\TestClasses\SelectViewModel;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use stdClass;
 
