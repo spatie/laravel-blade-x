@@ -103,6 +103,19 @@ class ViewModelTest extends TestCase
     }
 
     /** @test */
+    public function it_can_render_a_component_using_a_closure_based_view_model()
+    {
+        BladeX::component('components.select-field')->viewModel(function(
+            string $selected) {
+            return ['isSelected' => function(string $optionName) use ($selected) {
+                return $optionName === $selected;
+            }];
+        });
+
+        $this->assertMatchesViewSnapshot('viewModel');
+    }
+
+    /** @test */
     public function it_will_return_an_exception_if_a_view_model_class_does_not_exist()
     {
         $this->expectException(CouldNotRegisterBladeXComponent::class);
@@ -117,4 +130,6 @@ class ViewModelTest extends TestCase
 
         BladeX::component('components.select-field')->viewModel(InvalidViewModel::class);
     }
+
+
 }

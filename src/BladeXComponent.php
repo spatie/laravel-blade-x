@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
@@ -13,8 +14,8 @@ class BladeXComponent
     /** @var string */
     public $name;
 
-    /** @var string */
-    public $viewModelClass;
+    /** @var string|Closure */
+    public $viewModel;
 
     public static function make(string $bladeViewName, string $name = '')
     {
@@ -40,17 +41,25 @@ class BladeXComponent
         $this->name = $name;
     }
 
-    public function viewModel(string $viewModelClass)
+    /**
+     * @param string|\Closure $viewModel
+     *
+     * @return $this
+     */
+    public function viewModel($viewModel)
     {
-        if (! class_exists($viewModelClass)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModelClass);
+
+        if (! is_callable($viewModel)) {
+            if (!class_exists($viewModel)) {
+                throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
+            }
+
+            if (!is_a($viewModel, Arrayable::class, true)) {
+                throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
+            }
         }
 
-        if (! is_a($viewModelClass, Arrayable::class, true)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModelClass);
-        }
-
-        $this->viewModelClass = $viewModelClass;
+        $this->viewModel = $viewModel;
 
         return $this;
     }

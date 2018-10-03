@@ -88,13 +88,13 @@ class BladeXCompiler
             return "@php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString}))";
         }
 
-        if ($bladeXComponent->viewModelClass) {
+        if ($bladeXComponent->viewModel) {
             $componentAttributeString = "
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
                     {$componentAttributeString},
                     app(
-                        {$bladeXComponent->viewModelClass}::class,
+                        {$bladeXComponent->viewModel}::class,
                         array_merge(
                             app(Spatie\BladeX\ContextStack::class)->read(),
                             {$componentAttributeString}
