@@ -73,7 +73,7 @@ class BladeXComponent
 
     protected function convertCallableToViewModel(Closure $closure): string
     {
-        $anonymousClass = new class implements Arrayable
+        $viewModel = new class implements Arrayable
         {
             public static $closure;
 
@@ -90,12 +90,12 @@ class BladeXComponent
             }
         };
 
-        $anonymousClass::$closure = $closure;
+        $viewModel::$closure = $closure;
 
         $viewModelClassName = 'bladex-view-model-' . static::$callableViewModelCount++;
 
-        app()->bind($viewModelClassName, function ($app, $arguments) use ($anonymousClass) {
-            return new $anonymousClass($arguments ?? []);
+        app()->bind($viewModelClassName, function ($app, $arguments) use ($viewModel) {
+            return new $viewModel($arguments ?? []);
         });
 
         return $viewModelClassName;
