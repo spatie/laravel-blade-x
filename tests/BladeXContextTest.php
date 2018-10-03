@@ -64,12 +64,34 @@ class BladeXContextTest extends TestCase
     }
 
     /** @test */
-    public function components_can_consume_context_provided_by_a_parent_component()
+    public function components_cannot_provide_context_and_consume_it_in_a_slot()
     {
         BladeX::component('components.userName');
-        BladeX::component('components.userProvider')
+        BladeX::component('components.modelForm')
             ->viewModel(UserProviderViewModel::class);
 
-        $this->assertMatchesViewSnapshot('componentWithParentContext');
+        $this->expectExceptionMessage("Undefined variable: user");
+
+        view('views.componentWithDefaultSlotThatUsesContext', [
+            'user' => (object) [
+                'name' => 'Sebastian',
+            ],
+        ])->render();
+    }
+
+    /** @test */
+    public function components_cannot_provide_context_and_consume_it_in_a_named_slot()
+    {
+        BladeX::component('components.userName');
+        BladeX::component('components.modelForm')
+            ->viewModel(UserProviderViewModel::class);
+
+        $this->expectExceptionMessage("Undefined variable: user");
+
+        view('views.componentWithNamedSlotThatUsesContext', [
+            'user' => (object) [
+                'name' => 'Sebastian',
+            ],
+        ])->render();
     }
 }
