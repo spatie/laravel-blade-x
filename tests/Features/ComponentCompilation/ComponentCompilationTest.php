@@ -136,4 +136,13 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('componentWithBooleanAttribute');
     }
+
+    /** @test */
+    public function it_compiles_components_whose_names_begin_with_the_same_string()
+    {
+        BladeX::component('components.card');
+        BladeX::component('components.cardGroup');
+
+        $this->assertMatchesViewSnapshot('componentsWithSimilarNames');
+    }
 }
