@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<div>
+  <?php $message = 'my message' ?>
+  <?php $__env->startComponent(
+           'components/alert',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['type' => 'error','message' => $message])); ?>
+  <?php echo $__env->renderComponent(); ?>
+</div>

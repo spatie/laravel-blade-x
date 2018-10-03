@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<div>
+  <?php $countries = [
+        'be' => 'Belgium',
+        'fr' => 'France',
+        'nl' => 'The Netherlands',
+    ];
+?>
+  <?php $__env->startComponent(
+           'components/select-field',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
+                array_merge(
+                    app(Spatie\BladeX\ContextStack::class)->read(),
+                    ['name' => 'countries','options' => $countries,'selected' => 'fr'],
+                    app(
+                        Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel::class,
+                        array_merge(
+                            app(Spatie\BladeX\ContextStack::class)->read(),
+                            ['name' => 'countries','options' => $countries,'selected' => 'fr']
+                        )
+                    )->toArray()
+                ))); ?>
+  <?php echo $__env->renderComponent(); ?>
+</div>

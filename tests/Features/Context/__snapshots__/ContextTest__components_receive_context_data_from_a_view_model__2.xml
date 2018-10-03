@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<div>
+  <?php (app(Spatie\BladeX\ContextStack::class)->push(['user' => $user])); ?>
+  <?php $__env->startComponent(
+           'components/userName',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
+                array_merge(
+                    app(Spatie\BladeX\ContextStack::class)->read(),
+                    [],
+                    app(
+                        Spatie\BladeX\Tests\Features\Context\TestClasses\UserNameViewModel::class,
+                        array_merge(
+                            app(Spatie\BladeX\ContextStack::class)->read(),
+                            []
+                        )
+                    )->toArray()
+                ))); ?>
+  <?php echo $__env->renderComponent(); ?>
+  <?php (app(Spatie\BladeX\ContextStack::class)->pop()); ?>
+</div>
