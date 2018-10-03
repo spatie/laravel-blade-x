@@ -15,7 +15,7 @@ class RegistrationTest extends TestCase
     {
         parent::setUp();
 
-        View::addLocation(__DIR__.'/stubs');
+        View::addLocation(__DIR__ . '/stubs');
     }
 
     /** @test */
@@ -65,7 +65,7 @@ class RegistrationTest extends TestCase
     /** @test */
     public function it_can_register_a_directory_containing_view_components()
     {
-        BladeX::components($this->getStub('directoryWithComponents'));
+        BladeX::components(__DIR__ . '/stubs/directoryWithComponents');
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
             ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
@@ -85,8 +85,8 @@ class RegistrationTest extends TestCase
     public function it_can_register_multiple_directories_containing_view_components()
     {
         BladeX::components([
-            $this->getStub('directoryWithComponents'),
-            $this->getStub('directoryWithComponents2'),
+            __DIR__ . '/stubs/directoryWithComponents',
+            __DIR__ . '/stubs/directoryWithComponents2',
         ]);
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
