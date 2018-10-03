@@ -1,13 +1,22 @@
 <?php
 
-namespace Spatie\BladeX\Tests;
+namespace Spatie\BladeX\Tests\Features\Context;
 
+use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
+use Spatie\BladeX\Tests\TestCase;
 use Spatie\BladeX\Tests\TestClasses\UserNameViewModel;
 use Spatie\BladeX\Tests\TestClasses\UserProviderViewModel;
 
 class BladeXContextTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        View::addLocation(__DIR__.'/stubs');
+    }
+
     /** @test */
     public function components_receive_context_data()
     {
