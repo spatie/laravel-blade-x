@@ -51,7 +51,7 @@ class BladeXComponent
     public function viewModel($viewModel)
     {
         if (is_callable($viewModel)) {
-            $viewModel = $this->convertCallableToViewModel($viewModel);
+            $viewModel = $this->convertClosureToViewModel($viewModel);
 
             $this->viewModel = $viewModel;
 
@@ -71,7 +71,7 @@ class BladeXComponent
         return $this;
     }
 
-    protected function convertCallableToViewModel(Closure $closure): string
+    protected function convertClosureToViewModel(Closure $closure): string
     {
         $viewModel = new class implements Arrayable
         {
