@@ -2,13 +2,13 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
+use Illuminate\Support\Facades\View;
 use Spatie\Snapshots\MatchesSnapshots;
+use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class ViewModelTest extends TestCase
 {

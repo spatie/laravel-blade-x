@@ -21,5 +21,4 @@ class ContextStack
     {
         array_pop($this->stack);
     }
-
 }

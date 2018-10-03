@@ -75,7 +75,7 @@ class BladeXCompiler
 
     protected function componentString(BladeXComponent $bladeXComponent, array $attributes = []): string
     {
-        return $this->componentStartString($bladeXComponent, $attributes) . $this->componentEndString($bladeXComponent);
+        return $this->componentStartString($bladeXComponent, $attributes).$this->componentEndString($bladeXComponent);
     }
 
     protected function componentStartString(BladeXComponent $bladeXComponent, array $attributes = []): string
@@ -166,7 +166,7 @@ class BladeXCompiler
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
-        return !ends_with($html, ["</{$tagName}>", '/>']);
+        return ! ends_with($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $html): string
