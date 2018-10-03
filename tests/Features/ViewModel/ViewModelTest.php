@@ -91,7 +91,7 @@ class ViewModelTest extends TestCase
         $registeredComponents = BladeX::getRegisteredComponents();
 
         $this->assertCount(2, $registeredComponents);
-        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModelClass);
+        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModel);
     }
 
     /** @test */
