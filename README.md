@@ -51,7 +51,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div class="{{ $type }}">
+<div :class="$type">
    {{ $message }}
 </div>
 ```
@@ -307,7 +307,7 @@ with this html
 and use it in your Blade view like this,
 
 ```blade
-<my-alert type="error" message="{{ $message }}" />
+<my-alert type="error" :message="$message" />
 ```
 
 our package will replace that html in your view with this:
