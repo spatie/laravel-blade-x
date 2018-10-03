@@ -29,7 +29,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div :class="$type">
+<div class="{{ $type }}">
    {{ $message }}
 </div>
 ```
@@ -51,7 +51,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div :class="$type">
+<div class="{{ $type }}">
    {{ $message }}
 </div>
 ```
@@ -209,7 +209,7 @@ class SelectViewModel extends ViewModel
 }
 ```
 
-Notice that this class extends `\Spatie\BladeX\ViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names,, the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
+Notice that this class extends `\Spatie\BladeX\ViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names: the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
 
 All public properties and methods on the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
 
