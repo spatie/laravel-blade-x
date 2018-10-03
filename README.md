@@ -1,4 +1,4 @@
-# Use custom html components in your Blade views
+# Use custom HTML components in your Blade views
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
 [![Build Status](https://img.shields.io/travis/spatie/laravel-blade-x/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-blade-x)
@@ -6,9 +6,9 @@
 [![StyleCI](https://github.styleci.io/repos/150733020/shield?branch=master)](https://github.styleci.io/repos/150733020)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
 
-This package provides an easy way to render custom html components in your Blade views.
+This package provides an easy way to render custom HTML components in your Blade views.
 
-Here's an example. Instead of this:
+Here's an example. Instead of this
 
 ```blade
 <h1>My view</h1>
@@ -16,7 +16,7 @@ Here's an example. Instead of this:
 @include('myAlert', ['type' => 'error', 'message' => $message])
 ```
 
-you can write this
+you can write this:
 
 ```blade
 <h1>My view</h1>
@@ -24,7 +24,7 @@ you can write this
 <my-alert type="error" :message="$message" />
 ```
 
-You can place the content of that alert in a simple blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
+You can place the content of that alert in a simple Blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
@@ -36,7 +36,7 @@ You can place the content of that alert in a simple blade view that needs to be 
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
 
 ```bash
 composer require spatie/laravel-blade-x
@@ -51,7 +51,7 @@ The contents of a component can be stored in a simple Blade view.
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
 
-<div :class="$type">
+<div class="{{ $type }}">
    {{ $message }}
 </div>
 ```
@@ -93,17 +93,17 @@ When using a BladeX component all attributes will be passed as variables to the 
 ```html
 {{-- the `myAlert` view will receive a variable named `type` with a value of `error` --}}
 
-<my-alert type="error">
+<my-alert type="error" />
 ```
 
-If you want to pass on a php variable or something that needs to be evaluated you must prefix the attribute name with `:`.
+If you want to pass on a PHP variable or something that needs to be evaluated you must prefix the attribute name with `:`.
 
 ```html
 {{-- the `myAlert` view will receive the contents of `$message` --}}
-<my-alert type="error" :message="$message">
+<my-alert type="error" :message="$message" />
 
 {{-- the `myAlert` view will receive the uppercased contents of `$message` --}}
-<my-alert type="error" :message="strtoupper($message)">
+<my-alert type="error" :message="strtoupper($message)" />
 ```
 
 Boolean attributes (attributes without a value), e.g. `<checkbox checked />` will be passed to the component as variables evaluating to `true`.
@@ -115,7 +115,7 @@ Boolean attributes (attributes without a value), e.g. `<checkbox checked />` wil
 
 ### Using slots
 
-BladeX support slots too. This layout component
+BladeX support slots too. Take this layout component:
 
 ```blade
 {{-- resources/views/components/layout.blade.php --}}
@@ -136,7 +136,7 @@ BladeX support slots too. This layout component
 </div>
 ```
 
-can be used in your views like this:
+It can be used in your views like this:
 
 ```html
 <layout title="Zed's chopper">
@@ -155,7 +155,7 @@ can be used in your views like this:
 
 ### Using view models
 
-Before rendering a BladeX component you might want to transform the passed data, or add inject view data. You can do this using a view model. Let's take a look at an example where we render a `select` element with a list countries.
+Before rendering a BladeX component you might want to transform the passed data, or inject view data. You can do this using a view model. Let's take a look at an example where we render a `select` element with a list of countries.
 
 To make a BladeX component use a view model, pass a class name to the `viewModel` method.
 
@@ -165,7 +165,7 @@ BladeX::component('select-field')->viewModel(SelectViewModel::class);
 
 Before reviewing the contents of the component and the view model itself, let's take a look at the `select-field` component in use.
 
-```html
+```blade
 @php
 // In a real app this data would probably come from a controller
 // or a view composer.
@@ -209,11 +209,11 @@ class SelectViewModel extends ViewModel
 }
 ```
 
-Notice that this class extends `\Spatie\BladeX\ViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names,, the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
+Notice that this class extends `\Spatie\BladeX\ViewModel`. Every attribute on the `select-field` will be passed to its constructor. This happens based on the attribute names: the `name` attribute will be passed to the `$name` constructor argument, the `options` attribute will be passed to the `$options` argument and so on. Any other argument will be resolved out of Laravel's [IoC container](https://laravel.com/docs/5.6/container), so you can inject external dependencies.
 
-All public properties and methods on the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available in as a closure stored in the variable that is named after the public method in view model. This is what that view looks like.
+All public properties and methods on the view model will be passed to the Blade view that will render the `select-field` component. Public methods will be available as a closure stored in the variable that is named after the public method in the view model. This is what that view looks like.
 
-```html
+```blade
 <select name="{{ $name }}">
     @foreach($options as $value => $label)
         <option {!! $isSelected($value) ? 'selected="selected"' : '' !!} name="{{ $value }}">{{ $label }}</option>
@@ -237,7 +237,7 @@ When rendering the BladeX component, this is the output:
 
 By default BladeX components only have access to variables that are passed to them via attributes or via the view model. In some cases you might find yourself passing the same variables to multiple components. Take a look at this example where we are building a form using some BladeX components.
 
-```html
+```blade
 <input-field name="first_name" :model="$user" />
 
 <input-field name="last_name" :model="$user" />
@@ -245,11 +245,11 @@ By default BladeX components only have access to variables that are passed to th
 <input-field name="email" :model="$user" />
 ```
 
-You can avoid having to pass `$user` to each component separatly by using a special component called `context`.
+You can avoid having to pass `$user` to each component separately by using a special component called `context`.
 
-You can rewrite the above as
+You can rewrite the above as:
 
-```html
+```blade
 <context :model="$user">
     <input-field name="first_name" />
 
@@ -261,7 +261,7 @@ You can rewrite the above as
 
 The only restriction of `context` is that you shouldn't use it around a slot.
 
-```html
+```blade
 <model-form>
     {{-- Don't do this: the variables in `context` will not be passed to `$slot`.
     <context :model="$user">
@@ -295,7 +295,7 @@ When you register a component
 ```php
 BladeX::component('components.myAlert', 'my-alert')
 ```
-with this html
+with this HTML
 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
@@ -310,7 +310,7 @@ and use it in your Blade view like this,
 <my-alert type="error" :message="$message" />
 ```
 
-our package will replace that html in your view with this:
+our package will replace that HTML in your view with this:
 
 ```blade
 @component('components/myAlert', ['type' => 'error','message' => $message,])@endcomponent
@@ -318,7 +318,7 @@ our package will replace that html in your view with this:
 
 After that conversion Blade will compile (and possibly cache) that view.
 
-Because all this happens before any html is sent to the browser, client side frameworks like Vue.js will never see the original html you wrote (with the custom tags).
+Because all this happens before any HTML is sent to the browser, client-side frameworks like Vue.js will never see the original HTML you wrote (with the custom tags).
 
 
 ## Testing
