@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Illuminate\Support\Facades\Blade;
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Blade;
 use Spatie\Snapshots\MatchesSnapshots;
 use Illuminate\Support\Facades\Artisan;
 use Spatie\BladeX\BladeXServiceProvider;
@@ -49,7 +49,6 @@ abstract class TestCase extends Orchestra
         $this->assertMatchesXmlSnapshot(
             '<div>'.view($fullViewName, $data)->render().'</div>'
         );
-
 
         $this->assertMatchesXmlSnapshot(
             '<div>'.Blade::compileString($this->getViewContents($viewName)).'</div>'
