@@ -4,7 +4,6 @@ namespace Spatie\BladeX;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
-use phpDocumentor\Reflection\Types\Callable_;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -15,7 +14,7 @@ class BladeXComponent
     /** @var string */
     public $name;
 
-    /** @var string|Closure */
+    /** @var string */
     public $viewModel;
 
     protected static $callableViewModelCount = 0;
@@ -72,7 +71,7 @@ class BladeXComponent
         return $this;
     }
 
-    protected function convertCallableToViewModel($closure): string
+    protected function convertCallableToViewModel(Closure $closure): string
     {
         $anonymousClass = new class implements Arrayable
         {
