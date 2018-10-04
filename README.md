@@ -237,7 +237,6 @@ When rendering the BladeX component, this is the output:
 
 In the example above we used a dedicated view model class named `SelectViewModel`
 
-
 ```php
 BladeX::component('select-field')->viewModel(SelectViewModel::class);
 ```
