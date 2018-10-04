@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
@@ -14,7 +15,9 @@ class BladeXComponent
     public $name;
 
     /** @var string */
-    public $viewModelClass;
+    public $viewModel;
+
+    protected static $callableViewModelCount = 0;
 
     public static function make(string $bladeViewName, string $name = '')
     {
@@ -31,7 +34,7 @@ class BladeXComponent
             $name = kebab_case(end($baseComponentName));
         }
 
-        if (! view()->exists($bladeViewName)) {
+        if (!view()->exists($bladeViewName)) {
             throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $name);
         }
 
@@ -40,18 +43,61 @@ class BladeXComponent
         $this->name = $name;
     }
 
-    public function viewModel(string $viewModelClass)
+    /**
+     * @param string|\Closure $viewModel
+     *
+     * @return $this
+     */
+    public function viewModel($viewModel)
     {
-        if (! class_exists($viewModelClass)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModelClass);
+        if (is_callable($viewModel)) {
+            $viewModel = $this->convertClosureToViewModel($viewModel);
+
+            $this->viewModel = $viewModel;
+
+            return $this;
         }
 
-        if (! is_a($viewModelClass, Arrayable::class, true)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModelClass);
+        if (!class_exists($viewModel)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
         }
 
-        $this->viewModelClass = $viewModelClass;
+        if (!is_a($viewModel, Arrayable::class, true)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
+        }
+
+        $this->viewModel = $viewModel;
 
         return $this;
+    }
+
+    protected function convertClosureToViewModel(Closure $closure): string
+    {
+        $viewModel = new class implements Arrayable
+        {
+            public static $closure;
+
+            public $arguments = [];
+
+            public function __construct(...$arguments)
+            {
+                $this->arguments = $arguments[0] ?? [];
+            }
+
+            public function toArray(): array
+            {
+                return app()->call(static::$closure, $this->arguments);
+            }
+        };
+
+        $viewModel::$closure = $closure;
+
+        $viewModelClassName = 'bladex-view-model-' . static::$callableViewModelCount++;
+
+        app()->bind($viewModelClassName, function ($app, $arguments) use ($viewModel) {
+            return new $viewModel($arguments ?? []);
+        });
+
+        return $viewModelClassName;
     }
 }
