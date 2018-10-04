@@ -235,13 +235,13 @@ When rendering the BladeX component, this is the output:
 
 #### Closure based view models
 
-In the example above we used a dedicated view model class named `SelectViewModel`
+In the example above we used a dedicated view model class named `SelectViewModel`.
 
 ```php
 BladeX::component('select-field')->viewModel(SelectViewModel::class);
 ```
 
-You can also pass a closure  `viewModel()`. The closure will receive all arguments that a class based view models receives in it's constructor. The closure should return an array with variables that should be available to Blade view that renders the component. 
+You can also pass a closure to `viewModel()`. The closure will receive all arguments that a class based view model receives in it's constructor. The closure should return an array with variables that should be available to Blade view that renders the component. 
 
 Here's an example that is equivalent to the `SelectViewModel` in the example above.
 
