@@ -2,10 +2,11 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
-## 1.2.0 - 2018-10-0X
+## 1.2.0 - 2018-10-04
 
 **UNRELEASED**
 - add support for context
+- add closure based view models
 - bugfixes for component attributes with weird characters
 
 ## 1.1.2 - 2018-10-02

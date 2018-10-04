@@ -233,6 +233,27 @@ When rendering the BladeX component, this is the output:
 </div>
 ```
 
+#### Closure based view models
+
+In the example above we used a dedicated view model class named `SelectViewModel`
+
+
+```php
+BladeX::component('select-field')->viewModel(SelectViewModel::class);
+```
+
+You can also pass a closure  `viewModel()`. The closure will receive all arguments that a class based view models receives in it's constructor. The closure should return an array with variables that should be available to Blade view that renders the component. 
+
+Here's an example that is equivalent to the `SelectViewModel` in the example above.
+
+```php
+BladeX::component('components.select-field')->viewModel(function(string $selected) {
+    return ['isSelected' => function(string $optionName) use ($selected) {
+        return $optionName === $selected;
+    }];
+});
+```
+
 ### Using context
 
 By default BladeX components only have access to variables that are passed to them via attributes or via the view model. In some cases you might find yourself passing the same variables to multiple components. Take a look at this example where we are building a form using some BladeX components.
