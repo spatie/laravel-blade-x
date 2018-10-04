@@ -15,7 +15,7 @@ class Compiler
     public function compile(string $viewContents): string
     {
         return array_reduce(
-            $this->bladeX->getRegisteredComponents(),
+            $this->bladeX->registeredComponents(),
             [$this, 'parseComponentHtml'],
             $viewContents
         );

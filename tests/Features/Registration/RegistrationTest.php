@@ -23,7 +23,7 @@ class RegistrationTest extends TestCase
     {
         BladeX::component('components.directoryWithComponents.myView1');
 
-        $registeredComponents = BladeX::getRegisteredComponents();
+        $registeredComponents = BladeX::registeredComponents();
 
         $this->assertEquals('components.directoryWithComponents.myView1', $registeredComponents[1]->view);
         $this->assertEquals('my-view1', $registeredComponents[1]->tag);
@@ -34,7 +34,7 @@ class RegistrationTest extends TestCase
     {
         BladeX::component('components.directoryWithComponents.myView1', 'my-custom-tag');
 
-        $registeredComponents = BladeX::getRegisteredComponents();
+        $registeredComponents = BladeX::registeredComponents();
 
         $this->assertCount(2, $registeredComponents);
         $this->assertEquals('components.directoryWithComponents.myView1', $registeredComponents[1]->view);
@@ -48,7 +48,7 @@ class RegistrationTest extends TestCase
 
         BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
 
-        $registeredComponents = BladeX::getRegisteredComponents();
+        $registeredComponents = BladeX::registeredComponents();
 
         $this->assertCount(2, $registeredComponents);
         $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModel);
@@ -67,7 +67,7 @@ class RegistrationTest extends TestCase
     {
         BladeX::component('components.directoryWithComponents.*');
 
-        $registeredComponents = collect(BladeX::getRegisteredComponents())
+        $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
                 return [$bladeXComponent->tag => $bladeXComponent->view];
             })
@@ -89,7 +89,7 @@ class RegistrationTest extends TestCase
             'components.directoryWithComponents2.*',
         ]);
 
-        $registeredComponents = collect(BladeX::getRegisteredComponents())
+        $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
                 return [$bladeXComponent->tag => $bladeXComponent->view];
             })
@@ -130,23 +130,18 @@ class RegistrationTest extends TestCase
         BladeX::component('nonExistingDirectory.*');
     }
 
-    /*
-
+    /** @test */
     public function it_can_register_a_namespaced_directory()
     {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
 
-        BladeX::component('admin.components.text-field');
-        BladeX::component('admin.components.*');
-        BladeX::component('bladex::components.text-field');
+        BladeX::component('namespaced-test::*');
 
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->tag => $bladeXComponent->view];
+            })
+            ->toArray();
 
-        View::addNamespace('bladex', __DIR__.'/stubs/namespacedDirectory');
-        dd(View::getFinder()->getPaths());
-        dd(View::getFinder()->getHints());
-
-        BladeX::namespacedComponents('bladex');
-
-        $this->assertMatchesViewSnapshot('namespacedComponent');
-    }
-    */
+        dd($registeredComponents);}
 }

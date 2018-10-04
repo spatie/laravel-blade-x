@@ -41,7 +41,7 @@ class BladeX
             throw CouldNotRegisterComponent::invalidArgument();
         }
 
-        if (ends_with($view, '.*')) {
+        if (ends_with($view, '*')) {
             $this->componentDirectory($view);
 
             return null;
@@ -54,7 +54,7 @@ class BladeX
         return $component;
     }
 
-    public function getRegisteredComponents(): array
+    public function registeredComponents(): array
     {
         return array_values($this->registeredComponents);
     }
@@ -69,6 +69,27 @@ class BladeX
     public function getPrefix(): string
     {
         return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
+    }
+
+    protected function registerComponents(string $directory, string $namespace = '')
+    {
+        if (! File::isDirectory($directory)) {
+            throw CouldNotRegisterComponent::viewPathNotFound($directory);
+        }
+
+        collect(File::allFiles($directory))
+            ->filter(function (SplFileInfo $file) {
+                return ends_with($file->getFilename(), '.blade.php');
+            })
+            ->each(function (SplFileInfo $fileInfo) use ($namespace) {
+                $viewName = $this->getViewName($fileInfo->getPathname(), $namespace);
+
+                $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
+
+                $componentName = kebab_case($componentName);
+
+                $this->component($viewName, $componentName);
+            });
     }
 
     protected function componentDirectory(string $viewDirectory)
@@ -93,12 +114,9 @@ class BladeX
     {
         $viewPath = str_replace('.', '/', $viewPath);
 
-        $absoluteDirectory = collect(View::getFinder()->getPaths())
-            ->map(function(string $path) use ($viewPath) {
-                return realpath($path . '/' . $viewPath);
-            })
-            ->filter()
-            ->first();
+        $absoluteDirectory = str_contains($viewPath, '::')
+            ? $this->getNamespacedAbsoluteDirectory($viewPath)
+            : $this->getRegularAbsoluteDirectory($viewPath);
 
         if (! $absoluteDirectory) {
             throw CouldNotRegisterComponent::viewPathNotFound($viewPath);
@@ -107,25 +125,21 @@ class BladeX
         return $absoluteDirectory;
     }
 
-    protected function registerComponents(string $directory, string $namespace = '')
+    protected function getNamespacedAbsoluteDirectory(string $viewPath): ?string
     {
-        if (! File::isDirectory($directory)) {
-            throw CouldNotRegisterComponent::viewPathNotFound($directory);
-        }
+        $namespace = str_before($viewPath, '::');
 
-        collect(File::allFiles($directory))
-            ->filter(function (SplFileInfo $file) {
-                return ends_with($file->getFilename(), '.blade.php');
+        return View::getFinder()->getHints()[$namespace][0] ?? null;
+    }
+
+    protected function getRegularAbsoluteDirectory(string $viewPath): ?string
+    {
+        return collect(View::getFinder()->getPaths())
+            ->map(function(string $path) use ($viewPath) {
+                return realpath($path . '/' . $viewPath);
             })
-            ->each(function (SplFileInfo $fileInfo) use ($namespace) {
-                $viewName = $this->getViewName($fileInfo->getPathname(), $namespace);
-
-                $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
-
-                $componentName = kebab_case($componentName);
-
-                $this->component($viewName, $componentName);
-            });
+            ->filter()
+            ->first();
     }
 
     protected function getViewName(SplFileInfo $viewFile, string $viewPath): string
