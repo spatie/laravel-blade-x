@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 1.2.1 - 2018-10-04
+
+- fix test
+
 ## 1.2.0 - 2018-10-04
 
 - add support for context
