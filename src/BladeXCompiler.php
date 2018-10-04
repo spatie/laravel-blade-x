@@ -2,8 +2,6 @@
 
 namespace Spatie\BladeX;
 
-use phpDocumentor\Reflection\Types\Callable_;
-
 class BladeXCompiler
 {
     /** @var \Spatie\BladeX\BladeX */

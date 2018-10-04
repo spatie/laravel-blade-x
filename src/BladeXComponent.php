@@ -4,6 +4,7 @@ namespace Spatie\BladeX;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -16,8 +17,6 @@ class BladeXComponent
 
     /** @var string */
     public $viewModel;
-
-    protected static $callableViewModelCount = 0;
 
     public static function make(string $bladeViewName, string $name = '')
     {
@@ -51,9 +50,7 @@ class BladeXComponent
     public function viewModel($viewModel)
     {
         if (is_callable($viewModel)) {
-            $viewModel = $this->convertClosureToViewModel($viewModel);
-
-            $this->viewModel = $viewModel;
+            $this->viewModel = $this->createClosureViewModel($viewModel);
 
             return $this;
         }
@@ -71,31 +68,13 @@ class BladeXComponent
         return $this;
     }
 
-    protected function convertClosureToViewModel(Closure $closure): string
+    protected function createClosureViewModel(Closure $closure): string
     {
-        $viewModel = new class implements Arrayable
-        {
-            public static $closure;
+        $viewModelClassName = 'bladex.viewModel.'.Str::uuid();
 
-            public $arguments = [];
-
-            public function __construct(...$arguments)
-            {
-                $this->arguments = $arguments[0] ?? [];
-            }
-
-            public function toArray(): array
-            {
-                return app()->call(static::$closure, $this->arguments);
-            }
-        };
-
-        $viewModel::$closure = $closure;
-
-        $viewModelClassName = 'bladex-view-model-' . static::$callableViewModelCount++;
-
-        app()->bind($viewModelClassName, function ($app, $arguments) use ($viewModel) {
-            return new $viewModel($arguments ?? []);
+        app()->bind($viewModelClassName, function ($app, $arguments) use ($closure) {
+            return (new ClosureViewModel($arguments ?? []))
+                ->withClosure($closure);
         });
 
         return $viewModelClassName;
