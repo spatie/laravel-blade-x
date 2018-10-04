@@ -56,6 +56,14 @@ class ComponentCompilationTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_a_component_with_no_spaces()
+    {
+        BladeX::component('components.heading');
+
+        $this->assertMatchesViewSnapshot('componentWithNoSpaces');
+    }
+
+    /** @test */
     public function it_compiles_a_component_with_variables()
     {
         BladeX::component('components.card');
