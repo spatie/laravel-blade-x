@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 1.2.2 - 2018-10-04
+
+- remove unnecessary dependencies `symfony/css-selector` and `symfony/dom-crawler`
+
 ## 1.2.1 - 2018-10-04
 
 - fix test
