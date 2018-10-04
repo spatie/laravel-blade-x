@@ -70,7 +70,9 @@ class BladeXComponent
 
     protected function createClosureViewModel(Closure $closure): string
     {
-        $viewModelClassName = 'bladex.viewModel.'.Str::uuid();
+        static $viewModelCounter = 0;
+
+        $viewModelClassName = 'bladex.viewModel.'.$viewModelCounter++;
 
         app()->bind($viewModelClassName, function ($app, $arguments) use ($closure) {
             return (new ClosureViewModel($arguments ?? []))

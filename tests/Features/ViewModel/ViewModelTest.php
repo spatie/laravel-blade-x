@@ -113,6 +113,15 @@ class ViewModelTest extends TestCase
         });
 
         $this->assertMatchesViewSnapshot('viewModel');
+
+        BladeX::component('components.select-field')->viewModel(function(
+            string $selected) {
+            return ['isSelected' => function(string $optionName) use ($selected) {
+                return $optionName === $selected;
+            }];
+        });
+
+        $this->assertMatchesViewSnapshot('viewModel');
     }
 
     /** @test */
