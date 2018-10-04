@@ -15,19 +15,20 @@ class BladeX
     /** @var string */
     protected $prefix = '';
 
-    /**
-     * @param string|\Spatie\BladeX\BladeXComponent $bladeViewName
-     * @param string $bladeXComponentName
-     *
-     * @return \Spatie\BladeX\BladeXComponent
-     */
-    public function component($bladeViewName, string $bladeXComponentName = ''): BladeXComponent
+    public function component(string $view, string $tag = ''): ?Component
     {
-        $newBladeXComponent = new BladeXComponent($bladeViewName, $bladeXComponentName);
+        if (ends_with($view, '.*')) {
+            dd($view);
+            $this->components($view);
 
-        $this->registeredComponents[$newBladeXComponent->name] = $newBladeXComponent;
+            return null;
+        }
 
-        return $newBladeXComponent;
+        $component = new Component($view, $tag);
+
+        $this->registeredComponents[$component->tag] = $component;
+
+        return $component;
     }
 
     public function getRegisteredComponents(): array
@@ -35,15 +36,32 @@ class BladeX
         return array_values($this->registeredComponents);
     }
 
-    /**
-     * @param string|array $directory
-     * @param string $namespace
-     */
-    public function components($directory, string $namespace = '')
+    public function prefix(string $prefix = ''): self
     {
-        if (is_string($directory)) {
-            $directory = [$namespace => $directory];
-        }
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function getPrefix(): string
+    {
+        return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
+    }
+
+    protected function components(string $viewDirectory)
+    {
+        $directory = $this->getAbsoluteDirectory($viewDirectory);
+
+        collect(File::allFiles($directory))
+            ->filter(function (SplFileInfo $file) {
+                return ends_with($file->getFilename(), '.blade.php');
+            })
+            ->map(function(SplFileInfo $file) use ($viewDirectory) {
+                return $this->getViewName($file, $viewDirectory);
+            })
+            ->each(function (string $viewName) {
+                $this->component($viewName);
+            });
 
         if (! is_array($directory)) {
             throw CouldNotRegisterBladeXComponent::invalidArgument();
@@ -52,6 +70,25 @@ class BladeX
         collect($directory)->each(function (string $directory) use ($namespace) {
             $this->registerComponents($directory, $namespace);
         });
+    }
+
+    protected function getAbsoluteDirectory(string $viewDirectory): string
+    {
+        $absoluteDirectory = collect(View::getFinder()->getPaths())
+            ->map(function(string $path) use ($viewDirectory) {
+                return realpath($path . '/' . $viewDirectory);
+            })
+            ->filter()
+            ->first();
+
+        if (! $absoluteDirectory)
+        {
+            /** TODO: make dedicated exception */
+            throw new \Exception('absolute directory not found');
+        }
+
+        return $absoluteDirectory;
+
     }
 
     protected function registerComponents(string $directory, string $namespace = '')
@@ -75,39 +112,10 @@ class BladeX
             });
     }
 
-    public function prefix(string $prefix = ''): self
+    protected function getViewName(SplFileInfo $viewFile, string $viewPath): string
     {
-        $this->prefix = $prefix;
+        $view = str_replace_last('.blade.php', '', $viewFile->getFilename());
 
-        return $this;
-    }
-
-    public function getPrefix(): string
-    {
-        return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
-    }
-
-    protected function getViewName(string $pathName, string $namespace = ''): string
-    {
-        $pathName = realpath($pathName);
-
-        $viewPaths = collect(View::getFinder()->getPaths())
-            ->map(function (string $registeredViewPath) {
-                return realpath($registeredViewPath);
-            })
-            ->filter()
-            ->toArray();
-
-        foreach ($viewPaths as $viewPath) {
-            $pathName = str_replace($viewPath.'/', '', $pathName);
-        }
-
-        $viewName = str_replace_last('.blade.php', '', $pathName);
-
-        if ($namespace !== '') {
-            $viewName = "{$namespace}::{$viewName}";
-        }
-dd($viewName);
-        return $viewName;
+        return "{$viewPath}.{$view}";
     }
 }

@@ -4,7 +4,7 @@ namespace Spatie\BladeX\Tests;
 
 use stdClass;
 use Spatie\BladeX\Facades\BladeX;
-use Spatie\BladeX\BladeXComponent;
+use Spatie\BladeX\Component;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use Spatie\BladeX\Tests\Features\Registration\TestClasses\SelectViewModel;
@@ -19,6 +19,17 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_a_single_component_by_only_providing_a_view()
+    {
+        BladeX::component('directoryWithComponents.myView1');
+
+        $registeredComponents = BladeX::getRegisteredComponents();
+
+        $this->assertEquals('directoryWithComponents.myView1', $registeredComponents[0]->view);
+        $this->assertEquals('my-view1', $registeredComponents[0]->tag);
+    }
+
+    /** @test */
     public function it_can_register_a_single_component_with_providing_a_view_and_component_name()
     {
         BladeX::component('directoryWithComponents.myView1', 'myView1');
@@ -30,16 +41,7 @@ class RegistrationTest extends TestCase
         $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[1]->bladeViewName);
     }
 
-    /** @test */
-    public function it_can_register_a_single_component_by_only_providing_a_view()
-    {
-        BladeX::component('directoryWithComponents.myView1');
 
-        $registeredComponents = BladeX::getRegisteredComponents();
-
-        $this->assertEquals('my-view1', $registeredComponents[1]->name);
-        $this->assertEquals('directoryWithComponents/myView1', $registeredComponents[1]->bladeViewName);
-    }
 
     /** @test */
     public function it_will_register_a_component_only_once()
@@ -68,8 +70,8 @@ class RegistrationTest extends TestCase
         BladeX::components(__DIR__.'/stubs/directoryWithComponents');
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
-            ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
-                return [$bladeXComponent->name => $bladeXComponent->bladeViewName];
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->tag => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -90,8 +92,8 @@ class RegistrationTest extends TestCase
         ]);
 
         $registeredComponents = collect(BladeX::getRegisteredComponents())
-            ->mapWithKeys(function (BladeXComponent $bladeXComponent) {
-                return [$bladeXComponent->name => $bladeXComponent->bladeViewName];
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->tag => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -122,10 +124,11 @@ class RegistrationTest extends TestCase
     /** @test */
     public function it_can_register_a_namespaced_directory()
     {
+        /*
         BladeX::component('admin.components.text-field');
         BladeX::component('admin.components.*');
         BladeX::component('bladex::components.text-field');
-
+        */
 
         View::addNamespace('bladex', __DIR__.'/stubs/namespacedDirectory');
         dd(View::getFinder()->getPaths());

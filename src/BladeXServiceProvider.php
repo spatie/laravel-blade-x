@@ -19,9 +19,9 @@ class BladeXServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['blade.compiler']->extend(function ($view) {
-            return $this->app[BladeXCompiler::class]->compile($view);
+            return $this->app[Compiler::class]->compile($view);
         });
 
-        $this->app->make(BladeX::class)->component('bladex::context', 'context');
+        //$this->app->make(BladeX::class)->component('bladex::context', 'context');
     }
 }
