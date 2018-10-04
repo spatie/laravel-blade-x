@@ -3,7 +3,7 @@
   <?php $editLink = '<a href="https://example.com/admin/user/1">Edit</a>';
 ?>
   <?php $__env->startComponent(
-           'components/card',
+           'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'User properties'])); ?>
   <?php echo $editLink; ?>
   <?php echo $__env->renderComponent(); ?>

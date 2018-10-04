@@ -4,8 +4,8 @@
         public $name = 'John';
     };
 ?><?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $person->name])); ?> 
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $person->name])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 </div>

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <div><?php $user = 'John';
 ?><?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $user])); ?> 
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $user])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
@@ -12,9 +12,9 @@
     };
 ?>
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $user->name])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $user->name])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
@@ -23,33 +23,33 @@
     };
 ?>
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>']])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>']])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>suffix']])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>suffix']])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>suffix']])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['>suffix']])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['prefix>suffix']])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['prefix>suffix']])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 
- <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['prefix > suffix']])); ?> 
+<?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => ['prefix > suffix']])); ?>
     My content
  <?php echo $__env->renderComponent(); ?> 
 

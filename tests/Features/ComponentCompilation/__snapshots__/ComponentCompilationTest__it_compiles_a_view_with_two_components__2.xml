@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <div>
   <?php $__env->startComponent(
-           'components/card',
+           'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Profile 1'])); ?>
   <form>
     <?php $__env->startComponent(
-           'components/textField',
+           'components.textField',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['name' => 'name','label' => 'Name'])); ?>
     <?php echo $__env->renderComponent(); ?>
   </form>
   <?php echo $__env->renderComponent(); ?>
   <?php $__env->startComponent(
-           'components/card',
+           'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Profile 2'])); ?>
   <form>
     <?php $__env->startComponent(
-           'components/textField',
+           'components.textField',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['name' => 'name','label' => 'Name'])); ?>
     <?php echo $__env->renderComponent(); ?>
   </form>

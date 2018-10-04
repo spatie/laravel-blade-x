@@ -2,7 +2,7 @@
 <div>
   <?php $message = 'my message' ?>
   <?php $__env->startComponent(
-           'components/alert',
+           'components.alert',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['type' => 'error','message' => $message])); ?>
   <?php echo $__env->renderComponent(); ?>
 </div>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <div>
   <?php $__env->startComponent(
-           'components/header',
+           'components.header',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['subTitle' => 'Settings','title' => 'Profile'])); ?>
   <?php echo $__env->renderComponent(); ?>
 </div>

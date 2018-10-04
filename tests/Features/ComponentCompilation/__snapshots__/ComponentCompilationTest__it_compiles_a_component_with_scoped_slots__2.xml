@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
 <div><?php $__env->startComponent(
-           'components/layout',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Zed\'s Chopper'])); ?><?php $__env->slot('sidebar'); ?><ul><li>Home</li><li>Contact</li></ul><?php $__env->endSlot(); ?><main class="content">Whose chopper is this?</main><?php $__env->slot('footer'); ?> It's Zed's. <?php $__env->endSlot(); ?>
- <?php echo $__env->renderComponent(); ?> 
-</div>
+           'components.layout',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Zed\'s Chopper'])); ?><?php $__env->slot('sidebar'); ?><ul><li>Home</li><li>Contact</li></ul><?php $__env->endSlot(); ?><main class="content">Whose chopper is this?</main><?php $__env->slot('footer'); ?>It's Zed's.<?php $__env->endSlot(); ?><?php echo $__env->renderComponent(); ?></div>

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <div><?php $__env->startComponent(
-           'components/card',
+           'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Title'])); ?><?php $__env->startComponent(
-           'components/card',
+           'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subtitle'])); ?><?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subsubtitle'])); ?> 
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subsubtitle'])); ?>
             Inner card
          <?php echo $__env->renderComponent(); ?> 
      <?php echo $__env->renderComponent(); ?> 
