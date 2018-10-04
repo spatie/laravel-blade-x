@@ -7,7 +7,7 @@
     ];
 ?>
   <?php $__env->startComponent(
-           'components/select-field',
+           'components.selectField',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),

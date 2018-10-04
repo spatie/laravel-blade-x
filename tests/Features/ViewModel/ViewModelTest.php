@@ -86,7 +86,7 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_can_register_a_component_with_a_view_model()
     {
-        BladeX::component('components.select-field')->viewModel(SelectFieldViewModel::class);
+        BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
@@ -97,29 +97,7 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_can_render_a_component_using_a_view_model()
     {
-        BladeX::component('components.select-field')->viewModel(SelectFieldViewModel::class);
-
-        $this->assertMatchesViewSnapshot('viewModel');
-    }
-
-    /** @test */
-    public function it_can_render_a_component_using_a_closure_based_view_model()
-    {
-        BladeX::component('components.select-field')->viewModel(function (
-            string $selected) {
-            return ['isSelected' => function (string $optionName) use ($selected) {
-                return $optionName === $selected;
-            }];
-        });
-
-        $this->assertMatchesViewSnapshot('viewModel');
-
-        BladeX::component('components.select-field')->viewModel(function (
-            string $selected) {
-            return ['isSelected' => function (string $optionName) use ($selected) {
-                return $optionName === $selected;
-            }];
-        });
+        BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
 
         $this->assertMatchesViewSnapshot('viewModel');
     }
