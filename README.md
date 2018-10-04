@@ -263,7 +263,7 @@ The only restriction of `context` is that you shouldn't use it around a slot.
 
 ```blade
 <model-form>
-    {{-- Don't do this: the variables in `context` will not be passed to `$slot`.
+    {{-- Don't do this: the variables in `context` will not be passed to `$slot`. --}}
     <context :model="$user">
         {{ $slot }}
     </context>
