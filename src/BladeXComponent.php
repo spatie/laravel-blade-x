@@ -2,7 +2,9 @@
 
 namespace Spatie\BladeX;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -14,7 +16,7 @@ class BladeXComponent
     public $name;
 
     /** @var string */
-    public $viewModelClass;
+    public $viewModel;
 
     public static function make(string $bladeViewName, string $name = '')
     {
@@ -31,7 +33,7 @@ class BladeXComponent
             $name = kebab_case(end($baseComponentName));
         }
 
-        if (! view()->exists($bladeViewName)) {
+        if (!view()->exists($bladeViewName)) {
             throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $name);
         }
 
@@ -40,18 +42,41 @@ class BladeXComponent
         $this->name = $name;
     }
 
-    public function viewModel(string $viewModelClass)
+    /**
+     * @param string|\Closure $viewModel
+     *
+     * @return $this
+     */
+    public function viewModel($viewModel)
     {
-        if (! class_exists($viewModelClass)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModelClass);
+        if (is_callable($viewModel)) {
+            $this->viewModel = $this->createClosureViewModel($viewModel);
+
+            return $this;
         }
 
-        if (! is_a($viewModelClass, Arrayable::class, true)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModelClass);
+        if (!class_exists($viewModel)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
         }
 
-        $this->viewModelClass = $viewModelClass;
+        if (!is_a($viewModel, Arrayable::class, true)) {
+            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
+        }
+
+        $this->viewModel = $viewModel;
 
         return $this;
+    }
+
+    protected function createClosureViewModel(Closure $closure): string
+    {
+        $viewModelClassName = 'bladex.viewModel.'.Str::uuid();
+
+        app()->bind($viewModelClassName, function ($app, $arguments) use ($closure) {
+            return (new ClosureViewModel($arguments ?? []))
+                ->withClosure($closure);
+        });
+
+        return $viewModelClassName;
     }
 }

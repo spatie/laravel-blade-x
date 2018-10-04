@@ -13,7 +13,7 @@
                     app(Spatie\BladeX\ContextStack::class)->read(),
                     ['name' => 'countries','options' => $countries,'selected' => 'fr'],
                     app(
-                        Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel::class,
+                        'Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel',
                         array_merge(
                             app(Spatie\BladeX\ContextStack::class)->read(),
                             ['name' => 'countries','options' => $countries,'selected' => 'fr']
