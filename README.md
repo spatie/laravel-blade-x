@@ -160,7 +160,7 @@ Before rendering a BladeX component you might want to transform the passed data,
 To make a BladeX component use a view model, pass a class name to the `viewModel` method.
 
 ```php
-BladeX::component('select-field')->viewModel(SelectViewModel::class);
+BladeX::component('select-field')->viewModel(SelectFieldViewModel::class);
 ```
 
 Before reviewing the contents of the component and the view model itself, let's take a look at the `select-field` component in use.
@@ -179,10 +179,10 @@ $countries = [
 <select-field name="countries" :options="$countries" selected="fr" />
 ```
 
-Next, let's take a look at the `SelectViewModel::class`:
+Next, let's take a look at the `SelectFieldViewModel::class`:
 
 ```php
-class SelectViewModel extends ViewModel
+class SelectFieldViewModel extends ViewModel
 {
     /** @var string */
     public $name;
@@ -235,15 +235,15 @@ When rendering the BladeX component, this is the output:
 
 #### Closure based view models
 
-In the example above we used a dedicated view model class named `SelectViewModel`.
+In the example above we used a dedicated view model class named `SelectFieldViewModel`.
 
 ```php
-BladeX::component('select-field')->viewModel(SelectViewModel::class);
+BladeX::component('select-field')->viewModel(SelectFieldViewModel::class);
 ```
 
 You can also pass a closure to `viewModel()`. The closure will receive all arguments that a class based view model receives in it's constructor. The closure should return an array with variables that should be available to Blade view that renders the component. 
 
-Here's an example that is equivalent to the `SelectViewModel` in the example above.
+Here's an example that is equivalent to the `SelectFieldViewModel` in the example above.
 
 ```php
 BladeX::component('components.select-field')->viewModel(function(string $selected) {
