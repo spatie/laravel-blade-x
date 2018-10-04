@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\View;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
-use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
 
 class ViewModelTest extends TestCase
 {
@@ -105,18 +105,18 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_can_render_a_component_using_a_closure_based_view_model()
     {
-        BladeX::component('components.select-field')->viewModel(function(
+        BladeX::component('components.select-field')->viewModel(function (
             string $selected) {
-            return ['isSelected' => function(string $optionName) use ($selected) {
+            return ['isSelected' => function (string $optionName) use ($selected) {
                 return $optionName === $selected;
             }];
         });
 
         $this->assertMatchesViewSnapshot('viewModel');
 
-        BladeX::component('components.select-field')->viewModel(function(
+        BladeX::component('components.select-field')->viewModel(function (
             string $selected) {
-            return ['isSelected' => function(string $optionName) use ($selected) {
+            return ['isSelected' => function (string $optionName) use ($selected) {
                 return $optionName === $selected;
             }];
         });
@@ -139,6 +139,4 @@ class ViewModelTest extends TestCase
 
         BladeX::component('components.select-field')->viewModel(InvalidViewModel::class);
     }
-
-
 }

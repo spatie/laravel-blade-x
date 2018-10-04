@@ -4,7 +4,6 @@ namespace Spatie\BladeX;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Str;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 
 class BladeXComponent
@@ -33,7 +32,7 @@ class BladeXComponent
             $name = kebab_case(end($baseComponentName));
         }
 
-        if (!view()->exists($bladeViewName)) {
+        if (! view()->exists($bladeViewName)) {
             throw CouldNotRegisterBladeXComponent::viewNotFound($bladeViewName, $name);
         }
 
@@ -55,11 +54,11 @@ class BladeXComponent
             return $this;
         }
 
-        if (!class_exists($viewModel)) {
+        if (! class_exists($viewModel)) {
             throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->name, $viewModel);
         }
 
-        if (!is_a($viewModel, Arrayable::class, true)) {
+        if (! is_a($viewModel, Arrayable::class, true)) {
             throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->name, $viewModel);
         }
 

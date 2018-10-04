@@ -89,7 +89,7 @@ class BladeXCompiler
         }
 
         if ($bladeXComponent->viewModel) {
-                $componentAttributeString = "
+            $componentAttributeString = "
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
                     {$componentAttributeString},
