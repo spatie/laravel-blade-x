@@ -2,17 +2,17 @@
 <div>
   <?php (app(Spatie\BladeX\ContextStack::class)->push(['user' => $user])); ?>
   <?php $__env->startComponent(
-           'components/userName',
+           'components.userName',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), [])); ?>
   <?php echo $__env->renderComponent(); ?>
   <?php (app(Spatie\BladeX\ContextStack::class)->push(['user' => $nestedUser])); ?>
   <?php $__env->startComponent(
-           'components/userName',
+           'components.userName',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), [])); ?>
   <?php echo $__env->renderComponent(); ?>
   <?php (app(Spatie\BladeX\ContextStack::class)->pop()); ?>
   <?php $__env->startComponent(
-           'components/userName',
+           'components.userName',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), [])); ?>
   <?php echo $__env->renderComponent(); ?>
   <?php (app(Spatie\BladeX\ContextStack::class)->pop()); ?>

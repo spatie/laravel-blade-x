@@ -2,7 +2,7 @@
 <div>
   <?php (app(Spatie\BladeX\ContextStack::class)->push(['user' => $user])); ?>
   <?php $__env->startComponent(
-           'components/userName',
+           'components.userName',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
