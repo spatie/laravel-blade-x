@@ -160,7 +160,7 @@ class BladeXCompiler
         return preg_replace_callback($pattern, function ($regexResult) {
             [$slot, $name, $contents] = $regexResult;
 
-            return "@slot('{$name}'){$contents}@endslot";
+            return "@slot('{$name}'){$contents} @endslot";
         }, $viewContents);
     }
 
