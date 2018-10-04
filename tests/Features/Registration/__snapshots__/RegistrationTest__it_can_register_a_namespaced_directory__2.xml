@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<div>
+  <div>
+    <?php $__env->startComponent(
+           'namespacedDirectory/namespacedComponent',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), [])); ?>
+    <?php echo $__env->renderComponent(); ?>
+  </div>
+</div>

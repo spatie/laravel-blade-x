@@ -1,3 +1,3 @@
 <div>
-    <namespaced-input />
+    <namespaced-component />
 </div>

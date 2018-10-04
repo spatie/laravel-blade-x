@@ -122,7 +122,16 @@ class RegistrationTest extends TestCase
     /** @test */
     public function it_can_register_a_namespaced_directory()
     {
-        BladeX::components(__DIR__.'/stubs/namespacedDirectory', 'bladex');
+        BladeX::component('admin.components.text-field');
+        BladeX::component('admin.components.*');
+        BladeX::component('bladex::components.text-field');
+
+
+        View::addNamespace('bladex', __DIR__.'/stubs/namespacedDirectory');
+        dd(View::getFinder()->getPaths());
+        dd(View::getFinder()->getHints());
+
+        BladeX::namespacedComponents('bladex');
 
         $this->assertMatchesViewSnapshot('namespacedComponent');
     }

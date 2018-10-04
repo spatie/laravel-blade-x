@@ -37,6 +37,7 @@ class BladeX
 
     /**
      * @param string|array $directory
+     * @param string $namespace
      */
     public function components($directory, string $namespace = '')
     {
@@ -48,7 +49,7 @@ class BladeX
             throw CouldNotRegisterBladeXComponent::invalidArgument();
         }
 
-        collect($directory)->each(function (string $directory, string $namespace = '') {
+        collect($directory)->each(function (string $directory) use ($namespace) {
             $this->registerComponents($directory, $namespace);
         });
     }
@@ -63,8 +64,8 @@ class BladeX
             ->filter(function (SplFileInfo $file) {
                 return ends_with($file->getFilename(), '.blade.php');
             })
-            ->each(function (SplFileInfo $fileInfo) {
-                $viewName = $this->getViewName($fileInfo->getPathname());
+            ->each(function (SplFileInfo $fileInfo) use ($namespace) {
+                $viewName = $this->getViewName($fileInfo->getPathname(), $namespace);
 
                 $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
 
@@ -72,10 +73,6 @@ class BladeX
 
                 $this->component($viewName, $componentName);
             });
-
-        if ($namespace !== '') {
-            View::addNamespace($namespace, $directory);
-        }
     }
 
     public function prefix(string $prefix = ''): self
@@ -90,8 +87,10 @@ class BladeX
         return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
     }
 
-    protected function getViewName(string $pathName): string
+    protected function getViewName(string $pathName, string $namespace = ''): string
     {
+        $pathName = realpath($pathName);
+
         $viewPaths = collect(View::getFinder()->getPaths())
             ->map(function (string $registeredViewPath) {
                 return realpath($registeredViewPath);
@@ -105,6 +104,10 @@ class BladeX
 
         $viewName = str_replace_last('.blade.php', '', $pathName);
 
+        if ($namespace !== '') {
+            $viewName = "{$namespace}::{$viewName}";
+        }
+dd($viewName);
         return $viewName;
     }
 }
