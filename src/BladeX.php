@@ -5,7 +5,7 @@ namespace Spatie\BladeX;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class BladeX
 {
@@ -15,11 +15,34 @@ class BladeX
     /** @var string */
     protected $prefix = '';
 
-    public function component(string $view, string $tag = ''): ?Component
+    /**
+     * @param string|array $view
+     * @param string $tag
+     *
+     * @return null|\Spatie\BladeX\Component
+     */
+    public function component($view, string $tag = ''): ?Component
     {
+        if (is_array($view)) {
+            collect($view)->each(function(string $singleView) {
+                $this->component($singleView);
+            });
+
+            return null;
+        }
+
+        if ($view instanceof Component) {
+            $this->registeredComponents[$view->tag] = $view;
+
+            return $view;
+        }
+
+        if (! is_string($view)) {
+            throw CouldNotRegisterComponent::invalidArgument();
+        }
+
         if (ends_with($view, '.*')) {
-            dd($view);
-            $this->components($view);
+            $this->componentDirectory($view);
 
             return null;
         }
@@ -48,8 +71,10 @@ class BladeX
         return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
     }
 
-    protected function components(string $viewDirectory)
+    protected function componentDirectory(string $viewDirectory)
     {
+        $viewDirectory = str_before($viewDirectory, '.*');
+
         $directory = $this->getAbsoluteDirectory($viewDirectory);
 
         collect(File::allFiles($directory))
@@ -62,39 +87,30 @@ class BladeX
             ->each(function (string $viewName) {
                 $this->component($viewName);
             });
-
-        if (! is_array($directory)) {
-            throw CouldNotRegisterBladeXComponent::invalidArgument();
-        }
-
-        collect($directory)->each(function (string $directory) use ($namespace) {
-            $this->registerComponents($directory, $namespace);
-        });
     }
 
-    protected function getAbsoluteDirectory(string $viewDirectory): string
+    protected function getAbsoluteDirectory(string $viewPath): string
     {
+        $viewPath = str_replace('.', '/', $viewPath);
+
         $absoluteDirectory = collect(View::getFinder()->getPaths())
-            ->map(function(string $path) use ($viewDirectory) {
-                return realpath($path . '/' . $viewDirectory);
+            ->map(function(string $path) use ($viewPath) {
+                return realpath($path . '/' . $viewPath);
             })
             ->filter()
             ->first();
 
-        if (! $absoluteDirectory)
-        {
-            /** TODO: make dedicated exception */
-            throw new \Exception('absolute directory not found');
+        if (! $absoluteDirectory) {
+            throw CouldNotRegisterComponent::viewPathNotFound($viewPath);
         }
 
         return $absoluteDirectory;
-
     }
 
     protected function registerComponents(string $directory, string $namespace = '')
     {
         if (! File::isDirectory($directory)) {
-            throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
+            throw CouldNotRegisterComponent::viewPathNotFound($directory);
         }
 
         collect(File::allFiles($directory))

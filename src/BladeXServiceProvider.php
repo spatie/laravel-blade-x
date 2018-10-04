@@ -22,6 +22,6 @@ class BladeXServiceProvider extends ServiceProvider
             return $this->app[Compiler::class]->compile($view);
         });
 
-        //$this->app->make(BladeX::class)->component('bladex::context', 'context');
+        $this->app->make(BladeX::class)->component('bladex::context', 'context');
     }
 }

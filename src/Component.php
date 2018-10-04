@@ -3,7 +3,7 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class Component
 {
@@ -28,7 +28,7 @@ class Component
         }
 
         if (! view()->exists($view)) {
-            throw CouldNotRegisterBladeXComponent::viewNotFound($view, $tag);
+            throw CouldNotRegisterComponent::viewNotFound($view, $tag);
         }
 
         $this->view = $view;
@@ -46,11 +46,11 @@ class Component
     public function viewModel(string $viewModel)
     {
         if (! class_exists($viewModel)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotFound($this->tag, $viewModel);
+            throw CouldNotRegisterComponent::viewModelNotFound($this->tag, $viewModel);
         }
 
         if (! is_a($viewModel, Arrayable::class, true)) {
-            throw CouldNotRegisterBladeXComponent::viewModelNotArrayable($this->tag, $viewModel);
+            throw CouldNotRegisterComponent::viewModelNotArrayable($this->tag, $viewModel);
         }
 
         $this->viewModel = $viewModel;
