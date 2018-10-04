@@ -169,9 +169,9 @@ class BladeXCompiler
         return ! ends_with($html, ["</{$tagName}>", '/>']);
     }
 
-    protected function parseBindAttributes(string $html): string
+    protected function parseBindAttributes(string $attributeString): string
     {
-        return preg_replace("/\s+:([\w-]+)=/m", ' bind:$1=', $html);
+        return preg_replace("/\s*:([\w-]+)=/m", ' bind:$1=', $attributeString);
     }
 
     protected function attributesToString(array $attributes): string
