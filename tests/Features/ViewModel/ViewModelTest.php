@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
-use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectViewModel;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
 
 class ViewModelTest extends TestCase
@@ -86,18 +86,18 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_can_register_a_component_with_a_view_model()
     {
-        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+        BladeX::component('components.select-field')->viewModel(SelectFieldViewModel::class);
 
         $registeredComponents = BladeX::getRegisteredComponents();
 
         $this->assertCount(2, $registeredComponents);
-        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModel);
+        $this->assertEquals(SelectFieldViewModel::class, $registeredComponents[1]->viewModel);
     }
 
     /** @test */
     public function it_can_render_a_component_using_a_view_model()
     {
-        BladeX::component('components.select-field')->viewModel(SelectViewModel::class);
+        BladeX::component('components.select-field')->viewModel(SelectFieldViewModel::class);
 
         $this->assertMatchesViewSnapshot('viewModel');
     }
