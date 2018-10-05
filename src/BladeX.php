@@ -95,7 +95,7 @@ class BladeX
     protected function componentDirectory(string $viewDirectory)
     {
         $viewDirectory = str_before($viewDirectory, '.*');
-
+dd($viewDirectory);
         $directory = $this->getAbsoluteDirectory($viewDirectory);
 
         collect(File::allFiles($directory))
