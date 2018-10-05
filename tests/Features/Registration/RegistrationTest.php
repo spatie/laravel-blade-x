@@ -42,6 +42,20 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_accepts_a_component_instance()
+    {
+        $component = Component::make('components.selectField')->tag('my-custom-tag');
+
+        BladeX::component($component);
+
+        $registeredComponents = BladeX::registeredComponents();
+
+        $this->assertCount(2, $registeredComponents);
+        $this->assertEquals('components.selectField', $registeredComponents[1]->view);
+        $this->assertEquals('my-custom-tag', $registeredComponents[1]->tag);
+    }
+
+    /** @test */
     public function it_will_register_a_component_only_once()
     {
         BladeX::component('components.selectField');
