@@ -44,7 +44,7 @@ class BladeX
         }
 
         if (ends_with($view, '*')) {
-            $this->componentDirectory($view);
+            $this->registerComponents($view);
 
             return null;
         }
@@ -73,7 +73,7 @@ class BladeX
         return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
     }
 
-    public function componentDirectory(string $viewDirectory)
+    public function registerComponents(string $viewDirectory)
     {
         $componentDirectory = str_contains($viewDirectory, '::')
             ? new NamespacedDirectory($viewDirectory)
