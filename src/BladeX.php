@@ -4,8 +4,8 @@ namespace Spatie\BladeX;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Spatie\BladeX\ComponentDirectory\NamespacedComponentDirectory;
-use Spatie\BladeX\ComponentDirectory\RegularComponentDirectory;
+use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
+use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Symfony\Component\Finder\SplFileInfo;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
@@ -76,8 +76,8 @@ class BladeX
     public function componentDirectory(string $viewDirectory)
     {
         $componentDirectory = str_contains($viewDirectory, '::')
-            ? new NamespacedComponentDirectory($viewDirectory)
-            : new RegularComponentDirectory($viewDirectory);
+            ? new NamespacedDirectory($viewDirectory)
+            : new RegularDirectory($viewDirectory);
 
         collect(File::files($componentDirectory->getAbsoluteDirectory()))
             ->filter(function (SplFileInfo $file) {

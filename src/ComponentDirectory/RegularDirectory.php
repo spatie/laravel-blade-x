@@ -6,26 +6,26 @@ use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
 
-class NamespacedComponentDirectory extends ComponentDirectory
+class RegularDirectory extends ComponentDirectory
 {
-    /** @var string */
-    protected $namespace;
-
     /** @var string */
     protected $viewDirectory;
 
     public function __construct(string $viewDirectory)
     {
-        [$this->namespace, $viewDirectory] = explode('::', $viewDirectory);
-
-        $this->viewDirectory = str_before($viewDirectory, '*');
+        $this->viewDirectory = str_before($viewDirectory, '.*');
     }
 
     public function getAbsoluteDirectory(): string
     {
         $viewPath = str_replace('.', '/', $this->viewDirectory);
 
-        $absoluteDirectory = View::getFinder()->getHints()[$this->namespace][0] ?? null;
+        $absoluteDirectory = collect(View::getFinder()->getPaths())
+            ->map(function(string $path) use ($viewPath) {
+                return realpath($path . '/' . $viewPath);
+            })
+            ->filter()
+            ->first();
 
         if (! $absoluteDirectory) {
             throw CouldNotRegisterComponent::viewPathNotFound($viewPath);
@@ -38,12 +38,6 @@ class NamespacedComponentDirectory extends ComponentDirectory
     {
         $view = str_replace_last('.blade.php', '', $viewFile->getFilename());
 
-        $viewDirectory = '';
-
-        if ($this->viewDirectory !== '') {
-            $viewDirectory = $this->viewDirectory;
-        }
-
-        return "{$this->namespace}::{$viewDirectory}{$view}";
+        return "{$this->viewDirectory}.{$view}";
     }
 }
