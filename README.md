@@ -59,7 +59,15 @@ The contents of a component can be stored in a simple Blade view.
 Before using that component you must first register it. Typically you would do this in the `AppServiceProvider boot() method` or a service provider of your own
 
 ```php
-BladeX::component('components.myAlert', 'my-alert')
+BladeX::component('components.myAlert');
+```
+
+BladeX will automatically kebab-case your Blade view name and use that as the tag for your component. So for the example above the tag to use your component would be `my-alert`.
+
+If you want to use a custom tag name use the `tag`-method.
+
+```php
+BladeX::component('components.myAlert')->tag('my-custom-tag');
 ```
 
 You can also register an entire directory like this.
@@ -67,7 +75,7 @@ You can also register an entire directory like this.
 ```php
 // This will register all Blade views that are stored in `resources/views/components`
 
-BladeX::components('components')
+BladeX::component('components.*');
 ```
 
 Or you can register multiple directories like this.
@@ -75,7 +83,10 @@ Or you can register multiple directories like this.
 ```php
 // This will register all Blade views that are stored in both `resources/views/components` and `resources/views/layouts`
 
-BladeX::components(['components', 'layouts'])
+BladeX::component([
+   'components.*',
+   'layouts.*',
+]);
 ```
 
 In your Blade view you can now use the component using the kebab-cased name:
@@ -297,7 +308,7 @@ If you're using Vue components in combination with BladeX components, it might b
 Setting a global prefix can easily be done before or after registering components:
 
 ```php
-BladeX::component('components.myAlert', 'my-alert')
+BladeX::component('components.myAlert');
 
 BladeX::prefix('x');
 ```
@@ -313,7 +324,7 @@ All your registered components can now be used like this:
 When you register a component
 
 ```php
-BladeX::component('components.myAlert', 'my-alert')
+BladeX::component('components.myAlert')
 ```
 with this HTML
 
@@ -340,6 +351,9 @@ After that conversion Blade will compile (and possibly cache) that view.
 
 Because all this happens before any HTML is sent to the browser, client-side frameworks like Vue.js will never see the original HTML you wrote (with the custom tags).
 
+## Upgrading major versions
+
+Please see [UPGRADING](UPGRADING.md) for more information on how to upgrade from one major version to the other.
 
 ## Testing
 
