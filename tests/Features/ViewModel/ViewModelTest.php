@@ -4,7 +4,6 @@ namespace Spatie\BladeX\Tests;
 
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
-use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
@@ -12,8 +11,6 @@ use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
 
 class ViewModelTest extends TestCase
 {
-    use MatchesSnapshots;
-
     /** @var \Spatie\BladeX\Tests\previousTestClasses\DummyViewModel */
     protected $viewModel;
 
