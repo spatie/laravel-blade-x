@@ -130,10 +130,10 @@ class RegistrationTest extends TestCase
         BladeX::component('nonExistingDirectory.*');
     }
 
-    /** @test */
-    public function it_can_register_a_namespaced_directory()
+
+    public function c()
     {
-        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+        View::addNamespace('namespaced-test', __DIR__ . '/stubs/components/namespacedComponents');
 
         BladeX::component('namespaced-test::*');
 
@@ -143,5 +143,6 @@ class RegistrationTest extends TestCase
             })
             ->toArray();
 
-        dd($registeredComponents);}
+        dd($registeredComponents);
+    }
 }
