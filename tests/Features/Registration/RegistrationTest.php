@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\BladeX\Tests;
+namespace Spatie\BladeX\Tests\Features\Registration;
 
+use Spatie\BladeX\Tests\TestCase;
 use stdClass;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Component;

@@ -21,29 +21,29 @@ class Compiler
         );
     }
 
-    protected function parseComponentHtml(string $viewContents, Component $bladeXComponent)
+    protected function parseComponentHtml(string $viewContents, Component $component)
     {
         $viewContents = $this->parseSlots($viewContents);
 
-        $viewContents = $this->parseSelfClosingTags($viewContents, $bladeXComponent);
+        $viewContents = $this->parseSelfClosingTags($viewContents, $component);
 
-        $viewContents = $this->parseOpeningTags($viewContents, $bladeXComponent);
+        $viewContents = $this->parseOpeningTags($viewContents, $component);
 
-        $viewContents = $this->parseClosingTags($viewContents, $bladeXComponent);
+        $viewContents = $this->parseClosingTags($viewContents, $component);
 
         return $viewContents;
     }
 
-    protected function parseSelfClosingTags(string $viewContents, Component $bladeXComponent): string
+    protected function parseSelfClosingTags(string $viewContents, Component $component): string
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->tag}\s*(?<attributes>.*)\s*\/>/";
+        $pattern = "/<\s*{$prefix}{$component->tag}\s*(?<attributes>.*)\s*\/>/";
 
-        return preg_replace_callback($pattern, function (array $matches) use ($bladeXComponent) {
+        return preg_replace_callback($pattern, function (array $matches) use ($component) {
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
-            return $this->componentString($bladeXComponent, $attributes);
+            return $this->componentString($component, $attributes);
         }, $viewContents);
     }
 
@@ -64,7 +64,7 @@ class Compiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\/\s*{$prefix}{$bladeXComponent->tag}[^>]*>/";
+        $pattern = "/<\/\s*{$prefix}{$component->tag}[^>]*>/";
 
         return preg_replace($pattern, $this->componentEndString($component), $viewContents);
     }

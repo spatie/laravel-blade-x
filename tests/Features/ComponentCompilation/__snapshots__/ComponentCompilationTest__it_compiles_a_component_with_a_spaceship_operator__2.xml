@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <div><?php $__env->startComponent(
            'components.card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 100 <=> 200])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 100 <=> 200])); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> </div>

@@ -5,7 +5,7 @@
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subtitle'])); ?><?php $__env->startComponent(
            'components.card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subsubtitle'])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Subsubtitle'])); ?> 
             Inner card
          <?php echo $__env->renderComponent(); ?> 
      <?php echo $__env->renderComponent(); ?> 

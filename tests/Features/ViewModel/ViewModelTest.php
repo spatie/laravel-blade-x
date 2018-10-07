@@ -1,17 +1,18 @@
 <?php
 
-namespace Spatie\BladeX\Tests;
+namespace Spatie\BladeX\Tests\Features\ViewModel;
 
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\DummyViewModel;
 use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\InvalidViewModel;
-use Spatie\BladeX\Tests\Features\ViewModel\TestClasses\SelectFieldViewModel;
+use Spatie\BladeX\Tests\TestCase;
 
 class ViewModelTest extends TestCase
 {
-    /** @var \Spatie\BladeX\Tests\previousTestClasses\DummyViewModel */
+    /** @var DummyViewModel */
     protected $viewModel;
 
     public function setUp()
@@ -83,18 +84,18 @@ class ViewModelTest extends TestCase
     /** @test */
     public function it_can_register_a_component_with_a_view_model()
     {
-        BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
+        BladeX::component('components.selectField')->viewModel(SelectFieldViewModel::class);
 
         $registeredComponents = BladeX::registeredComponents();
 
         $this->assertCount(2, $registeredComponents);
-        $this->assertEquals(SelectViewModel::class, $registeredComponents[1]->viewModel);
+        $this->assertEquals(SelectFieldViewModel::class, $registeredComponents[1]->viewModel);
     }
 
     /** @test */
     public function it_can_render_a_component_using_a_view_model()
     {
-        BladeX::component('components.selectField')->viewModel(SelectViewModel::class);
+        BladeX::component('components.selectField')->viewModel(SelectFieldViewModel::class);
 
         $this->assertMatchesViewSnapshot('viewModel');
     }
@@ -104,7 +105,7 @@ class ViewModelTest extends TestCase
     {
         $this->expectException(CouldNotRegisterComponent::class);
 
-        BladeX::component('components.select-field')->viewModel('non-existing-class');
+        BladeX::component('components.selectField')->viewModel('non-existing-class');
     }
 
     /** @test */
@@ -112,6 +113,6 @@ class ViewModelTest extends TestCase
     {
         $this->expectException(CouldNotRegisterComponent::class);
 
-        BladeX::component('components.select-field')->viewModel(InvalidViewModel::class);
+        BladeX::component('components.selectField')->viewModel(InvalidViewModel::class);
     }
 }
