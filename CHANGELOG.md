@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
-## 1.2.3 [wip] - 2018-10-07
+## 1.2.3 - 2018-10-07
 
 - fix nested components and slots without spaces or on a single line
 - fix edge-case for slots with weird content

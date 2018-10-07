@@ -38,12 +38,10 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*(.*)\s*\/>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}\s*(?<attributes>.*)\s*\/>/";
 
-        return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
-            [$componentHtml, $attributesString] = $regexResult;
-
-            $attributes = $this->getAttributesFromAttributeString($attributesString);
+        return preg_replace_callback($pattern, function (array $matches) use ($bladeXComponent) {
+            $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
             return $this->componentString($bladeXComponent, $attributes);
         }, $viewContents);
@@ -53,12 +51,10 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}((?:\s+[\w\-:]*=(?:\\\"(?:.*?)\\\"|\'(?:.*)\'|[^\'\\\"=<>]*))*\s*)(?<![\/=\-])>/m";
+        $pattern = "/<\s*{$prefix}{$bladeXComponent->name}(?<attributes>(?:\s+[\w\-:]+=(?:\\\"[^\\\"]+\\\"|\'[^\']+\'|[^\'\\\"=<>]+))*\s*)(?<![\/=\-])>/";
 
-        return preg_replace_callback($pattern, function (array $regexResult) use ($bladeXComponent) {
-            [$componentHtml, $attributesString] = $regexResult;
-
-            $attributes = $this->getAttributesFromAttributeString($attributesString);
+        return preg_replace_callback($pattern, function (array $matches) use ($bladeXComponent) {
+            $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
             return $this->componentStartString($bladeXComponent, $attributes);
         }, $viewContents);
@@ -68,7 +64,7 @@ class BladeXCompiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\/\s*{$prefix}{$bladeXComponent->name}[^>]*>/m";
+        $pattern = "/<\/\s*{$prefix}{$bladeXComponent->name}[^>]*>/";
 
         return preg_replace($pattern, $this->componentEndString($bladeXComponent), $viewContents);
     }
