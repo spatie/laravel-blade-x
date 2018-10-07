@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <div><?php $__env->startComponent(
            'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Single line!'])); ?>This is the content <?php echo $__env->renderComponent(); ?></div>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Single line!'])); ?> This is the content <?php echo $__env->renderComponent(); ?> 
+</div>

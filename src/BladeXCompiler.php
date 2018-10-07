@@ -103,9 +103,9 @@ class BladeXCompiler
                 )";
         }
 
-        return "@component(
+        return " @component(
            '{$bladeXComponent->bladeViewName}',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString})) ";
     }
 
     protected function componentEndString(BladeXComponent $bladeXComponent): string
@@ -114,7 +114,7 @@ class BladeXCompiler
             return "@php(app(Spatie\BladeX\ContextStack::class)->pop())";
         }
 
-        return ' @endcomponent';
+        return " @endcomponent ";
     }
 
     protected function getAttributesFromAttributeString(string $attributeString): array

@@ -5,7 +5,7 @@
     };
 ?><?php $__env->startComponent(
            'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $person->name])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => $person->name])); ?> 
     My content
- <?php echo $__env->renderComponent(); ?>
+ <?php echo $__env->renderComponent(); ?> 
 </div>
