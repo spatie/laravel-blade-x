@@ -246,8 +246,8 @@ You can also pass a closure to `viewModel()`. The closure will receive all argum
 Here's an example that is equivalent to the `SelectFieldViewModel` in the example above.
 
 ```php
-BladeX::component('components.select-field')->viewModel(function(string $selected) {
-    return ['isSelected' => function(string $optionName) use ($selected) {
+BladeX::component('components.select-field')->viewModel(function (string $selected) {
+    return ['isSelected' => function (string $optionName) use ($selected) {
         return $optionName === $selected;
     }];
 });
