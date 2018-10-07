@@ -103,9 +103,9 @@ class BladeXCompiler
                 )";
         }
 
-        return "@component(
+        return " @component(
            '{$bladeXComponent->bladeViewName}',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString}))";
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString})) ";
     }
 
     protected function componentEndString(BladeXComponent $bladeXComponent): string
@@ -114,7 +114,7 @@ class BladeXCompiler
             return "@php(app(Spatie\BladeX\ContextStack::class)->pop())";
         }
 
-        return ' @endcomponent';
+        return ' @endcomponent ';
     }
 
     protected function getAttributesFromAttributeString(string $attributeString): array
@@ -136,9 +136,7 @@ class BladeXCompiler
                 $attribute = str_start($attribute, 'bind:');
             }
 
-            if (starts_with($value, ['"', '\''])) {
-                $value = substr($value, 1, -1);
-            }
+            $value = $this->stripQuotes($value);
 
             if (! starts_with($attribute, 'bind:')) {
                 $value = str_replace("'", "\\'", $value);
@@ -155,13 +153,17 @@ class BladeXCompiler
 
     protected function parseSlots(string $viewContents): string
     {
-        $pattern = '/<\s*slot[^>]*name=[\'"](.*)[\'"][^>]*>((.|\n)*?)<\s*\/\s*slot>/m';
+        $openingPattern = '/<\s*slot\s+name=(?<name>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+))\s*>/';
+        $viewContents = preg_replace_callback($openingPattern, function ($matches) {
+            $name = $this->stripQuotes($matches['name']);
 
-        return preg_replace_callback($pattern, function ($regexResult) {
-            [$slot, $name, $contents] = $regexResult;
-
-            return " @slot('{$name}') {$contents} @endslot ";
+            return " @slot('{$name}') ";
         }, $viewContents);
+
+        $closingPattern = '/<\/\s*slot[^>]*>/';
+        $viewContents = preg_replace($closingPattern, ' @endslot', $viewContents);
+
+        return $viewContents;
     }
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
@@ -181,5 +183,14 @@ class BladeXCompiler
                 return "'{$attribute}' => {$value}";
             })
             ->implode(',');
+    }
+
+    protected function stripQuotes(string $string): string
+    {
+        if (starts_with($string, ['"', '\''])) {
+            return substr($string, 1, -1);
+        }
+
+        return $string;
     }
 }
