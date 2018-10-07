@@ -114,7 +114,7 @@ class BladeXCompiler
             return "@php(app(Spatie\BladeX\ContextStack::class)->pop())";
         }
 
-        return " @endcomponent ";
+        return ' @endcomponent ';
     }
 
     protected function getAttributesFromAttributeString(string $attributeString): array
