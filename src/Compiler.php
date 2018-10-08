@@ -71,7 +71,7 @@ class Compiler
 
     protected function componentString(Component $component, array $attributes = []): string
     {
-        return $this->componentStartString($component, $attributes).$this->componentEndString($component);
+        return $this->componentStartString($component, $attributes) . $this->componentEndString($component);
     }
 
     protected function componentStartString(Component $component, array $attributes = []): string
@@ -121,7 +121,7 @@ class Compiler
 
         $pattern = '/(?<attribute>[\w:-]+)(=(?<value>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?/';
 
-        if (! preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
             return [];
         }
 
@@ -138,7 +138,9 @@ class Compiler
 
             if (starts_with($attribute, 'bind:')) {
                 $attribute = str_after($attribute, 'bind:');
-            } else {
+            }
+
+            if (!starts_with($attribute, 'bind:')) {
                 $value = str_replace("'", "\\'", $value);
                 $value = "'{$value}'";
             }
@@ -164,7 +166,7 @@ class Compiler
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
-        return ! ends_with($html, ["</{$tagName}>", '/>']);
+        return !ends_with($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $attributeString): string
