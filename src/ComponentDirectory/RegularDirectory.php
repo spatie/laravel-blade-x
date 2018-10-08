@@ -3,8 +3,8 @@
 namespace Spatie\BladeX\ComponentDirectory;
 
 use Illuminate\Support\Facades\View;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class RegularDirectory extends ComponentDirectory
 {
@@ -21,8 +21,8 @@ class RegularDirectory extends ComponentDirectory
         $viewPath = str_replace('.', '/', $this->viewDirectory);
 
         $absoluteDirectory = collect(View::getFinder()->getPaths())
-            ->map(function(string $path) use ($viewPath) {
-                return realpath($path . '/' . $viewPath);
+            ->map(function (string $path) use ($viewPath) {
+                return realpath($path.'/'.$viewPath);
             })
             ->filter()
             ->first();

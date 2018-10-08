@@ -2,10 +2,10 @@
 
 namespace Spatie\BladeX\Tests\Features\Registration;
 
-use Spatie\BladeX\Tests\TestCase;
 use stdClass;
-use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Component;
+use Spatie\BladeX\Facades\BladeX;
+use Spatie\BladeX\Tests\TestCase;
 use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Spatie\BladeX\Tests\Features\Registration\TestClasses\SelectViewModel;
@@ -16,7 +16,7 @@ class RegistrationTest extends TestCase
     {
         parent::setUp();
 
-        View::addLocation(__DIR__ . '/stubs');
+        View::addLocation(__DIR__.'/stubs');
     }
 
     /** @test */
@@ -148,7 +148,7 @@ class RegistrationTest extends TestCase
     /** @test */
     public function it_can_register_a_directory_containing_namespaced_view_components()
     {
-        View::addNamespace('namespaced-test', __DIR__ . '/stubs/components/namespacedComponents');
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
 
         BladeX::component('namespaced-test::*');
 
