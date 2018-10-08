@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.0.0 - 2018-10-08
+
+- simplified component registration
+- internal cleanup
+- some edge case fixes
+
 ## 1.2.3 - 2018-10-07
 
 - fix nested components and slots without spaces or on a single line
