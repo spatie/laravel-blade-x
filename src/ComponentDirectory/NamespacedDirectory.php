@@ -3,8 +3,8 @@
 namespace Spatie\BladeX\ComponentDirectory;
 
 use Illuminate\Support\Facades\View;
-use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 use Symfony\Component\Finder\SplFileInfo;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class NamespacedDirectory extends ComponentDirectory
 {

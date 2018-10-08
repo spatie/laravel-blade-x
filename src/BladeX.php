@@ -4,10 +4,10 @@ namespace Spatie\BladeX;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
-use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
-use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Symfony\Component\Finder\SplFileInfo;
+use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
 
 class BladeX
 {
@@ -39,7 +39,7 @@ class BladeX
             return $view;
         }
 
-        if (!is_string($view)) {
+        if (! is_string($view)) {
             throw CouldNotRegisterComponent::invalidArgument();
         }
 

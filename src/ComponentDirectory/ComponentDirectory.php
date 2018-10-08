@@ -6,7 +6,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 abstract class ComponentDirectory
 {
-    abstract function getAbsoluteDirectory(): string;
+    abstract public function getAbsoluteDirectory(): string;
 
     public function getViewName(SplFileInfo $viewFile): string
     {
