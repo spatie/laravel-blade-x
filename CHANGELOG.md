@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.0.1 - 2018-10-08
+
+- fix edge-case for boolean attributes in opening tags
+
 ## 2.0.0 - 2018-10-08
 
 - simplified component registration

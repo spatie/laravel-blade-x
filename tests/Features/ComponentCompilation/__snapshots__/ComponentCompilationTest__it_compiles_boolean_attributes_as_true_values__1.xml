@@ -2,4 +2,5 @@
 <div>
   <input type="checkbox" name="This one's checked" checked="checked"/>
   <input type="checkbox" name="This one shouldn't be checked"/>
+  <input type="checkbox" name="" checked="checked"/>
 </div>
