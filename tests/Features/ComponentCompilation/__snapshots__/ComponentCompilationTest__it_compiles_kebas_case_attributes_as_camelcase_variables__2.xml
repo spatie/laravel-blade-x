@@ -2,6 +2,8 @@
 <div>
   <?php $__env->startComponent(
            'components.header',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['subTitle' => 'Settings','title' => 'Profile'])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['subTitle' => 'Settings','title' => 'Profile'])
+        ); ?>
   <?php echo $__env->renderComponent(); ?>
 </div>

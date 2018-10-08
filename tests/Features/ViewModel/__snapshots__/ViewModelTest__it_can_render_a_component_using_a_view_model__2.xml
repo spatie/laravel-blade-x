@@ -8,7 +8,8 @@
 ?>
   <?php $__env->startComponent(
            'components.selectField',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), 
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
                     ['name' => 'countries','options' => $countries,'selected' => 'fr'],
@@ -19,6 +20,7 @@
                             ['name' => 'countries','options' => $countries,'selected' => 'fr']
                         )
                     )->toArray()
-                ))); ?>
+                ))
+        ); ?>
   <?php echo $__env->renderComponent(); ?>
 </div>

@@ -26,9 +26,9 @@ class BladeX
     public function component($view, string $tag = ''): ?Component
     {
         if (is_array($view)) {
-            collect($view)->each(function (string $singleView) {
+            foreach ($view as $singleView) {
                 $this->component($singleView);
-            });
+            }
 
             return null;
         }
@@ -47,6 +47,10 @@ class BladeX
             $this->registerComponents($view);
 
             return null;
+        }
+
+        if (! view()->exists($view)) {
+            throw CouldNotRegisterComponent::viewNotFound($view, $tag);
         }
 
         $component = new Component($view, $tag);

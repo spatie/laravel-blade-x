@@ -81,7 +81,7 @@ class Compiler
         $componentAttributeString = "[{$attributesString}]";
 
         if ($component->view === 'bladex::context') {
-            return "@php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString}))";
+            return " @php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString})) ";
         }
 
         if ($component->viewModel) {
@@ -101,7 +101,9 @@ class Compiler
 
         return " @component(
            '{$component->view}',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), {$componentAttributeString})) ";
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           {$componentAttributeString})
+        ) ";
     }
 
     protected function componentEndString(Component $component): string
@@ -134,13 +136,11 @@ class Compiler
 
             $value = $this->stripQuotes($value);
 
-            if (! starts_with($attribute, 'bind:')) {
-                $value = str_replace("'", "\\'", $value);
-                $value = "'{$value}'";
-            }
-
             if (starts_with($attribute, 'bind:')) {
                 $attribute = str_after($attribute, 'bind:');
+            } else {
+                $value = str_replace("'", "\\'", $value);
+                $value = "'{$value}'";
             }
 
             return [$attribute => $value];

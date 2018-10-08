@@ -2,10 +2,14 @@
 <div>
   <?php $__env->startComponent(
            'components.checkbox',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['name' => 'This one\'s checked','checked' => true])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['name' => 'This one\'s checked','checked' => true])
+        ); ?>
   <?php echo $__env->renderComponent(); ?>
   <?php $__env->startComponent(
            'components.checkbox',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['name' => 'This one shouldn\'t be checked'])); ?>
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['name' => 'This one shouldn\'t be checked'])
+        ); ?>
   <?php echo $__env->renderComponent(); ?>
 </div>

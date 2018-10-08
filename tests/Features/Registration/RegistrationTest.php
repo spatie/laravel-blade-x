@@ -165,4 +165,16 @@ class RegistrationTest extends TestCase
             'namespaced-test::namespaced-view3' => 'namespaced-test::namespacedView3',
         ], $registeredComponents);
     }
+
+    /** @test */
+    public function it_overwrites_the_previous_component_when_registering_one_with_the_same_name()
+    {
+        BladeX::component('components.directoryWithComponents.myView1', 'foo');
+        BladeX::component('components.directoryWithComponents.myView2', 'foo');
+
+        $registeredComponents = BladeX::registeredComponents();
+
+        $this->assertEquals('components.directoryWithComponents.myView2', $registeredComponents[1]->view);
+        $this->assertEquals('foo', $registeredComponents[1]->tag);
+    }
 }

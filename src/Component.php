@@ -27,10 +27,6 @@ class Component
             $tag = $this->determineDefaultTag($view);
         }
 
-        if (! view()->exists($view)) {
-            throw CouldNotRegisterComponent::viewNotFound($view, $tag);
-        }
-
         $this->view = $view;
 
         $this->tag = $tag;
