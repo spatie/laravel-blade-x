@@ -1,11 +1,19 @@
 <?xml version="1.0"?>
 <div><?php $__env->startComponent(
-           'components/layout',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'No spaces'])); ?><?php $__env->slot('sidebar'); ?><strong>sidebar</strong><?php $__env->endSlot(); ?><main class="content"><?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Content'])); ?> Card content <?php echo $__env->renderComponent(); ?> </main><?php $__env->slot('footer'); ?> Footer <?php $__env->endSlot(); ?> <?php echo $__env->renderComponent(); ?>  <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Root card'])); ?>  <?php $__env->startComponent(
-           'components/card',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(), ['title' => 'Nested card'])); ?> Nested <?php echo $__env->renderComponent(); ?> Card content <?php echo $__env->renderComponent(); ?> 
+           'components.layout',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'No spaces'])
+        ); ?><?php $__env->slot('sidebar'); ?><strong>sidebar</strong><?php $__env->endSlot(); ?><main class="content"><?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'Content'])
+        ); ?> Card content <?php echo $__env->renderComponent(); ?> </main><?php $__env->slot('footer'); ?> Footer <?php $__env->endSlot(); ?> <?php echo $__env->renderComponent(); ?>  <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'Root card'])
+        ); ?>  <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'Nested card'])
+        ); ?> Nested <?php echo $__env->renderComponent(); ?> Card content <?php echo $__env->renderComponent(); ?> 
 </div>

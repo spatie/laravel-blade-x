@@ -1,9 +1,10 @@
 <?php
 
-namespace Spatie\BladeX\Tests;
+namespace Spatie\BladeX\Tests\Features\ComponentCompilation;
 
 use Spatie\BladeX\Facades\BladeX;
 use Illuminate\Support\Facades\View;
+use Spatie\BladeX\Tests\TestCase;
 
 class ComponentCompilationTest extends TestCase
 {

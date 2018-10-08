@@ -1,0 +1,1 @@
+namespaced view 1

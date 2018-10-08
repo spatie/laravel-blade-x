@@ -4,8 +4,10 @@ namespace Spatie\BladeX;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
+use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
+use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Symfony\Component\Finder\SplFileInfo;
-use Spatie\BladeX\Exceptions\CouldNotRegisterBladeXComponent;
+use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class BladeX
 {
@@ -16,62 +18,51 @@ class BladeX
     protected $prefix = '';
 
     /**
-     * @param string|\Spatie\BladeX\BladeXComponent $bladeViewName
-     * @param string $bladeXComponentName
+     * @param string|array $view
+     * @param string $tag
      *
-     * @return \Spatie\BladeX\BladeXComponent
+     * @return null|\Spatie\BladeX\Component
      */
-    public function component($bladeViewName, string $bladeXComponentName = ''): BladeXComponent
+    public function component($view, string $tag = ''): ?Component
     {
-        $newBladeXComponent = new BladeXComponent($bladeViewName, $bladeXComponentName);
+        if (is_array($view)) {
+            foreach ($view as $singleView) {
+                $this->component($singleView);
+            }
 
-        $this->registeredComponents[$newBladeXComponent->name] = $newBladeXComponent;
+            return null;
+        }
 
-        return $newBladeXComponent;
+        if ($view instanceof Component) {
+            $this->registeredComponents[$view->tag] = $view;
+
+            return $view;
+        }
+
+        if (!is_string($view)) {
+            throw CouldNotRegisterComponent::invalidArgument();
+        }
+
+        if (ends_with($view, '*')) {
+            $this->registerComponents($view);
+
+            return null;
+        }
+
+        if (! view()->exists($view)) {
+            throw CouldNotRegisterComponent::viewNotFound($view, $tag);
+        }
+
+        $component = new Component($view, $tag);
+
+        $this->registeredComponents[$component->tag] = $component;
+
+        return $component;
     }
 
-    public function getRegisteredComponents(): array
+    public function registeredComponents(): array
     {
         return array_values($this->registeredComponents);
-    }
-
-    /**
-     * @param string|array $directory
-     */
-    public function components($directory)
-    {
-        if (is_string($directory)) {
-            $directory = [$directory];
-        }
-
-        if (! is_array($directory)) {
-            throw CouldNotRegisterBladeXComponent::invalidArgument();
-        }
-
-        collect($directory)->each(function (string $directory) {
-            $this->registerComponents($directory);
-        });
-    }
-
-    protected function registerComponents(string $directory)
-    {
-        if (! File::isDirectory($directory)) {
-            throw CouldNotRegisterBladeXComponent::componentDirectoryNotFound($directory);
-        }
-
-        collect(File::allFiles($directory))
-            ->filter(function (SplFileInfo $file) {
-                return ends_with($file->getFilename(), '.blade.php');
-            })
-            ->each(function (SplFileInfo $fileInfo) {
-                $viewName = $this->getViewName($fileInfo->getPathname());
-
-                $componentName = str_replace_last('.blade.php', '', $fileInfo->getFilename());
-
-                $componentName = kebab_case($componentName);
-
-                $this->component($viewName, $componentName);
-            });
     }
 
     public function prefix(string $prefix = ''): self
@@ -86,21 +77,21 @@ class BladeX
         return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
     }
 
-    protected function getViewName(string $pathName): string
+    public function registerComponents(string $viewDirectory)
     {
-        $viewPaths = collect(View::getFinder()->getPaths())
-            ->map(function (string $registeredViewPath) {
-                return realpath($registeredViewPath);
+        $componentDirectory = str_contains($viewDirectory, '::')
+            ? new NamespacedDirectory($viewDirectory)
+            : new RegularDirectory($viewDirectory);
+
+        collect(File::files($componentDirectory->getAbsoluteDirectory()))
+            ->filter(function (SplFileInfo $file) {
+                return ends_with($file->getFilename(), '.blade.php');
             })
-            ->filter()
-            ->toArray();
-
-        foreach ($viewPaths as $viewPath) {
-            $pathName = str_replace($viewPath.'/', '', $pathName);
-        }
-
-        $viewName = str_replace_last('.blade.php', '', $pathName);
-
-        return $viewName;
+            ->map(function (SplFileInfo $file) use ($componentDirectory) {
+                return $componentDirectory->getViewName($file);
+            })
+            ->each(function (string $viewName) {
+                $this->component($viewName);
+            });
     }
 }
