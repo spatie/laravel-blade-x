@@ -83,8 +83,8 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 - [Brent Roose](https://github.com/brendt)
 - [Alex Vanderbist](https://github.com/alexvanderbist)
 - [Ruben Van Assche](https://github.com/rubenvanassche)
-- [Freek Van der Herten](https://github.com/freekmurze)
 - [Sebastian De Deyne](https://github.com/sebdedeyne)
+- [Freek Van der Herten](https://github.com/freekmurze)
 - [All Contributors](../../contributors)
 
 ## Support us
