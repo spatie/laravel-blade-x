@@ -24,7 +24,7 @@ you can write this:
 <my-alert type="error" :message="$message" />
 ```
 
-You can place the content of that alert in a simple Blade view that needs to be [registered](https://github.com/spatie/laravel-blade-x#usage) before using the `my-alert` component.
+You can place the content of that alert in a simple Blade view that needs to be [registered](https://docs.spatie.be/laravel-blade-x/v2/basic-usage/writing-your-first-component) before using the `my-alert` component.
 
 ```blade
 {{-- resources/views/components/myAlert.blade.php --}}
