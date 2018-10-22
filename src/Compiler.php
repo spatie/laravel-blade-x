@@ -51,7 +51,7 @@ class Compiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\s*{$prefix}{$component->tag}(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]+\\\"|\'[^\']+\'|[^\'\\\"=<>]+))?)*\s*)(?<![\/=\-])>/";
+        $pattern = "/<\s*{$prefix}{$component->tag}(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]*\\\"|\'[^\']*\'|[^\'\\\"=<>]+))?)*\s*)(?<![\/=\-])>/";
 
         return preg_replace_callback($pattern, function (array $matches) use ($component) {
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);

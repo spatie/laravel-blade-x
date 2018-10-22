@@ -155,4 +155,12 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('componentsWithSimilarNames');
     }
+
+    /** @test */
+    public function it_compiles_components_with_empty_attributes()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithEmptyAttributes');
+    }
 }
