@@ -2,9 +2,13 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
-## 2.0.2 - 2018-10-22
+## 2.0.3 - 2018-10-22
 
-- fix compiling empty attributes
+- fix compiling empty tag attributes
+
+## 2.0.2 - 2018-10-08
+
+- fix edge-case for self-closing tags with newlines
 
 ## 2.0.1 - 2018-10-08
 
