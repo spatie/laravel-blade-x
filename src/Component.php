@@ -60,6 +60,11 @@ class Component
 
         $tag = kebab_case(end($baseComponentName));
 
+        if (str_contains($view, '::') && !str_contains($tag, '::')) {
+            $namespace = array_first(explode('::', $view));
+            $tag = "{$namespace}::{$tag}";
+        }
+
         return $tag;
     }
 }

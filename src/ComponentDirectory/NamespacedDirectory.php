@@ -31,7 +31,7 @@ class NamespacedDirectory extends ComponentDirectory
             throw CouldNotRegisterComponent::viewPathNotFound($viewPath);
         }
 
-        return $absoluteDirectory;
+        return $viewPath ? "{$absoluteDirectory}/{$viewPath}" : $absoluteDirectory;
     }
 
     public function getViewName(SplFileInfo $viewFile): string

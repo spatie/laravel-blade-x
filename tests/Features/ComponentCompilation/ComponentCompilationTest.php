@@ -116,6 +116,18 @@ class ComponentCompilationTest extends TestCase
     }
 
     /** @test */
+    public function a_global_prefix_works_with_namespaced_component()
+    {
+        View::addNamespace('namespaced-components', __DIR__.'/stubs/namespacedComponents');
+
+        BladeX::component('namespaced-components::namespacedCard');
+
+        BladeX::prefix('x');
+
+        $this->assertMatchesViewSnapshot('namespacedGlobalPrefix');
+    }
+
+    /** @test */
     public function it_compiles_components_that_use_a_global_function()
     {
         BladeX::component('components.card');

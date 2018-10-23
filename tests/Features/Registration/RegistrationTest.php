@@ -167,6 +167,25 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_a_subdirectory_containing_namespaced_view_components()
+    {
+        View::addNamespace('subdirectory-namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::component('subdirectory-namespaced-test::components.*');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->tag => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'subdirectory-namespaced-test::namespaced-view1' => 'subdirectory-namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
     public function it_overwrites_the_previous_component_when_registering_one_with_the_same_name()
     {
         BladeX::component('components.directoryWithComponents.myView1', 'foo');
