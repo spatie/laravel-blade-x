@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.1.0 - 2018-10-30
+
+- add support for namespaced subdirectories
+
 ## 2.0.3 - 2018-10-22
 
 - fix compiling empty tag attributes
