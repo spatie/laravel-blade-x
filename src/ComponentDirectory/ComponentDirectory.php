@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\ComponentDirectory;
 
+use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 
 abstract class ComponentDirectory
@@ -10,7 +11,7 @@ abstract class ComponentDirectory
 
     public function getViewName(SplFileInfo $viewFile): string
     {
-        $view = str_replace_last('.blade.php', '', $viewFile->getFilename());
+        $view = Str::replaceLast('.blade.php', '', $viewFile->getFilename());
 
         return "{$this->viewDirectory}.{$view}";
     }

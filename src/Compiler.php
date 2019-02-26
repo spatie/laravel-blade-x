@@ -2,6 +2,8 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Support\Str;
+
 class Compiler
 {
     /** @var \Spatie\BladeX\BladeX */
@@ -126,18 +128,18 @@ class Compiler
         }
 
         return collect($matches)->mapWithKeys(function ($match) {
-            $attribute = camel_case($match['attribute']);
+            $attribute = Str::camel($match['attribute']);
             $value = $match['value'] ?? null;
 
             if (is_null($value)) {
                 $value = 'true';
-                $attribute = str_start($attribute, 'bind:');
+                $attribute = Str::start($attribute, 'bind:');
             }
 
             $value = $this->stripQuotes($value);
 
-            if (starts_with($attribute, 'bind:')) {
-                $attribute = str_after($attribute, 'bind:');
+            if (Str::startsWith($attribute, 'bind:')) {
+                $attribute = Str::after($attribute, 'bind:');
             } else {
                 $value = str_replace("'", "\\'", $value);
                 $value = "'{$value}'";
@@ -164,7 +166,7 @@ class Compiler
 
     protected function isOpeningHtmlTag(string $tagName, string $html): bool
     {
-        return ! ends_with($html, ["</{$tagName}>", '/>']);
+        return ! Str::endsWith($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $attributeString): string
@@ -183,7 +185,7 @@ class Compiler
 
     protected function stripQuotes(string $string): string
     {
-        if (starts_with($string, ['"', '\''])) {
+        if (Str::startsWith($string, ['"', '\''])) {
             return substr($string, 1, -1);
         }
 

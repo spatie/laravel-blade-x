@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX\ComponentDirectory;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\Finder\SplFileInfo;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
@@ -17,8 +18,7 @@ class NamespacedDirectory extends ComponentDirectory
     public function __construct(string $viewDirectory)
     {
         [$this->namespace, $viewDirectory] = explode('::', $viewDirectory);
-
-        $this->viewDirectory = str_before($viewDirectory, '*');
+        $this->viewDirectory = Str::before($viewDirectory, '*');
     }
 
     public function getAbsoluteDirectory(): string
@@ -36,7 +36,7 @@ class NamespacedDirectory extends ComponentDirectory
 
     public function getViewName(SplFileInfo $viewFile): string
     {
-        $view = str_replace_last('.blade.php', '', $viewFile->getFilename());
+        $view = Str::replaceLast('.blade.php', '', $viewFile->getFilename());
 
         $viewDirectory = '';
 

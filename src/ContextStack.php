@@ -2,6 +2,8 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Support\Arr;
+
 class ContextStack
 {
     /** @var array */
@@ -14,7 +16,7 @@ class ContextStack
 
     public function read(): array
     {
-        return array_last($this->stack) ?? [];
+        return Arr::last($this->stack) ?? [];
     }
 
     public function pop()

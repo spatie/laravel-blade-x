@@ -3,6 +3,7 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
@@ -59,9 +60,9 @@ class Component
     {
         $baseComponentName = explode('.', $view);
 
-        $tag = kebab_case(end($baseComponentName));
+        $tag = Str::kebab(end($baseComponentName));
 
-        if (str_contains($view, '::') && ! str_contains($tag, '::')) {
+        if (Str::contains($view, '::') && ! Str::contains($tag, '::')) {
             $namespace = Arr::first(explode('::', $view));
             $tag = "{$namespace}::{$tag}";
         }

@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use Spatie\BladeX\ComponentDirectory\RegularDirectory;
@@ -73,7 +74,7 @@ class BladeX
 
     public function getPrefix(): string
     {
-        return empty($this->prefix) ? '' : str_finish($this->prefix, '-');
+        return empty($this->prefix) ? '' : Str::finish($this->prefix, '-');
     }
 
     public function registerComponents(string $viewDirectory)
@@ -84,7 +85,7 @@ class BladeX
 
         collect(File::files($componentDirectory->getAbsoluteDirectory()))
             ->filter(function (SplFileInfo $file) {
-                return ends_with($file->getFilename(), '.blade.php');
+                return Str::endsWith($file->getFilename(), '.blade.php');
             })
             ->map(function (SplFileInfo $file) use ($componentDirectory) {
                 return $componentDirectory->getViewName($file);
