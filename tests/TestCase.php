@@ -14,7 +14,7 @@ abstract class TestCase extends Orchestra
 {
     use MatchesSnapshots;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 

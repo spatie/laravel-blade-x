@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\View;
 
 class ComponentCompilationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

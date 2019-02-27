@@ -12,7 +12,7 @@ use Spatie\BladeX\Tests\Features\Registration\TestClasses\SelectViewModel;
 
 class RegistrationTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

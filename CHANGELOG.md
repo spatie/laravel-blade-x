@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.1.2 - 2018-02-27
+
+- add support for Laravel 5.8
+
 ## 2.1.1 - 2018-02-01
 
 - use Arr:: and Str:: functions

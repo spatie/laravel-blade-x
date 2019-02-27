@@ -15,7 +15,7 @@ class ViewModelTest extends TestCase
     /** @var DummyViewModel */
     protected $viewModel;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

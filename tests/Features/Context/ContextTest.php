@@ -10,7 +10,7 @@ use Spatie\BladeX\Tests\Features\Context\TestClasses\UserProviderViewModel;
 
 class ContextTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
