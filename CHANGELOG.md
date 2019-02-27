@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.2.0 - 2018-02-27
+
+- drop support for Laravel 5.7 and lower
+- drop support for PHP 7.1 and lower
+
 ## 2.1.2 - 2018-02-27
 
 - add support for Laravel 5.8
