@@ -152,6 +152,14 @@ class ComponentCompilationTest extends TestCase
     }
 
     /** @test */
+    public function it_compiles_components_with_multi_line_closing_tags()
+    {
+        BladeX::component('components.card');
+
+        $this->assertMatchesViewSnapshot('componentWithMultiLineClosingTag');
+    }
+
+    /** @test */
     public function it_compiles_boolean_attributes_as_true_values()
     {
         BladeX::component('components.checkbox');
