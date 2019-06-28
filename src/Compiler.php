@@ -66,7 +66,7 @@ class Compiler
     {
         $prefix = $this->bladeX->getPrefix();
 
-        $pattern = "/<\/\s*{$prefix}{$component->tag}*>/";
+        $pattern = "/<\/\s*{$prefix}{$component->tag}\s*>/";
 
         return preg_replace($pattern, $this->componentEndString($component), $viewContents);
     }
