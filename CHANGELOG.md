@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.2.1 - 2019-06-28
+
+- fix multi-line closing tags triggering other components
+
 ## 2.2.0 - 2018-02-27
 
 - drop support for Laravel 5.7 and lower
