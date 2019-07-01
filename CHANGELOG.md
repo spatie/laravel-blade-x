@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.2.2 - 2019-01-07
+
+- loading views moved from `register` method to `boot`
+
 ## 2.2.1 - 2019-06-28
 
 - fix multi-line closing tags triggering other components
