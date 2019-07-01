@@ -12,12 +12,12 @@ class BladeXServiceProvider extends ServiceProvider
         $this->app->singleton(ContextStack::class);
 
         $this->app->alias(BladeX::class, 'blade-x');
-
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'bladex');
     }
 
     public function boot()
     {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'bladex');
+
         $this->app['blade.compiler']->extend(function ($view) {
             return $this->app[Compiler::class]->compile($view);
         });
