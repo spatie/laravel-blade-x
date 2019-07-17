@@ -27,3 +27,4 @@ Boolean attributes (attributes without a value), e.g. `<checkbox checked />` wil
 ```html
 {{-- the `checkboxInput` view will receive a `$checked` variable that evaluates as true --}}
 <checkbox-input checked />
+```
