@@ -5,7 +5,7 @@
   <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => str_after(ucfirst($title), 'My ')])
+           ['title' => Illuminate\Support\Str::after(ucfirst($title), 'My ')])
         ); ?>
   <?php echo e($title); ?>
   <?php echo $__env->renderComponent(); ?>

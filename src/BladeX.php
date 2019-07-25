@@ -43,7 +43,7 @@ class BladeX
             throw CouldNotRegisterComponent::invalidArgument();
         }
 
-        if (ends_with($view, '*')) {
+        if (Str::endsWith($view, '*')) {
             $this->registerComponents($view);
 
             return null;
@@ -79,7 +79,7 @@ class BladeX
 
     public function registerComponents(string $viewDirectory)
     {
-        $componentDirectory = str_contains($viewDirectory, '::')
+        $componentDirectory = Str::contains($viewDirectory, '::')
             ? new NamespacedDirectory($viewDirectory)
             : new RegularDirectory($viewDirectory);
 

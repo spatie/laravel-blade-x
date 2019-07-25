@@ -14,7 +14,7 @@ class RegularDirectory extends ComponentDirectory
 
     public function __construct(string $viewDirectory)
     {
-        $this->viewDirectory = str_before($viewDirectory, '.*');
+        $this->viewDirectory = Str::before($viewDirectory, '.*');
     }
 
     public function getAbsoluteDirectory(): string
