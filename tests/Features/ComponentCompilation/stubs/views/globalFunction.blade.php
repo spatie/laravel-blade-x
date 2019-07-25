@@ -2,6 +2,6 @@
 $title = 'my title'
 @endphp
 
-<card :title="str_after(ucfirst($title), 'My ')">
+<card :title="Illuminate\Support\Str::after(ucfirst($title), 'My ')">
     {{ $title }}
 </card>
