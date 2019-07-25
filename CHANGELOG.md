@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.2.3 - 2019-07-25
+
+- do not use deprecated Laravel helpers
+
 ## 2.2.2 - 2019-01-07
 
 - loading views moved from `register` method to `boot`
