@@ -9,9 +9,6 @@ use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class RegularDirectory extends ComponentDirectory
 {
-    /** @var string */
-    protected $viewDirectory;
-
     public function __construct(string $viewDirectory)
     {
         $this->viewDirectory = Str::before($viewDirectory, '.*');
@@ -33,12 +30,5 @@ class RegularDirectory extends ComponentDirectory
         }
 
         return $absoluteDirectory;
-    }
-
-    public function getViewName(SplFileInfo $viewFile): string
-    {
-        $view = Str::replaceLast('.blade.php', '', $viewFile->getFilename());
-
-        return "{$this->viewDirectory}.{$view}";
     }
 }
