@@ -68,8 +68,8 @@ class BladeX
         if (is_iterable($viewDirectory)) {
             $components = new ComponentCollection();
 
-            foreach($viewDirectory as $singleViewDirectory) {
-                if(Str::endsWith($singleViewDirectory, '*')) {
+            foreach ($viewDirectory as $singleViewDirectory) {
+                if (Str::endsWith($singleViewDirectory, '*')) {
                     $components = $components->merge($this->registerComponents($singleViewDirectory));
                 } else {
                     $components->push($this->component($singleViewDirectory));

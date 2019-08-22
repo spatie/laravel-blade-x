@@ -2,7 +2,6 @@
 
 namespace Spatie\BladeX;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
