@@ -38,9 +38,7 @@ class Compiler
 
     protected function parseSelfClosingTags(string $viewContents, Component $component): string
     {
-        $prefix = $this->bladeX->getPrefix();
-
-        $pattern = "/<\s*{$prefix}{$component->tag}\s*(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]+\\\"|\'[^\']+\'|[^\'\\\"=<>]+))?)*\s*)\/>/";
+        $pattern = "/<\s*{$component->getTag()}\s*(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]+\\\"|\'[^\']+\'|[^\'\\\"=<>]+))?)*\s*)\/>/";
 
         return preg_replace_callback($pattern, function (array $matches) use ($component) {
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
@@ -51,9 +49,7 @@ class Compiler
 
     protected function parseOpeningTags(string $viewContents, Component $component): string
     {
-        $prefix = $this->bladeX->getPrefix();
-
-        $pattern = "/<\s*{$prefix}{$component->tag}(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]*\\\"|\'[^\']*\'|[^\'\\\"=<>]+))?)*\s*)(?<![\/=\-])>/";
+        $pattern = "/<\s*{$component->getTag()}(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]*\\\"|\'[^\']*\'|[^\'\\\"=<>]+))?)*\s*)(?<![\/=\-])>/";
 
         return preg_replace_callback($pattern, function (array $matches) use ($component) {
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
@@ -64,9 +60,7 @@ class Compiler
 
     protected function parseClosingTags(string $viewContents, Component $component): string
     {
-        $prefix = $this->bladeX->getPrefix();
-
-        $pattern = "/<\/\s*{$prefix}{$component->tag}\s*>/";
+        $pattern = "/<\/\s*{$component->getTag()}\s*>/";
 
         return preg_replace($pattern, $this->componentEndString($component), $viewContents);
     }
@@ -162,11 +156,6 @@ class Compiler
         $viewContents = preg_replace($closingPattern, ' @endslot', $viewContents);
 
         return $viewContents;
-    }
-
-    protected function isOpeningHtmlTag(string $tagName, string $html): bool
-    {
-        return ! Str::endsWith($html, ["</{$tagName}>", '/>']);
     }
 
     protected function parseBindAttributes(string $attributeString): string
