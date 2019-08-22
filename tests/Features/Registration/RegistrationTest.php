@@ -154,6 +154,14 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_will_throw_an_exception_when_registering_components_without_wildcard()
+    {
+        $this->expectException(CouldNotRegisterComponent::class);
+
+        BladeX::components('components.directoryWithComponents');
+    }
+
+    /** @test */
     public function it_can_register_a_directory_containing_namespaced_view_components()
     {
         View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
@@ -382,6 +390,63 @@ class RegistrationTest extends TestCase
             'ns-namespaced-view2' => 'namespaced-test::namespacedView2',
             'ns-namespaced-view3' => 'namespaced-test::namespacedView3',
             'nsc-namespaced-view1' => 'namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_multiple_directories_containing_view_components_with_prefix()
+    {
+        BladeX::components([
+            'components.directoryWithComponents.*',
+            'components.directoryWithComponents2.*',
+        ])->prefix('c');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'c-my-view1' => 'components.directoryWithComponents.myView1',
+            'c-my-view2' => 'components.directoryWithComponents.myView2',
+            'c-my-view3' => 'components.directoryWithComponents.myView3',
+            'c-my-view4' => 'components.directoryWithComponents2.myView4',
+            'c-my-view5' => 'components.directoryWithComponents2.myView5',
+            'c-my-view6' => 'components.directoryWithComponents2.myView6',
+            'context' => 'bladex::context',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_multiple_views_with_prefix()
+    {
+        BladeX::components([
+            'components.directoryWithComponents.myView1',
+            'components.directoryWithComponents.myView2',
+            'components.directoryWithComponents.myView3',
+        ])->prefix('c');
+
+        BladeX::components([
+            'components.directoryWithComponents2.myView4',
+            'components.directoryWithComponents2.myView5',
+            'components.directoryWithComponents2.myView6',
+        ]);
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'c-my-view1' => 'components.directoryWithComponents.myView1',
+            'c-my-view2' => 'components.directoryWithComponents.myView2',
+            'c-my-view3' => 'components.directoryWithComponents.myView3',
+            'my-view4' => 'components.directoryWithComponents2.myView4',
+            'my-view5' => 'components.directoryWithComponents2.myView5',
+            'my-view6' => 'components.directoryWithComponents2.myView6',
+            'context' => 'bladex::context',
         ], $registeredComponents);
     }
 }

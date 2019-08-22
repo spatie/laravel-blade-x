@@ -18,7 +18,7 @@ class BladeX
     protected $prefix = '';
 
     /**
-     * @param string|array $view
+     * @param string|string[] $view
      * @param string $tag
      *
      * @return null|\Spatie\BladeX\Component
@@ -59,12 +59,26 @@ class BladeX
     }
 
     /**
-     * @param string $viewDirectory
+     * @param string|string[] $viewDirectory
      *
      * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
      */
-    public function components(string $viewDirectory): ComponentCollection
+    public function components($viewDirectory): ComponentCollection
     {
+        if (is_iterable($viewDirectory)) {
+            $components = new ComponentCollection();
+
+            foreach($viewDirectory as $singleViewDirectory) {
+                if(Str::endsWith($singleViewDirectory, '*')) {
+                    $components = $components->merge($this->registerComponents($singleViewDirectory));
+                } else {
+                    $components->push($this->component($singleViewDirectory));
+                }
+            }
+
+            return $components;
+        }
+
         return $this->registerComponents($viewDirectory);
     }
 
@@ -99,6 +113,10 @@ class BladeX
      */
     public function registerComponents(string $viewDirectory): ComponentCollection
     {
+        if (! Str::endsWith($viewDirectory, '*')) {
+            throw CouldNotRegisterComponent::viewDirectoryWithoutWildcard($viewDirectory);
+        }
+
         $componentDirectory = Str::contains($viewDirectory, '::')
             ? new NamespacedDirectory($viewDirectory)
             : new RegularDirectory($viewDirectory);

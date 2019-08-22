@@ -31,4 +31,9 @@ class CouldNotRegisterComponent extends Exception
     {
         return new static("Could not register component `{$componentName}` because the view model class `{$viewModelClass}` does not implement `".Arrayable::class.'`.');
     }
+
+    public static function viewDirectoryWithoutWildcard(string $viewDirectory)
+    {
+        return new static("Could not register components because the view directory `{$viewDirectory}` does not end with a wildcard.");
+    }
 }
