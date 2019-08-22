@@ -59,6 +59,16 @@ class BladeX
     }
 
     /**
+     * @param string $viewDirectory
+     *
+     * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
+     */
+    public function components(string $viewDirectory): ComponentCollection
+    {
+        return $this->registerComponents($viewDirectory);
+    }
+
+    /**
      * @return \Spatie\BladeX\Component[]
      */
     public function registeredComponents(): array
@@ -81,6 +91,8 @@ class BladeX
     }
 
     /**
+     * @internal
+     *
      * @param string $viewDirectory
      *
      * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]

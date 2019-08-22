@@ -290,9 +290,9 @@ class RegistrationTest extends TestCase
     {
         View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
 
-        BladeX::registerComponents('namespaced-test::*')->withoutNamespace();
+        BladeX::components('namespaced-test::*')->withoutNamespace();
 
-        BladeX::registerComponents('namespaced-test::components.*');
+        BladeX::components('namespaced-test::components.*');
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
@@ -316,9 +316,9 @@ class RegistrationTest extends TestCase
 
         BladeX::prefix('x');
 
-        BladeX::registerComponents('namespaced-test::*')->withoutNamespace();
+        BladeX::components('namespaced-test::*')->withoutNamespace();
 
-        BladeX::registerComponents('namespaced-test::components.*');
+        BladeX::components('namespaced-test::components.*');
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
@@ -340,9 +340,9 @@ class RegistrationTest extends TestCase
     {
         View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
 
-        BladeX::registerComponents('namespaced-test::*')->withoutNamespace()->prefix('ns');
+        BladeX::components('namespaced-test::*')->withoutNamespace()->prefix('ns');
 
-        BladeX::registerComponents('namespaced-test::components.*');
+        BladeX::components('namespaced-test::components.*');
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
@@ -366,9 +366,9 @@ class RegistrationTest extends TestCase
 
         BladeX::prefix('x');
 
-        BladeX::registerComponents('namespaced-test::*')->withoutNamespace()->prefix('ns');
+        BladeX::components('namespaced-test::*')->withoutNamespace()->prefix('ns');
 
-        BladeX::registerComponents('namespaced-test::components.*')->withoutNamespace()->prefix('nsc');
+        BladeX::components('namespaced-test::components.*')->withoutNamespace()->prefix('nsc');
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
