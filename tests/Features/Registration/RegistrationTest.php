@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
         $registeredComponents = BladeX::registeredComponents();
 
         $this->assertEquals('components.directoryWithComponents.myView1', $registeredComponents[1]->view);
-        $this->assertEquals('my-view1', $registeredComponents[1]->tag);
+        $this->assertEquals('my-view1', $registeredComponents[1]->getTag());
     }
 
     /** @test */
@@ -39,7 +39,7 @@ class RegistrationTest extends TestCase
 
         $this->assertCount(2, $registeredComponents);
         $this->assertEquals('components.directoryWithComponents.myView1', $registeredComponents[1]->view);
-        $this->assertEquals('my-custom-tag', $registeredComponents[1]->tag);
+        $this->assertEquals('my-custom-tag', $registeredComponents[1]->getTag());
     }
 
     /** @test */
@@ -53,7 +53,7 @@ class RegistrationTest extends TestCase
 
         $this->assertCount(2, $registeredComponents);
         $this->assertEquals('components.selectField', $registeredComponents[1]->view);
-        $this->assertEquals('my-custom-tag', $registeredComponents[1]->tag);
+        $this->assertEquals('my-custom-tag', $registeredComponents[1]->getTag());
     }
 
     /** @test */
@@ -84,7 +84,7 @@ class RegistrationTest extends TestCase
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
-                return [$bladeXComponent->tag => $bladeXComponent->view];
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -106,7 +106,7 @@ class RegistrationTest extends TestCase
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
-                return [$bladeXComponent->tag => $bladeXComponent->view];
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -146,6 +146,14 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_will_throw_an_exception_when_registering_a_namespace_that_does_not_exist()
+    {
+        $this->expectException(CouldNotRegisterComponent::class);
+
+        BladeX::component('non-existing-namespace::*');
+    }
+
+    /** @test */
     public function it_can_register_a_directory_containing_namespaced_view_components()
     {
         View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
@@ -154,7 +162,7 @@ class RegistrationTest extends TestCase
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
-                return [$bladeXComponent->tag => $bladeXComponent->view];
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -175,7 +183,7 @@ class RegistrationTest extends TestCase
 
         $registeredComponents = collect(BladeX::registeredComponents())
             ->mapWithKeys(function (Component $bladeXComponent) {
-                return [$bladeXComponent->tag => $bladeXComponent->view];
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
             })
             ->toArray();
 
@@ -194,6 +202,186 @@ class RegistrationTest extends TestCase
         $registeredComponents = BladeX::registeredComponents();
 
         $this->assertEquals('components.directoryWithComponents.myView2', $registeredComponents[1]->view);
-        $this->assertEquals('foo', $registeredComponents[1]->tag);
+        $this->assertEquals('foo', $registeredComponents[1]->getTag());
+    }
+
+    /** @test */
+    public function it_can_register_a_namespaced_view_component_without_namespace()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::component('namespaced-test::namespacedView1')->withoutNamespace();
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'namespaced-view1' => 'namespaced-test::namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_namespaced_view_component_without_namespace_but_global_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::prefix('x');
+
+        BladeX::component('namespaced-test::namespacedView1')->withoutNamespace();
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'x-context' => 'bladex::context',
+            'x-namespaced-view1' => 'namespaced-test::namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_namespaced_view_component_without_namespace_but_self_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::component('namespaced-test::namespacedView1')->withoutNamespace()->prefix('ns');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_namespaced_view_component_without_namespace_but_self_prefix_overrides_global_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::prefix('x');
+
+        BladeX::component('namespaced-test::namespacedView1')->withoutNamespace()->prefix('ns');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'x-context' => 'bladex::context',
+            'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_directory_containing_namespaced_view_components_without_namespace()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::registerComponents('namespaced-test::*')->withoutNamespace();
+
+        BladeX::registerComponents('namespaced-test::components.*');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'namespaced-view1' => 'namespaced-test::namespacedView1',
+            'namespaced-view2' => 'namespaced-test::namespacedView2',
+            'namespaced-view3' => 'namespaced-test::namespacedView3',
+            'namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_directory_containing_namespaced_view_components_without_namespace_but_global_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::prefix('x');
+
+        BladeX::registerComponents('namespaced-test::*')->withoutNamespace();
+
+        BladeX::registerComponents('namespaced-test::components.*');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'x-context' => 'bladex::context',
+            'x-namespaced-view1' => 'namespaced-test::namespacedView1',
+            'x-namespaced-view2' => 'namespaced-test::namespacedView2',
+            'x-namespaced-view3' => 'namespaced-test::namespacedView3',
+            'x-namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_directory_containing_namespaced_view_components_without_namespace_but_self_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::registerComponents('namespaced-test::*')->withoutNamespace()->prefix('ns');
+
+        BladeX::registerComponents('namespaced-test::components.*');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
+            'ns-namespaced-view2' => 'namespaced-test::namespacedView2',
+            'ns-namespaced-view3' => 'namespaced-test::namespacedView3',
+            'namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_directory_containing_namespaced_view_components_without_namespace_but_self_prefix_overrides_global_prefix()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::prefix('x');
+
+        BladeX::registerComponents('namespaced-test::*')->withoutNamespace()->prefix('ns');
+
+        BladeX::registerComponents('namespaced-test::components.*')->withoutNamespace()->prefix('nsc');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'x-context' => 'bladex::context',
+            'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
+            'ns-namespaced-view2' => 'namespaced-test::namespacedView2',
+            'ns-namespaced-view3' => 'namespaced-test::namespacedView3',
+            'nsc-namespaced-view1' => 'namespaced-test::components.namespacedView1',
+        ], $registeredComponents);
     }
 }
