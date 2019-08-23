@@ -2,8 +2,8 @@
 
 namespace Spatie\BladeX\ComponentDirectory;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 
 abstract class ComponentDirectory
@@ -11,7 +11,7 @@ abstract class ComponentDirectory
     /** @var string */
     protected $viewDirectory;
 
-    /**  @var bool */
+    /** @var bool */
     protected $includeSubdirectories;
 
     abstract public function getAbsoluteDirectory(): string;
@@ -25,7 +25,7 @@ abstract class ComponentDirectory
         return implode('.', array_filter([
             $this->viewDirectory,
             $subDirectory,
-            $view
+            $view,
         ]));
     }
 

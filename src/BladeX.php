@@ -3,7 +3,6 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
