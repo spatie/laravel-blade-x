@@ -197,7 +197,7 @@ class RegistrationTest extends TestCase
 
         $this->assertEquals([
             'context' => 'bladex::context',
-            'subdirectory-namespaced-test::namespaced-view1' => 'subdirectory-namespaced-test::components.namespacedView1',
+            'subdirectory-namespaced-test::namespaced-view4' => 'subdirectory-namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 
@@ -313,7 +313,7 @@ class RegistrationTest extends TestCase
             'namespaced-view1' => 'namespaced-test::namespacedView1',
             'namespaced-view2' => 'namespaced-test::namespacedView2',
             'namespaced-view3' => 'namespaced-test::namespacedView3',
-            'namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+            'namespaced-test::namespaced-view4' => 'namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 
@@ -339,7 +339,7 @@ class RegistrationTest extends TestCase
             'x-namespaced-view1' => 'namespaced-test::namespacedView1',
             'x-namespaced-view2' => 'namespaced-test::namespacedView2',
             'x-namespaced-view3' => 'namespaced-test::namespacedView3',
-            'x-namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+            'x-namespaced-test::namespaced-view4' => 'namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 
@@ -363,7 +363,7 @@ class RegistrationTest extends TestCase
             'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
             'ns-namespaced-view2' => 'namespaced-test::namespacedView2',
             'ns-namespaced-view3' => 'namespaced-test::namespacedView3',
-            'namespaced-test::namespaced-view1' => 'namespaced-test::components.namespacedView1',
+            'namespaced-test::namespaced-view4' => 'namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 
@@ -389,7 +389,7 @@ class RegistrationTest extends TestCase
             'ns-namespaced-view1' => 'namespaced-test::namespacedView1',
             'ns-namespaced-view2' => 'namespaced-test::namespacedView2',
             'ns-namespaced-view3' => 'namespaced-test::namespacedView3',
-            'nsc-namespaced-view1' => 'namespaced-test::components.namespacedView1',
+            'nsc-namespaced-view4' => 'namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 
@@ -447,6 +447,28 @@ class RegistrationTest extends TestCase
             'my-view5' => 'components.directoryWithComponents2.myView5',
             'my-view6' => 'components.directoryWithComponents2.myView6',
             'context' => 'bladex::context',
+        ], $registeredComponents);
+    }
+
+    /** @test */
+    public function it_can_register_a_directory_and_subdirectories_containing_namespaced_view_components()
+    {
+        View::addNamespace('namespaced-test', __DIR__.'/stubs/components/namespacedComponents');
+
+        BladeX::component('namespaced-test::**.*');
+
+        $registeredComponents = collect(BladeX::registeredComponents())
+            ->mapWithKeys(function (Component $bladeXComponent) {
+                return [$bladeXComponent->getTag() => $bladeXComponent->view];
+            })
+            ->toArray();
+
+        $this->assertEquals([
+            'context' => 'bladex::context',
+            'namespaced-test::namespaced-view1' => 'namespaced-test::namespacedView1',
+            'namespaced-test::namespaced-view2' => 'namespaced-test::namespacedView2',
+            'namespaced-test::namespaced-view3' => 'namespaced-test::namespacedView3',
+            'namespaced-test::namespaced-view4' => 'namespaced-test::components.namespacedView4',
         ], $registeredComponents);
     }
 }
