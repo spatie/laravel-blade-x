@@ -2,41 +2,69 @@
 
 namespace Spatie\BladeX;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class Component
 {
+    /** @var BladeX */
+    protected $bladeX;
+
     /** @var string */
     public $view;
 
-    /** @var string */
+    /**
+     * @var string
+     * @internal
+     * @see Component::getTag()
+     */
     public $tag;
 
     /** @var string */
     public $viewModel;
 
-    public static function make(string $view, string $tag = '')
+    /** @var string */
+    protected $prefix;
+
+    /** @var bool */
+    protected $withNamespace;
+
+    public static function make(string $view, string $tag = '', string $prefix = '', bool $withNamespace = true)
     {
-        return new static($view, $tag);
+        return new static($view, $tag, $prefix, $withNamespace);
     }
 
-    public function __construct(string $view, string $tag = '')
+    public function __construct(string $view, string $tag = '', string $prefix = '', bool $withNamespace = true)
     {
-        if ($tag === '') {
-            $tag = $this->determineDefaultTag($view);
-        }
-
         $this->view = $view;
 
         $this->tag = $tag;
+
+        $this->prefix = $prefix;
+
+        $this->withNamespace = $withNamespace;
+
+        $this->bladeX = app(BladeX::class);
     }
 
     public function tag(string $tag)
     {
         $this->tag = $tag;
+
+        return $this;
+    }
+
+    public function prefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+
+        return $this;
+    }
+
+    public function withoutNamespace()
+    {
+        $this->withNamespace = false;
 
         return $this;
     }
@@ -56,15 +84,28 @@ class Component
         return $this;
     }
 
-    protected function determineDefaultTag(string $view): string
+    public function getTag(): string
     {
-        $baseComponentName = explode('.', $view);
+        $tag = empty($this->prefix) ? $this->bladeX->getPrefix() : Str::finish($this->prefix, '-');
+
+        $tag .= empty($this->tag) ? $this->determineDefaultTag() : $this->tag;
+
+        return $tag;
+    }
+
+    protected function determineDefaultTag(): string
+    {
+        $baseComponentName = explode('.', $this->view);
 
         $tag = Str::kebab(end($baseComponentName));
 
-        if (Str::contains($view, '::') && ! Str::contains($tag, '::')) {
-            $namespace = Arr::first(explode('::', $view));
+        if (Str::contains($this->view, '::') && ! Str::contains($tag, '::')) {
+            $namespace = Str::before($this->view, '::');
             $tag = "{$namespace}::{$tag}";
+        }
+
+        if (! $this->withNamespace && Str::contains($tag, '::')) {
+            $tag = Str::after($tag, '::');
         }
 
         return $tag;

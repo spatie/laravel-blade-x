@@ -12,13 +12,10 @@ class NamespacedDirectory extends ComponentDirectory
     /** @var string */
     protected $namespace;
 
-    /** @var string */
-    protected $viewDirectory;
-
     public function __construct(string $viewDirectory)
     {
         [$this->namespace, $viewDirectory] = explode('::', $viewDirectory);
-        $this->viewDirectory = Str::before($viewDirectory, '*');
+        $this->viewDirectory = trim(Str::before($viewDirectory, '*'), '.');
     }
 
     public function getAbsoluteDirectory(): string
@@ -36,14 +33,6 @@ class NamespacedDirectory extends ComponentDirectory
 
     public function getViewName(SplFileInfo $viewFile): string
     {
-        $view = Str::replaceLast('.blade.php', '', $viewFile->getFilename());
-
-        $viewDirectory = '';
-
-        if ($this->viewDirectory !== '') {
-            $viewDirectory = $this->viewDirectory;
-        }
-
-        return "{$this->namespace}::{$viewDirectory}{$view}";
+        return "{$this->namespace}::".parent::getViewName($viewFile);
     }
 }

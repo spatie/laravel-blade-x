@@ -18,23 +18,21 @@ class BladeX
     protected $prefix = '';
 
     /**
-     * @param string|array $view
+     * @param string|string[] $view
      * @param string $tag
      *
      * @return null|\Spatie\BladeX\Component
      */
     public function component($view, string $tag = ''): ?Component
     {
-        if (is_array($view)) {
-            foreach ($view as $singleView) {
-                $this->component($singleView);
-            }
+        if (is_iterable($view)) {
+            $this->registerViews($view);
 
             return null;
         }
 
         if ($view instanceof Component) {
-            $this->registeredComponents[$view->tag] = $view;
+            $this->registeredComponents[] = $view;
 
             return $view;
         }
@@ -55,14 +53,43 @@ class BladeX
 
         $component = new Component($view, $tag);
 
-        $this->registeredComponents[$component->tag] = $component;
+        $this->registeredComponents[] = $component;
 
         return $component;
     }
 
+    /**
+     * @param string|string[] $viewDirectory
+     *
+     * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
+     */
+    public function components($viewDirectory): ComponentCollection
+    {
+        if (is_iterable($viewDirectory)) {
+            $components = new ComponentCollection();
+
+            foreach ($viewDirectory as $singleViewDirectory) {
+                if (Str::endsWith($singleViewDirectory, '*')) {
+                    $components = $components->merge($this->registerComponents($singleViewDirectory));
+                } else {
+                    $components->push($this->component($singleViewDirectory));
+                }
+            }
+
+            return $components;
+        }
+
+        return $this->registerComponents($viewDirectory);
+    }
+
+    /**
+     * @return \Spatie\BladeX\Component[]
+     */
     public function registeredComponents(): array
     {
-        return array_values($this->registeredComponents);
+        return collect($this->registeredComponents)->reverse()->unique(function (Component $component) {
+            return $component->getTag();
+        })->reverse()->values()->all();
     }
 
     public function prefix(string $prefix = ''): self
@@ -77,21 +104,43 @@ class BladeX
         return empty($this->prefix) ? '' : Str::finish($this->prefix, '-');
     }
 
-    public function registerComponents(string $viewDirectory)
+    /**
+     * @internal
+     *
+     * @param string $viewDirectory
+     *
+     * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
+     */
+    public function registerComponents(string $viewDirectory): ComponentCollection
     {
+        if (! Str::endsWith($viewDirectory, '*')) {
+            throw CouldNotRegisterComponent::viewDirectoryWithoutWildcard($viewDirectory);
+        }
+
         $componentDirectory = Str::contains($viewDirectory, '::')
             ? new NamespacedDirectory($viewDirectory)
             : new RegularDirectory($viewDirectory);
 
-        collect(File::files($componentDirectory->getAbsoluteDirectory()))
-            ->filter(function (SplFileInfo $file) {
-                return Str::endsWith($file->getFilename(), '.blade.php');
-            })
-            ->map(function (SplFileInfo $file) use ($componentDirectory) {
-                return $componentDirectory->getViewName($file);
-            })
-            ->each(function (string $viewName) {
-                $this->component($viewName);
-            });
+        return $this->registerViews(
+            ComponentCollection::make(File::files($componentDirectory->getAbsoluteDirectory()))
+                ->filter(function (SplFileInfo $file) {
+                    return Str::endsWith($file->getFilename(), '.blade.php');
+                })
+                ->map(function (SplFileInfo $file) use ($componentDirectory) {
+                    return $componentDirectory->getViewName($file);
+                })
+        );
+    }
+
+    /**
+     * @param iterable|string[] $views
+     *
+     * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
+     */
+    protected function registerViews(iterable $views): ComponentCollection
+    {
+        return ComponentCollection::make($views)->map(function (string $viewName) {
+            return $this->component($viewName);
+        });
     }
 }
