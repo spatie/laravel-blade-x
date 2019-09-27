@@ -2,8 +2,8 @@
 
 namespace Spatie\BladeX;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class Compiler
 {
@@ -132,7 +132,7 @@ class Compiler
             }
 
             $value = $this->stripQuotes($value);
-            
+
             if ($this->containsEchoes($value)) {
                 $attribute = Str::start($attribute, 'bind:');
                 $value = $this->compileEchoes($value);
@@ -186,7 +186,7 @@ class Compiler
 
         return $string;
     }
-    
+
     protected function containsEchoes(string $value): bool
     {
         return preg_match('/{{\s*(.+?)\s*}}|{!!\s*(.+?)\s*!!}/s', $value);
@@ -195,20 +195,20 @@ class Compiler
     protected function compileEchoes(string $value): string
     {
         $segments = preg_split('/({{\s*.+?\s*}}|{!!\s*.+?\s*!!})/s', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
-        
+
         return Collection::make($segments)
-            ->reject(function($segment) {
+            ->reject(function ($segment) {
                 return '' === $segment;
             })
-            ->map(function($segment) {
+            ->map(function ($segment) {
                 if (preg_match('/{{\s*(.+?)\s*}}/s', $segment, $matches)) {
                     return 'e('.$matches[1].')';
                 }
-                
+
                 if (preg_match('/{!!\s*(.+?)\s*!!}/s', $segment, $matches)) {
                     return $matches[1];
                 }
-    
+
                 return "'".str_replace("'", "\\'", $segment)."'";
             })
             ->implode('.');
