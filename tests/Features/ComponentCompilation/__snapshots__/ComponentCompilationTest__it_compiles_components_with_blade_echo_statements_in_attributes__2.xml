@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<div><?php $user = 'John';
+?><?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => e($user)])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
+
+<?php $user = new class {
+        public $name = 'Jane';
+    };
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => e($user->name)])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
+<?php $title = 'Blade & XML';
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => e($title)])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
+<?php $title = 'Blade &amp; XML';
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => $title])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+</div>

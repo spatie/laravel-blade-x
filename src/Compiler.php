@@ -131,6 +131,7 @@ class Compiler
             }
 
             $value = $this->stripQuotes($value);
+            $value = $this->compileEchoes($value);
 
             if (Str::startsWith($attribute, 'bind:')) {
                 $attribute = Str::after($attribute, 'bind:');
@@ -160,7 +161,7 @@ class Compiler
 
     protected function parseBindAttributes(string $attributeString): string
     {
-        return preg_replace("/\s*:([\w-]+)=/m", ' bind:$1=', $attributeString);
+        return preg_replace("/\s*:([\w-]+)(=)|\s*([\w-]+)(=[\'\"]?\s*(?:{{|{!!))/m", ' bind:$1$3$2$4', $attributeString);
     }
 
     protected function attributesToString(array $attributes): string
@@ -179,5 +180,16 @@ class Compiler
         }
 
         return $string;
+    }
+    
+    protected function compileEchoes(string $value): string
+    {
+        if (preg_match('/\s*{{\s*(.*?)\s*}}\s*/', $value, $echoMatch)) {
+            return 'e('.$echoMatch[1].')';
+        } else if (preg_match('/\s*{!!\s*(.*?)\s*!!}\s*/', $value, $unescapedEchoMatch)) {
+            return $unescapedEchoMatch[1];
+        }
+        
+        return $value;
     }
 }
