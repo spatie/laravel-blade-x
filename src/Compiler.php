@@ -212,7 +212,7 @@ class Compiler
                 return "'".str_replace("'", "\\'", $segment)."'";
             })
             ->implode('.');
-        
+
         return "new \\Illuminate\\Support\\HtmlString({$string})";
     }
 }
