@@ -181,15 +181,15 @@ class Compiler
 
         return $string;
     }
-    
+
     protected function compileEchoes(string $value): string
     {
         if (preg_match('/\s*{{\s*(.*?)\s*}}\s*/', $value, $echoMatch)) {
             return 'e('.$echoMatch[1].')';
-        } else if (preg_match('/\s*{!!\s*(.*?)\s*!!}\s*/', $value, $unescapedEchoMatch)) {
+        } elseif (preg_match('/\s*{!!\s*(.*?)\s*!!}\s*/', $value, $unescapedEchoMatch)) {
             return $unescapedEchoMatch[1];
         }
-        
+
         return $value;
     }
 }

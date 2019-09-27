@@ -183,12 +183,12 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('componentWithEmptyAttributes');
     }
-    
+
     /** @test */
     public function it_compiles_components_with_blade_echo_statements_in_attributes()
     {
         BladeX::component('components.card');
-        
+
         $this->assertMatchesViewSnapshot('componentWithBladeEchoes');
     }
 }
