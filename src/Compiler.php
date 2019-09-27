@@ -196,7 +196,7 @@ class Compiler
     {
         $segments = preg_split('/({{\s*.+?\s*}}|{!!\s*.+?\s*!!})/s', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
 
-        return Collection::make($segments)
+        $string = Collection::make($segments)
             ->reject(function ($segment) {
                 return '' === $segment;
             })
@@ -212,5 +212,7 @@ class Compiler
                 return "'".str_replace("'", "\\'", $segment)."'";
             })
             ->implode('.');
+        
+        return "new \\Illuminate\\Support\\HtmlString({$string})";
     }
 }

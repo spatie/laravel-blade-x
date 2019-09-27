@@ -51,5 +51,5 @@ In your Blade view you can now use the component using the kebab-cased name:
 ```html
 <h1>My view</h1>
 
-<my-alert type="error" :message="$message" />
+<my-alert type="error" message="{{ $message }}" />
 ```

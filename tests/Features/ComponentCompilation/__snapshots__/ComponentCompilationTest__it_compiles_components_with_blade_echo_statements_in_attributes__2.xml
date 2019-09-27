@@ -3,7 +3,7 @@
 ?><?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => e($user)])
+           ['title' => new \Illuminate\Support\HtmlString(e($user))])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -11,7 +11,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => 'G\'day '.e($user).'!'])
+           ['title' => new \Illuminate\Support\HtmlString('G\'day '.e($user).'!')])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -24,7 +24,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => e($user->name)])
+           ['title' => new \Illuminate\Support\HtmlString(e($user->name))])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -32,7 +32,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => e($user->name).'\'s Page'])
+           ['title' => new \Illuminate\Support\HtmlString(e($user->name).'\'s Page')])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -43,7 +43,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => e($title)])
+           ['title' => new \Illuminate\Support\HtmlString(e($title))])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -51,7 +51,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => 'The &quot;'.e($title).'&quot; section'])
+           ['title' => new \Illuminate\Support\HtmlString('The &quot;'.e($title).'&quot; section')])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -62,7 +62,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => $title])
+           ['title' => new \Illuminate\Support\HtmlString($title)])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -70,7 +70,7 @@
  <?php $__env->startComponent(
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['title' => 'The &quot;'.$title.'&quot; section'])
+           ['title' => new \Illuminate\Support\HtmlString('The &quot;'.$title.'&quot; section')])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
