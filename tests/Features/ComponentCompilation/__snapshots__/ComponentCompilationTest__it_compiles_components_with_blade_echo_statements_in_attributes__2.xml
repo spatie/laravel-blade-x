@@ -8,6 +8,13 @@
     My content
  <?php echo $__env->renderComponent(); ?> 
 
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'G\'day '.e($user).'!'])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
 
 <?php $user = new class {
         public $name = 'Jane';
@@ -18,6 +25,14 @@
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
            ['title' => e($user->name)])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => e($user->name).'\'s Page'])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 
@@ -33,6 +48,14 @@
     My content
  <?php echo $__env->renderComponent(); ?> 
 
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'The &quot;'.e($title).'&quot; section'])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
 <?php $title = 'Blade &amp; XML';
 ?>
 
@@ -40,6 +63,14 @@
            'components.card',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
            ['title' => $title])
+        ); ?> 
+    My content
+ <?php echo $__env->renderComponent(); ?> 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['title' => 'The &quot;'.$title.'&quot; section'])
         ); ?> 
     My content
  <?php echo $__env->renderComponent(); ?> 

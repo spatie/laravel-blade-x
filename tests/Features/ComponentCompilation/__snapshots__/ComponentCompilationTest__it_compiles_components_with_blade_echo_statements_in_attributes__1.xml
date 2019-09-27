@@ -5,15 +5,31 @@
     <div>My content</div>
   </div>
   <div class="card">
+    <h1>G'day John!</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
     <h1>Jane</h1>
     <div>My content</div>
   </div>
   <div class="card">
-    <h1>Blade &amp; XML</h1>
+    <h1>Jane's Page</h1>
     <div>My content</div>
   </div>
   <div class="card">
     <h1>Blade &amp; XML</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>The "Blade &amp; XML" section</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>Blade &amp; XML</h1>
+    <div>My content</div>
+  </div>
+  <div class="card">
+    <h1>The "Blade &amp; XML" section</h1>
     <div>My content</div>
   </div>
 </div>

@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class Compiler
@@ -131,10 +132,14 @@ class Compiler
             }
 
             $value = $this->stripQuotes($value);
+            
+            if ($this->containsEchoes($value)) {
+                $attribute = Str::start($attribute, 'bind:');
+                $value = $this->compileEchoes($value);
+            }
 
             if (Str::startsWith($attribute, 'bind:')) {
                 $attribute = Str::after($attribute, 'bind:');
-                $value = $this->compileEchoes($value);
             } else {
                 $value = str_replace("'", "\\'", $value);
                 $value = "'{$value}'";
@@ -161,7 +166,7 @@ class Compiler
 
     protected function parseBindAttributes(string $attributeString): string
     {
-        return preg_replace("/\s*:([\w-]+)(=)|\s*([\w-]+)(=[\'\"]?\s*(?:{{|{!!))/m", ' bind:$1$3$2$4', $attributeString);
+        return preg_replace("/\s*:([\w-]+)=/m", ' bind:$1=', $attributeString);
     }
 
     protected function attributesToString(array $attributes): string
@@ -181,15 +186,31 @@ class Compiler
 
         return $string;
     }
+    
+    protected function containsEchoes(string $value): bool
+    {
+        return preg_match('/{{\s*(.+?)\s*}}|{!!\s*(.+?)\s*!!}/s', $value);
+    }
 
     protected function compileEchoes(string $value): string
     {
-        if (preg_match('/\s*{{\s*(.*?)\s*}}\s*/', $value, $echoMatch)) {
-            return 'e('.$echoMatch[1].')';
-        } elseif (preg_match('/\s*{!!\s*(.*?)\s*!!}\s*/', $value, $unescapedEchoMatch)) {
-            return $unescapedEchoMatch[1];
-        }
-
-        return $value;
+        $segments = preg_split('/({{\s*.+?\s*}}|{!!\s*.+?\s*!!})/s', $value, -1, PREG_SPLIT_DELIM_CAPTURE);
+        
+        return Collection::make($segments)
+            ->reject(function($segment) {
+                return '' === $segment;
+            })
+            ->map(function($segment) {
+                if (preg_match('/{{\s*(.+?)\s*}}/s', $segment, $matches)) {
+                    return 'e('.$matches[1].')';
+                }
+                
+                if (preg_match('/{!!\s*(.+?)\s*!!}/s', $segment, $matches)) {
+                    return $matches[1];
+                }
+    
+                return "'".str_replace("'", "\\'", $segment)."'";
+            })
+            ->implode('.');
     }
 }
