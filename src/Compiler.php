@@ -131,10 +131,10 @@ class Compiler
             }
 
             $value = $this->stripQuotes($value);
-            $value = $this->compileEchoes($value);
 
             if (Str::startsWith($attribute, 'bind:')) {
                 $attribute = Str::after($attribute, 'bind:');
+                $value = $this->compileEchoes($value);
             } else {
                 $value = str_replace("'", "\\'", $value);
                 $value = "'{$value}'";
