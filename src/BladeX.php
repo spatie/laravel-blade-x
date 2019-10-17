@@ -3,7 +3,6 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Symfony\Component\Finder\SplFileInfo;
 use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
@@ -111,18 +110,21 @@ class BladeX
      *
      * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[]
      */
-    public function registerComponents(string $viewDirectory): ComponentCollection
+    public function registerComponents(string $viewDirectory)
     {
         if (! Str::endsWith($viewDirectory, '*')) {
             throw CouldNotRegisterComponent::viewDirectoryWithoutWildcard($viewDirectory);
         }
 
+        $includeSubdirectories = Str::endsWith($viewDirectory, '**.*');
+
         $componentDirectory = Str::contains($viewDirectory, '::')
-            ? new NamespacedDirectory($viewDirectory)
-            : new RegularDirectory($viewDirectory);
+            ? new NamespacedDirectory($viewDirectory, $includeSubdirectories)
+            : new RegularDirectory($viewDirectory, $includeSubdirectories);
 
         return $this->registerViews(
-            ComponentCollection::make(File::files($componentDirectory->getAbsoluteDirectory()))
+            ComponentCollection::make($componentDirectory->getFiles())
+
                 ->filter(function (SplFileInfo $file) {
                     return Str::endsWith($file->getFilename(), '.blade.php');
                 })

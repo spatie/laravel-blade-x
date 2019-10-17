@@ -12,10 +12,11 @@ class NamespacedDirectory extends ComponentDirectory
     /** @var string */
     protected $namespace;
 
-    public function __construct(string $viewDirectory)
+    public function __construct(string $viewDirectory, bool $includeSubdirectories)
     {
         [$this->namespace, $viewDirectory] = explode('::', $viewDirectory);
         $this->viewDirectory = trim(Str::before($viewDirectory, '*'), '.');
+        $this->includeSubdirectories = $includeSubdirectories;
     }
 
     public function getAbsoluteDirectory(): string

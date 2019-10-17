@@ -8,9 +8,10 @@ use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class RegularDirectory extends ComponentDirectory
 {
-    public function __construct(string $viewDirectory)
+    public function __construct(string $viewDirectory, bool $includeSubdirectories)
     {
         $this->viewDirectory = Str::before($viewDirectory, '.*');
+        $this->includeSubdirectories = $includeSubdirectories;
     }
 
     public function getAbsoluteDirectory(): string
