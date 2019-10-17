@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.4.0 - 2019-10-17
+
+- add `**.*` as a wildcard for all files including sub-directories
+
 ## 2.3.0 - 2019-09-04
 
 - add support for Laravel 6.0
