@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.3.0 - 2019-09-04
+
+- add support for Laravel 6.0
+- add support for prefixing single components and collections
+- allow to remove the namespace for a single component
+
 ## 2.2.3 - 2019-07-25
 
 - do not use deprecated Laravel helpers

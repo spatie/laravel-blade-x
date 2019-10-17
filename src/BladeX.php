@@ -124,6 +124,7 @@ class BladeX
 
         return $this->registerViews(
             ComponentCollection::make($componentDirectory->getFiles())
+
                 ->filter(function (SplFileInfo $file) {
                     return Str::endsWith($file->getFilename(), '.blade.php');
                 })
