@@ -46,7 +46,7 @@ The package will automatically register itself.
 
 ## Documentation
 
-You'll find the documentation on [https://docs.spatie.be/laravel-blade-x/v2](https://docs.spatie.be/laravel-blade-x/v2).
+You'll find the documentation on [https://docs.spatie.be/laravel-blade-x/v2/introduction](https://docs.spatie.be/laravel-blade-x/v2/introduction).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-blade-x/issues), we'll try to address it as soon as possible.
 
