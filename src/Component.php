@@ -99,7 +99,7 @@ class Component
 
         $tag = Str::kebab(end($baseComponentName));
 
-        if (Str::contains($this->view, '_')) {
+        if (Str::contains($tag, '_')) {
             $tag = str_replace('_', '-', $tag);
         }
 
