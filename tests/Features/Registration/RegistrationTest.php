@@ -2,13 +2,13 @@
 
 namespace Spatie\BladeX\Tests\Features\Registration;
 
-use stdClass;
-use Spatie\BladeX\Component;
-use Spatie\BladeX\Facades\BladeX;
-use Spatie\BladeX\Tests\TestCase;
 use Illuminate\Support\Facades\View;
+use Spatie\BladeX\Component;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\Features\Registration\TestClasses\SelectViewModel;
+use Spatie\BladeX\Tests\TestCase;
+use stdClass;
 
 class RegistrationTest extends TestCase
 {

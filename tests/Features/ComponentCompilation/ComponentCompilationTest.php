@@ -2,9 +2,9 @@
 
 namespace Spatie\BladeX\Tests\Features\ComponentCompilation;
 
+use Illuminate\Support\Facades\View;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\TestCase;
-use Illuminate\Support\Facades\View;
 
 class ComponentCompilationTest extends TestCase
 {

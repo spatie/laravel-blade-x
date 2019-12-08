@@ -2,10 +2,10 @@
 
 namespace Spatie\BladeX\ComponentDirectory;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
-use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Support\Str;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
+use Symfony\Component\Finder\SplFileInfo;
 
 class NamespacedDirectory extends ComponentDirectory
 {
