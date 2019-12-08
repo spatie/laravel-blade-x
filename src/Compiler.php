@@ -161,7 +161,21 @@ class Compiler
     {
         $attributeString = $this->parseBindAttributes($attributeString);
 
-        $pattern = '/(?<attribute>[\w:-]+)(=(?<value>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?/';
+        $pattern = '/
+            (?<attribute>[\w:-]+)
+            (
+                =
+                (?<value>
+                    (
+                        \"[^\"]+\"
+                        |
+                        \\\'[^\\\']+\\\'
+                        |
+                        [^\s>]+
+                    )
+                )
+            )?
+        /x';
 
         if (! preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
             return [];
