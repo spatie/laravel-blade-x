@@ -218,9 +218,24 @@ class Compiler
         return $viewContents;
     }
 
+    /**
+     * Adds the `bind:` prefix for all bound data attributes.
+     * E.g. `foo=bar :name=alex` becomes `foo=bar bind:name=alex`
+     *
+     * @param string $attributeString
+     *
+     * @return string
+     */
     protected function parseBindAttributes(string $attributeString): string
     {
-        return preg_replace("/\s*:([\w-]+)=/m", ' bind:$1=', $attributeString);
+        $pattern = "/
+            \s*
+            :           # attribute needs to start with a semicolon
+            ([\w-]+)    # match the actual attribute name
+            =           # only match attributes that have a value
+        /xm";
+
+        return preg_replace($pattern, ' bind:$1=', $attributeString);
     }
 
     protected function attributesToString(array $attributes): string
