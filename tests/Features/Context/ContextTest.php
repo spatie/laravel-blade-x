@@ -2,11 +2,11 @@
 
 namespace Spatie\BladeX\Tests\Features\Context;
 
-use Spatie\BladeX\Facades\BladeX;
-use Spatie\BladeX\Tests\TestCase;
 use Illuminate\Support\Facades\View;
+use Spatie\BladeX\Facades\BladeX;
 use Spatie\BladeX\Tests\Features\Context\TestClasses\UserNameViewModel;
 use Spatie\BladeX\Tests\Features\Context\TestClasses\UserProviderViewModel;
+use Spatie\BladeX\Tests\TestCase;
 
 class ContextTest extends TestCase
 {

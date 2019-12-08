@@ -2,8 +2,8 @@
 
 namespace Spatie\BladeX\ComponentDirectory;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
 
 class RegularDirectory extends ComponentDirectory

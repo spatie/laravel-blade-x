@@ -2,13 +2,13 @@
 
 namespace Spatie\BladeX\Tests;
 
-use Spatie\BladeX\Facades\BladeX;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Blade;
-use Spatie\Snapshots\MatchesSnapshots;
 use Illuminate\Support\Facades\Artisan;
-use Spatie\BladeX\BladeXServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\BladeX\BladeXServiceProvider;
+use Spatie\BladeX\Facades\BladeX;
+use Spatie\Snapshots\MatchesSnapshots;
 
 abstract class TestCase extends Orchestra
 {

@@ -220,7 +220,7 @@ class Compiler
 
     /**
      * Adds the `bind:` prefix for all bound data attributes.
-     * E.g. `foo=bar :name=alex` becomes `foo=bar bind:name=alex`
+     * E.g. `foo=bar :name=alex` becomes `foo=bar bind:name=alex`.
      *
      * @param string $attributeString
      *

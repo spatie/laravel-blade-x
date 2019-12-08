@@ -3,10 +3,10 @@
 namespace Spatie\BladeX;
 
 use Illuminate\Support\Str;
-use Symfony\Component\Finder\SplFileInfo;
+use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
 use Spatie\BladeX\ComponentDirectory\RegularDirectory;
 use Spatie\BladeX\Exceptions\CouldNotRegisterComponent;
-use Spatie\BladeX\ComponentDirectory\NamespacedDirectory;
+use Symfony\Component\Finder\SplFileInfo;
 
 class BladeX
 {
