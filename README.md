@@ -1,7 +1,7 @@
 # Supercharged Blade components
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/spatie/laravel-blade-x/run-tests?label=tests)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/spatie/laravel-blade-x/run-tests?label=tests)](https://github.com/spatie/laravel-blade-x/actions?query=workflow%3Arun-tests)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-blade-x.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-blade-x)
 [![StyleCI](https://github.styleci.io/repos/150733020/shield?branch=master)](https://github.styleci.io/repos/150733020)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
