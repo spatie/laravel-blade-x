@@ -183,4 +183,12 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('componentWithEmptyAttributes');
     }
+
+    /** @test */
+    public function it_compiles_livewire_syntax()
+    {
+        BladeX::component('components.textField');
+
+        $this->assertMatchesViewSnapshot('livewireAttributes');
+    }
 }

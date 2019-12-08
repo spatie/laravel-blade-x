@@ -229,7 +229,7 @@ class Compiler
     protected function parseBindAttributes(string $attributeString): string
     {
         $pattern = "/
-            \s*
+            (?:^|\s+)   # start of the string or whitespace between attributes
             :           # attribute needs to start with a semicolon
             ([\w-]+)    # match the actual attribute name
             =           # only match attributes that have a value
