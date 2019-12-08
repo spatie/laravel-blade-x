@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## next version 
+
+- cleaned up and documented some regular expressions
+
 ## 2.4.0 - 2019-10-17
 
 - add `**.*` as a wildcard for all files including sub-directories
