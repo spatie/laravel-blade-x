@@ -72,7 +72,30 @@ class Compiler
 
     protected function parseOpeningTags(string $viewContents, Component $component): string
     {
-        $pattern = "/<\s*{$component->getTag()}(?<attributes>(?:\s+[\w\-:]+(=(?:\\\"[^\\\"]*\\\"|\'[^\']*\'|[^\'\\\"=<>]+))?)*\s*)(?<![\/=\-])>/";
+        $pattern = "/
+            <
+                \s*
+                {$component->getTag()}
+                (?<attributes>
+                    (?:
+                        \s+
+                        [\w\-:]+
+                        (
+                            =
+                            (?:
+                                \\\"[^\\\"]*\\\"
+                                |
+                                \'[^\']*\'
+                                |
+                                [^\'\\\"=<>]+
+                            )
+                        )
+                    ?)*
+                    \s*
+                )
+                (?<![\/=\-])
+            >
+        /x";
 
         return preg_replace_callback($pattern, function (array $matches) use ($component) {
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
