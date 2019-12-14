@@ -2,8 +2,9 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
-## next version 
+## 2.4.1 - 2019-12-14
 
+- fix tag names for snake_case view files (#100 via #92)
 - cleaned up and documented some regular expressions
 
 ## 2.4.0 - 2019-10-17
