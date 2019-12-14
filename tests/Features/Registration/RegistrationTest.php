@@ -43,6 +43,18 @@ class RegistrationTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_a_single_snake_case_component()
+    {
+        BladeX::component('components.my_snake_case');
+
+        $registeredComponents = BladeX::registeredComponents();
+
+        $this->assertCount(2, $registeredComponents);
+        $this->assertEquals('components.my_snake_case', $registeredComponents[1]->view);
+        $this->assertEquals('my-snake-case', $registeredComponents[1]->getTag());
+    }
+
+    /** @test */
     public function it_accepts_a_component_instance()
     {
         $component = Component::make('components.selectField')->tag('my-custom-tag');
