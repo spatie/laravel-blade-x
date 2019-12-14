@@ -99,9 +99,7 @@ class Component
 
         $tag = Str::kebab(end($baseComponentName));
 
-        if (Str::contains($tag, '_')) {
-            $tag = str_replace('_', '-', $tag);
-        }
+        $tag = str_replace('_', '-', $tag);
 
         if (Str::contains($this->view, '::') && ! Str::contains($tag, '::')) {
             $namespace = Str::before($this->view, '::');
