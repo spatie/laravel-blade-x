@@ -46,6 +46,16 @@ BladeX::component([
 ]);
 ```
 
+You can also register sub-directories like this.
+
+```php
+// This will register all Blade views that are stored in both `resources/views/components` and `resources/views/layouts`
+
+BladeX::component(
+   'components.**.*',
+);
+```
+
 In your Blade view you can now use the component using the kebab-cased name:
 
 ```html
