@@ -201,7 +201,7 @@ class Compiler
 
                 if (Str::contains($attribute, ':')) {
                     $namespace = Str::before($attribute, ':');
-                    if (!$namespaces->has($namespace)) {
+                    if (! $namespaces->has($namespace)) {
                         $namespaces->put($namespace, collect());
                     }
 
@@ -258,7 +258,7 @@ class Compiler
         return collect($attributes)
             ->map(function ($value, string $attribute) {
                 if (is_array($value)) {
-                    $value = '['. $this->attributesToString($value) .']';
+                    $value = '['.$this->attributesToString($value).']';
                 }
                 return "'{$attribute}' => {$value}";
             })
