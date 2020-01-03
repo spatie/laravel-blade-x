@@ -260,6 +260,7 @@ class Compiler
                 if (is_array($value)) {
                     $value = '['.$this->attributesToString($value).']';
                 }
+
                 return "'{$attribute}' => {$value}";
             })
             ->implode(',');
