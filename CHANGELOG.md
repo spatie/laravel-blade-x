@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.5.0 - 2020-01-10
+
+- add support for namespaced attributes
+
 ## 2.4.1 - 2019-12-14
 
 - fix tag names for snake_case view files (#100 via #92)
