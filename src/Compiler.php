@@ -113,7 +113,7 @@ class Compiler
 
     protected function componentString(Component $component, array $attributes = []): string
     {
-        return $this->componentStartString($component, $attributes).$this->componentEndString($component);
+        return $this->componentStartString($component, $attributes) . $this->componentEndString($component);
     }
 
     protected function componentStartString(Component $component, array $attributes = []): string
@@ -177,12 +177,12 @@ class Compiler
             )?
         /x';
 
-        if (! preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all($pattern, $attributeString, $matches, PREG_SET_ORDER)) {
             return [];
         }
 
-        $namespaces = collect();
-        $attributes = collect($matches)->mapWithKeys(function ($match) use ($namespaces) {
+        $namespaces = [];
+        $attributes = collect($matches)->mapWithKeys(function ($match) use (&$namespaces) {
             $attribute = Str::camel($match['attribute']);
             $value = $match['value'] ?? null;
 
@@ -201,12 +201,9 @@ class Compiler
 
                 if (Str::contains($attribute, ':')) {
                     $namespace = Str::before($attribute, ':');
-                    if (! $namespaces->has($namespace)) {
-                        $namespaces->put($namespace, collect());
-                    }
-
                     $attribute = Str::after($attribute, ':');
-                    $namespaces[$namespace]->put($attribute, $value);
+
+                    data_set($namespaces, "{$namespace}.{$attribute}", $value);
 
                     return [];
                 }
@@ -258,7 +255,7 @@ class Compiler
         return collect($attributes)
             ->map(function ($value, string $attribute) {
                 if (is_array($value)) {
-                    $value = '['.$this->attributesToString($value).']';
+                    $value = '[' . $this->attributesToString($value) . ']';
                 }
 
                 return "'{$attribute}' => {$value}";
