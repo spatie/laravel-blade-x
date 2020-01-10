@@ -46,7 +46,7 @@ class Compiler
                 (?<attributes>
                     (?:
                         \s+
-                        [\w\-:]+
+                        [\w\-:.]+
                         (
                             =
                             (?:
@@ -79,7 +79,7 @@ class Compiler
                 (?<attributes>
                     (?:
                         \s+
-                        [\w\-:]+
+                        [\w\-:.]+
                         (
                             =
                             (?:
@@ -162,7 +162,7 @@ class Compiler
         $attributeString = $this->parseBindAttributes($attributeString);
 
         $pattern = '/
-            (?<attribute>[\w:-]+)
+            (?<attribute>[\w\-:.]+)
             (
                 =
                 (?<value>
@@ -181,7 +181,8 @@ class Compiler
             return [];
         }
 
-        return collect($matches)->mapWithKeys(function ($match) {
+        $namespaces = collect();
+        $attributes = collect($matches)->mapWithKeys(function ($match) use ($namespaces) {
             $attribute = Str::camel($match['attribute']);
             $value = $match['value'] ?? null;
 
@@ -197,10 +198,24 @@ class Compiler
             } else {
                 $value = str_replace("'", "\\'", $value);
                 $value = "'{$value}'";
+
+                if (Str::contains($attribute, ':')) {
+                    $namespace = Str::before($attribute, ':');
+                    if (! $namespaces->has($namespace)) {
+                        $namespaces->put($namespace, collect());
+                    }
+
+                    $attribute = Str::after($attribute, ':');
+                    $namespaces[$namespace]->put($attribute, $value);
+
+                    return [];
+                }
             }
 
             return [$attribute => $value];
-        })->toArray();
+        });
+
+        return $attributes->merge($namespaces)->toArray();
     }
 
     protected function parseSlots(string $viewContents): string
@@ -241,7 +256,11 @@ class Compiler
     protected function attributesToString(array $attributes): string
     {
         return collect($attributes)
-            ->map(function (string $value, string $attribute) {
+            ->map(function ($value, string $attribute) {
+                if (is_array($value)) {
+                    $value = '['.$this->attributesToString($value).']';
+                }
+
                 return "'{$attribute}' => {$value}";
             })
             ->implode(',');
