@@ -2,6 +2,7 @@
 
 namespace Spatie\BladeX;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class BladeXServiceProvider extends ServiceProvider
@@ -12,6 +13,10 @@ class BladeXServiceProvider extends ServiceProvider
         $this->app->singleton(ContextStack::class);
 
         $this->app->alias(BladeX::class, 'blade-x');
+
+        Blade::directive('attributes', function () {
+            return "<?php echo \Spatie\BladeX\Html::getAttributeStringForInheritedProperties(get_defined_vars()); ?>";
+        });
     }
 
     public function boot()

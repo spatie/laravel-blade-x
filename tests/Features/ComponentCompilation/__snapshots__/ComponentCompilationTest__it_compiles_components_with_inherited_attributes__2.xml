@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<div><?php $__env->startComponent(
+           'components.btn',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           ['inherited_class' => 'btn btn-primary'])
+        ); ?> 
+    Click me!
+ <?php echo $__env->renderComponent(); ?> 
+</div>

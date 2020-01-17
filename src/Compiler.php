@@ -207,6 +207,10 @@ class Compiler
 
                     return [];
                 }
+
+                if (Str::startsWith($match['attribute'], '-')) {
+                    return ['inherited_' . $attribute => $value];
+                }
             }
 
             return [$attribute => $value];

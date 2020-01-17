@@ -199,4 +199,12 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('namespacedAttributes');
     }
+
+    /** @test */
+    public function it_compiles_components_with_inherited_attributes()
+    {
+        BladeX::component('components.btn');
+
+        $this->assertMatchesViewSnapshot('componentWithInheritedAttributes');
+    }
 }
