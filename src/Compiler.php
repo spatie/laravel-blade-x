@@ -209,7 +209,7 @@ class Compiler
                 }
 
                 if (Str::startsWith($match['attribute'], '-')) {
-                    return ['inherited_' . $attribute => $value];
+                    return ['inherited_'.$attribute => $value];
                 }
             }
 

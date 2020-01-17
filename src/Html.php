@@ -12,17 +12,17 @@ class Html
 
         foreach ($attributes as $attribute => $value) {
             if (is_string($value) || is_numeric($value)) {
-                $finalAttributes[] = $attribute . '="' . $value . '"';
+                $finalAttributes[] = $attribute.'="'.$value.'"';
             } elseif ($value === true) {
                 $finalAttributes[] = $attribute;
             } elseif ($value === false) {
-                $finalAttributes[] = $attribute . '="false"';
+                $finalAttributes[] = $attribute.'="false"';
             } elseif (is_object($value) && method_exists($value, '__toString')) {
-                $finalAttributes[] = $attribute . '="' . $value->__toString() . '"';
+                $finalAttributes[] = $attribute.'="'.$value->__toString().'"';
             }
         }
 
-        return join(' ', $finalAttributes);
+        return implode(' ', $finalAttributes);
     }
 
     public static function getAttributeStringForInheritedProperties(array $attributes): string
