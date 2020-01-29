@@ -120,8 +120,6 @@ class Compiler
     {
         $attributesString = $this->attributesToString($attributes);
 
-//        dd($attributesString);
-
         if ($component->view === 'bladex::context') {
             return " @php(app(Spatie\BladeX\ContextStack::class)->push({$attributesString})) ";
         }
