@@ -2,6 +2,6 @@
 <div>
   <div>
     <label for="email">E-Mail</label>
-    <input type="email" name="email" id="email" value="example@domain.tld"/>
+    <input type="email" name="email" id="email" value="blade-x@spatie.be"/>
   </div>
 </div>

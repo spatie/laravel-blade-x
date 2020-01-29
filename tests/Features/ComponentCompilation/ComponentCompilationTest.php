@@ -212,6 +212,9 @@ class ComponentCompilationTest extends TestCase
                 'type' => 'email',
                 'value' => 'example@domain.tld',
             ],
+            'email' => [
+                'value' => 'blade-x@spatie.be',
+            ],
             'foo' => 'bar',
         ]);
     }
