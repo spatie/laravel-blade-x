@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<div>
+  <div>
+    <label for="email">E-Mail</label>
+    <input type="email" name="email" id="email" value="example@domain.tld"/>
+  </div>
+</div>

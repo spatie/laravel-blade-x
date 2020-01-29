@@ -120,22 +120,22 @@ class Compiler
     {
         $attributesString = $this->attributesToString($attributes);
 
-        $componentAttributeString = "[{$attributesString}]";
+//        dd($attributesString);
 
         if ($component->view === 'bladex::context') {
-            return " @php(app(Spatie\BladeX\ContextStack::class)->push({$componentAttributeString})) ";
+            return " @php(app(Spatie\BladeX\ContextStack::class)->push({$attributesString})) ";
         }
 
         if ($component->viewModel) {
-            $componentAttributeString = "
+            $attributesString = "
                 array_merge(
                     app(Spatie\BladeX\ContextStack::class)->read(),
-                    {$componentAttributeString},
+                    {$attributesString},
                     app(
                         '{$component->viewModel}',
                         array_merge(
                             app(Spatie\BladeX\ContextStack::class)->read(),
-                            {$componentAttributeString}
+                            {$attributesString}
                         )
                     )->toArray()
                 )";
@@ -144,7 +144,7 @@ class Compiler
         return " @component(
            '{$component->view}',
            array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           {$componentAttributeString})
+           {$attributesString})
         ) ";
     }
 
@@ -252,15 +252,39 @@ class Compiler
 
     protected function attributesToString(array $attributes): string
     {
-        return collect($attributes)
-            ->map(function ($value, string $attribute) {
-                if (is_array($value)) {
-                    $value = '['.$this->attributesToString($value).']';
-                }
+        $attributes = collect($attributes);
 
-                return "'{$attribute}' => {$value}";
-            })
-            ->implode(',');
+        $string = [];
+
+        $string['plain'] = '['.$attributes
+                ->reject(function($value, string $attribute): bool {
+                    return Str::startsWith($attribute, '...');
+                })
+                ->map(function ($value, string $attribute) {
+                    if (is_array($value)) {
+                        $value = $this->attributesToString($value);
+                    }
+
+                    return "'{$attribute}' => {$value}";
+                })
+                ->implode(',').']';
+
+        $string['spread'] = $attributes
+                ->filter(function($value, string $attribute): bool {
+                    return Str::startsWith($attribute, '...');
+                })
+                ->map(function ($value, string $attribute) {
+                    $attribute = Str::after($attribute, '...');
+
+                    return "\${$attribute}";
+                })
+                ->implode(',');
+
+        if (empty($string['spread'])) {
+            return $string['plain'];
+        }
+
+        return 'array_merge('.$string['spread'].','.$string['plain'].')';
     }
 
     protected function stripQuotes(string $string): string
