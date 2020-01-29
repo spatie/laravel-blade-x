@@ -255,7 +255,7 @@ class Compiler
         $string = [];
 
         $string['plain'] = '['.$attributes
-                ->reject(function($value, string $attribute): bool {
+                ->reject(function ($value, string $attribute) {
                     return Str::startsWith($attribute, '...');
                 })
                 ->map(function ($value, string $attribute) {
@@ -268,7 +268,7 @@ class Compiler
                 ->implode(',').']';
 
         $string['spread'] = $attributes
-                ->filter(function($value, string $attribute): bool {
+                ->filter(function ($value, string $attribute) {
                     return Str::startsWith($attribute, '...');
                 })
                 ->map(function ($value, string $attribute) {
