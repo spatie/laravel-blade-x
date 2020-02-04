@@ -254,18 +254,19 @@ class Compiler
 
         $string = [];
 
-        $string['plain'] = '['.$attributes
-                ->reject(function ($value, string $attribute) {
-                    return Str::startsWith($attribute, '...');
-                })
-                ->map(function ($value, string $attribute) {
-                    if (is_array($value)) {
-                        $value = $this->attributesToString($value);
-                    }
+        $plainAttributes = $attributes
+            ->reject(function ($value, string $attribute) {
+                return Str::startsWith($attribute, '...');
+            })
+            ->map(function ($value, string $attribute) {
+                if (is_array($value)) {
+                    $value = $this->attributesToString($value);
+                }
 
-                    return "'{$attribute}' => {$value}";
-                })
-                ->implode(',').']';
+                return "'{$attribute}' => {$value}";
+            });
+
+        $string['plain'] = '['.$plainAttributes->implode(',').']';
 
         $string['spread'] = $attributes
                 ->filter(function ($value, string $attribute) {
