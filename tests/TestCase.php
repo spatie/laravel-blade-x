@@ -44,11 +44,11 @@ abstract class TestCase extends Orchestra
     {
         $fullViewName = "views.{$viewName}";
 
-        $this->assertMatchesXmlSnapshot(
+        $this->assertMatchesHtmlSnapshot(
             '<div>'.view($fullViewName, $data)->render().'</div>'
         );
 
-        $this->assertMatchesXmlSnapshot(
+        $this->assertMatchesHtmlSnapshot(
             '<div>'.Blade::compileString($this->getViewContents($viewName)).'</div>'
         );
     }

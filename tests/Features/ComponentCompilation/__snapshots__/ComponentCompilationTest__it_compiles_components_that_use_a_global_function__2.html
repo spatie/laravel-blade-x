@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div>
+<?php $title = 'my title'
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; Illuminate\Support\Str::after(ucfirst($title), 'My ')])
+        ); ?&gt; 
+    <?php echo e($title); ?>
+
+ <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>

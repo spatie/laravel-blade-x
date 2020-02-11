@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div>
+<?php $editLink = '<a href="https://example.com/admin/user/1">Edit';
+?&gt;
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'User properties'])
+        ); ?&gt; 
+    <?php echo $editLink; ?>
+
+ <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div> <?php $__env->startComponent(
+           'components.layout',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'Zed\'s Chopper'])
+        ); ?&gt; 
+     <?php $__env->slot('sidebar'); ?&gt; 
+        <ul>
+            <li>Home</li>
+            <li>Contact</li>
+        </ul>
+     <?php $__env->endSlot(); ?&gt;
+
+    <main class="content">Whose chopper is this?</main>
+
+     <?php $__env->slot('footer'); ?&gt; It's Zed's. <?php $__env->endSlot(); ?&gt;
+ <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>

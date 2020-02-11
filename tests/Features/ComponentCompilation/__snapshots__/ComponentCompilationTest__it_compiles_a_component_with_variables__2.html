@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div>
+
+<?php $user = 'John';
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; $user])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+
+<?php $user = new class {
+        public $name = 'Jane';
+    };
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; $user-&gt;name])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+<?php $user = new class {
+        public $name = 'Jane';
+    };
+?>
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; ['&gt;']])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; ['&gt;suffix']])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; ['&gt;suffix']])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; ['prefix&gt;suffix']])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; ['prefix &gt; suffix']])
+        ); ?&gt; 
+    My content
+ <?php echo $__env->renderComponent(); ?&gt; 
+
+</div></body></html>

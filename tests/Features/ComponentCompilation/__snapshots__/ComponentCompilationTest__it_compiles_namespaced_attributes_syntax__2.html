@@ -1,0 +1,7 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div> <?php $__env->startComponent(
+           'components.textField',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['name' =&gt; 'email','label' =&gt; 'Email','wire.click' =&gt; 'validate','wire' =&gt; ['model' =&gt; ['lazy' =&gt; 'email']],'ns1' =&gt; ['attr1' =&gt; 'ns1\'s value 1','attr2' =&gt; 'ns1\'s value 2'],'ns2' =&gt; ['attr' =&gt; 'ns2\'s value']])
+        ); ?&gt;  <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>

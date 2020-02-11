@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div> <?php $__env->startComponent(
+           'components.layout',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'No spaces'])
+        ); ?&gt;  <?php $__env->slot('sidebar'); ?&gt; <strong>sidebar</strong> <?php $__env->endSlot(); ?&gt;<main class="content"> <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'Content'])
+        ); ?&gt; Card content <?php echo $__env->renderComponent(); ?&gt; </main> <?php $__env->slot('footer'); ?&gt; Footer <?php $__env->endSlot(); ?&gt; <?php echo $__env->renderComponent(); ?&gt;  <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'Root card'])
+        ); ?&gt;  <?php $__env->startComponent(
+           'components.card',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['title' =&gt; 'Nested card'])
+        ); ?&gt; Nested <?php echo $__env->renderComponent(); ?&gt; Card content <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>

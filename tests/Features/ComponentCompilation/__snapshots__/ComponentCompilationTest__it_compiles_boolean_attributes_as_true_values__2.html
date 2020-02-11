@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div> <?php $__env->startComponent(
+           'components.checkbox',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['name' =&gt; 'This one\'s checked','checked' =&gt; true])
+        ); ?&gt;  <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.checkbox',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['name' =&gt; 'This one shouldn\'t be checked'])
+        ); ?&gt;  <?php echo $__env->renderComponent(); ?&gt; 
+
+ <?php $__env->startComponent(
+           'components.checkbox',
+           array_merge(app(Spatie\BladeX\ContextStack::class)-&gt;read(),
+           ['checked' =&gt; true])
+        ); ?&gt; content <?php echo $__env->renderComponent(); ?&gt; 
+</div></body></html>
