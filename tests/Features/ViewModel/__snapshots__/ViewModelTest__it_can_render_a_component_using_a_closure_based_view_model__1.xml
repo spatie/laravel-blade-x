@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<div>
-  <select name="countries">
-    <option name="be">Belgium</option>
-    <option selected="selected" name="fr">France</option>
-    <option name="nl">The Netherlands</option>
-  </select>
-</div>

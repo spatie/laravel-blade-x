@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<div>
-  <?php $__env->startComponent(
-           'components.textField',
-           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
-           ['name' => 'email','label' => 'Email','wire' => ['model' => 'email']])
-        ); ?>
-  <?php echo $__env->renderComponent(); ?>
-</div>

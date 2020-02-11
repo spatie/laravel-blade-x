@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<div>
-  <div>
-    <label for="email">Email</label>
-    <input type="text" name="email" id="email" value=""/>
-  </div>
-</div>
