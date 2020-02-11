@@ -46,7 +46,7 @@ class Compiler
                 (?<attributes>
                     (?:
                         \s+
-                        [\w\-:.]+
+                        [\w\-:.\$]+
                         (
                             =
                             (?:
@@ -79,7 +79,7 @@ class Compiler
                 (?<attributes>
                     (?:
                         \s+
-                        [\w\-:.]+
+                        [\w\-:.\$]+
                         (
                             =
                             (?:
@@ -160,7 +160,7 @@ class Compiler
         $attributeString = $this->parseBindAttributes($attributeString);
 
         $pattern = '/
-            (?<attribute>[\w\-:.]+)
+            (?<attribute>[\w\-:.\$]+)
             (
                 =
                 (?<value>
@@ -256,7 +256,7 @@ class Compiler
 
         $plainAttributes = $attributes
             ->reject(function ($value, string $attribute) {
-                return Str::startsWith($attribute, '...');
+                return Str::startsWith($attribute, '...$');
             })
             ->map(function ($value, string $attribute) {
                 if (is_array($value)) {
@@ -270,12 +270,12 @@ class Compiler
 
         $string['spread'] = $attributes
                 ->filter(function ($value, string $attribute) {
-                    return Str::startsWith($attribute, '...');
+                    return Str::startsWith($attribute, '...$');
                 })
                 ->map(function ($value, string $attribute) {
                     $attribute = Str::after($attribute, '...');
 
-                    return "\${$attribute}";
+                    return "{$attribute}";
                 })
                 ->implode(',');
 
