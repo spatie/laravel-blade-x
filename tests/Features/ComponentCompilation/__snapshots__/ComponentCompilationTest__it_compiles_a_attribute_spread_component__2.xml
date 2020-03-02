@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<div>
+  <?php $__env->startComponent(
+           'components.textField',
+           array_merge(app(Spatie\BladeX\ContextStack::class)->read(),
+           array_merge($input,$email,['before' => 'the spreaded attribute','var' => $foo,'text' => 'true','label' => 'E-Mail']))
+        ); ?>
+  <?php echo $__env->renderComponent(); ?>
+</div>

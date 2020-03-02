@@ -199,4 +199,23 @@ class ComponentCompilationTest extends TestCase
 
         $this->assertMatchesViewSnapshot('namespacedAttributes');
     }
+
+    /** @test */
+    public function it_compiles_a_attribute_spread_component()
+    {
+        BladeX::component('components.textField');
+
+        $this->assertMatchesViewSnapshot('spreadAttributes', [
+            'input' => [
+                'name' => 'email',
+                'label' => 'e-mail',
+                'type' => 'email',
+                'value' => 'example@domain.tld',
+            ],
+            'email' => [
+                'value' => 'blade-x@spatie.be',
+            ],
+            'foo' => 'bar',
+        ]);
+    }
 }
