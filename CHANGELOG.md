@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-blade-x` will be documented in this file
 
+## 2.6.0 - 2020-03-02
+
+- add attribute spread operator (#112)
+
 ## 2.5.0 - 2020-01-10
 
 - add support for namespaced attributes
