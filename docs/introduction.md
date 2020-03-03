@@ -3,6 +3,16 @@ title: Introduction
 weight: 1
 ---
 
+# Notice
+
+We have abandoned this package because Laravel 7 introduced native support for Blade-X style components. 
+
+Only use this package if you're on Laravel 6 or below.
+
+When upgrading to Laravel 7 you should convert your Blade X components to native Laravel Blade components
+
+# Introduction
+
 This package provides an easy way to render custom HTML components in your Blade views.
 
 Instead of this:

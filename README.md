@@ -1,6 +1,10 @@
 # Notice
 
-We have abandoned this package because Laravel 7 introduced native support for Blade-X style components. Only use this package if you're on Laravel 6 or below.
+We have abandoned this package because Laravel 7 introduced native support for Blade-X style components. 
+
+Only use this package if you're on Laravel 6 or below.
+
+When upgrading to Laravel 7 you should convert your Blade X components to native Laravel Blade components
 
 # Supercharged Blade components
 
