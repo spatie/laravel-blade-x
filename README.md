@@ -1,3 +1,7 @@
+# Notice
+
+We have abandoned this package because Laravel 7 introduced native support for Blade-X style components. Only use this package if you're on Laravel 6 or below.
+
 # Supercharged Blade components
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-blade-x.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-blade-x)
